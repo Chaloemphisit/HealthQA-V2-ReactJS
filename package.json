@@ -1,7 +1,11 @@
 {
-  "name": "health-qa-app",
+  "name": "healthqa",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^8.12.0",
+    "npm": "^6.4.1"
+  },
   "dependencies": {
     "antd": "^3.2.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.6",
