@@ -34,12 +34,12 @@ export default class Topic extends React.Component {
       error: null
     }
   }
-  
+
 
   componentDidMount() {
     window.scrollTo(0, 0);
     this.setState({ isLoading: true });
-    fetch("https://health-qa-api.herokuapp.com/api/topic/" + this.props.match.params.id)
+    fetch(API_BASE_URL + "/topic/" + this.props.match.params.id)
       .then(response => {
         if (response.ok) {
           return response.json();
