@@ -161,8 +161,8 @@ export default class NewTopic extends React.Component {
                 validate={{
                   required: { value: true, errorMessage: 'กรุณาเลือกประเภทของคำถาม' }
                 }}>
-                <AvRadio customInput label="คำถามเฉพาะทางแพทย์" value="1" />
-                <AvRadio customInput label="คำถามเฉพาะทางเภสัชกร" value="2" />
+                <AvRadio customInput label="คำถามเฉพาะทางแพทย์" value="D" />
+                <AvRadio customInput label="คำถามเฉพาะทางเภสัชกร" value="P" />
               </AvRadioGroup>
               <Row form>
                 <legend>ข้อมูลผู้ป่วย</legend>
