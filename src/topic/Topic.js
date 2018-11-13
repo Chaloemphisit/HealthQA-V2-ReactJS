@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Skeleton from 'react-loading-skeleton';
 import AnswerCard from './AnswerCard';
 import Answer from './Answer';
+import { API_BASE_URL } from '../constants';
 
 export default class Topic extends React.Component {
   constructor(props) {
