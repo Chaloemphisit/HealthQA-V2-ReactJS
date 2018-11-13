@@ -5,7 +5,9 @@ import {
 } from 'reactstrap';
 // import { Link } from 'react-router-dom';
 import { AvForm, AvField, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
+import { createTopic } from '../util/APIUtils';
 // import axios from 'axios';
+import { notification } from 'antd';
 
 export default class NewTopic extends React.Component {
   constructor(props) {
@@ -39,13 +41,13 @@ export default class NewTopic extends React.Component {
   handleBirthdayChange = (event) => {
     const { target } = event;
     var mdate = target.value;
-    var yearThen = parseInt(mdate.substring(0,4), 10);
-    var monthThen = parseInt(mdate.substring(5,7), 10);
-    var dayThen = parseInt(mdate.substring(8,10), 10);
+    var yearThen = parseInt(mdate.substring(0, 4), 10);
+    var monthThen = parseInt(mdate.substring(5, 7), 10);
+    var dayThen = parseInt(mdate.substring(8, 10), 10);
 
     var bthDate, curDate, days;
     var ageYears, ageMonths, ageDays;
-    bthDate = new Date(yearThen, monthThen-1, dayThen);
+    bthDate = new Date(yearThen, monthThen - 1, dayThen);
     curDate = new Date();
     if (bthDate > curDate) return;
     days = Math.floor((curDate - bthDate) / (1000 * 60 * 60 * 24));
@@ -70,12 +72,33 @@ export default class NewTopic extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    // const ask = {
-    //   A: this.state.question
-    // };
+    const topicData = {
+      "topicName": this.state.question,
+      "topicText": this.state.detail,
+      "height": this.state.height,
+      "weight": this.state.weight,
+      "ageY": this.state.ageY,
+      "ageM": this.state.ageM,
+      "ageD": this.state.ageD,
+      "sex": this.state.gender,
+      "disease": this.state.congenitalDisease,
+      "questionType": this.state.questionType,
+      "questionPurpose": this.state.objective
+    };
 
-
-    console.log(this.state);
+    createTopic(topicData)
+      .then(response => {
+        this.props.history.push("/");
+      }).catch(error => {
+        if (error.status === 401) {
+          this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create poll.');
+        } else {
+          notification.error({
+            message: 'Health QA',
+            description: error.message || 'Sorry! Something went wrong. Please try again!'
+          });
+        }
+      });
   }
 
 

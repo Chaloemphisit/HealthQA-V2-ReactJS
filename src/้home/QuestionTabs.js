@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import QuestionsListLoading from '../common/QuestionsListLoading';
+import { API_BASE_URL } from '../constants';
 
 
 class QuestionTabs extends React.Component {
@@ -31,9 +32,9 @@ class QuestionTabs extends React.Component {
         this.setState({ isLoading: true });
 
         axios.all([
-            axios.get('https://health-qa-api.herokuapp.com/api/topic/all'),
-            axios.get('https://health-qa-api.herokuapp.com/api/topic/ans'),
-            axios.get('https://health-qa-api.herokuapp.com/api/topic/noAns')
+            axios.get(API_BASE_URL + '/topic/all'),
+            axios.get(API_BASE_URL + '/topic/ans'),
+            axios.get(API_BASE_URL + '/topic/noAns')
         ])
             .then(axios.spread((allTopicsRes, ansTopicsRes, noAnsTopicRes) => {
                 this.setState({

@@ -114,11 +114,15 @@ class App extends Component {
               <Route exact path="/"
                 render={() => <Home />}>
               </Route>
-              <Route path="/topic/:id" component={Topic}></Route>
+
+              <Route path="/topic/:id" 
+              render={(props) => <Topic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></Route>
+
               <Route path="/contactus" component={ContactUs}></Route>
 
               <Route path="/login"
                 render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
+
               <Route path="/signup" component={Signup}></Route>
 
               <Route path="/users/:username"

@@ -22,6 +22,14 @@ const request = (options) => {
         );
 };
 
+export function createTopic(topicData) {
+    return request({
+        url: API_BASE_URL + "/topic",
+        method: 'POST',
+        body: JSON.stringify(topicData)
+    });
+}
+
 export function getAllPolls(page, size) {
     page = page || 0;
     size = size || POLL_LIST_SIZE;
