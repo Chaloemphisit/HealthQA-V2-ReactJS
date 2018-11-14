@@ -73,6 +73,8 @@ class App extends Component {
 
   componentDidMount() {
     this.loadCurrentUser();
+    // if (this.state.currentUser.username)
+      // alert(this.state.currentUser.username)
   }
 
   handleLogout(redirectTo = "/", notificationType = "success", description = "You're successfully logged out.") {

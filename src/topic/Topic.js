@@ -40,6 +40,28 @@ export default class Topic extends React.Component {
   }
 
   componentWillReceiveProps() {
+    this.handleLoadData()
+  }
+
+  componentDidMount() {
+    const smoothScroll = (h) => {
+      let i = h || 0;
+      if (i > 0) {
+        setTimeout(() => {
+          window.scrollTo(0, i);
+          smoothScroll(i - 50);
+        }, 10);
+      }
+    }
+
+    smoothScroll((window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0));
+    
+    // document.body.scrollTop = 0; // For Safari
+    // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    this.handleLoadData()
+  }
+
+  handleLoadData = () => {
     this.setState({ isLoading: true });
     fetch(API_BASE_URL + "/topic/" + this.props.match.params.id)
       .then(response => {
