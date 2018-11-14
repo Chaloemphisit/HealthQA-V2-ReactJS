@@ -3,7 +3,7 @@ import React from 'react';
 import {
   Card, CardHeader, CardBody, Col, Row,
 } from 'reactstrap';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import { AvForm, AvField, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
 import { createTopic } from '../util/APIUtils';
 // import axios from 'axios';
@@ -148,10 +148,9 @@ export default class NewTopic extends React.Component {
   }
 
   render() {
-
-    return (
-      // Show Div Full Page => container-fluid
-      <div className="container" id="card-margin-top-bottom">
+    let newTopicForm;
+    if (this.props.currentUser) {
+      newTopicForm = [
         <Card outline color="info">
           <CardHeader style={{ backgroundColor: '#17A2B8', color: '#FFF' }} tag="h3">รายละเอียด</CardHeader>
           <CardBody>
@@ -292,6 +291,23 @@ export default class NewTopic extends React.Component {
             </Form>
           </CardBody>
         </Card>
+      ]
+    } else {
+      newTopicForm = [
+        <div>
+          <div style={{ textAlign: 'center' }}>
+            <h4>คุณยังไม่ได้เข้าสู่ระบบ, กรุณาเข้าสู่ระบบเพื่อสร้างคำถาม</h4>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <Link to="/login/">เข้าสู่ระบบ</Link> หรือคุณยังไม่ได้เป็นสมาชิกใช่ไหม <Link to="/signup">สมัครสมาชิก</Link> เลย!
+                    </div>
+        </div>
+      ]
+    }
+    return (
+      // Show Div Full Page => container-fluid
+      <div className="container" id="card-margin-top-bottom">
+        {newTopicForm}
       </div>
     );
   }

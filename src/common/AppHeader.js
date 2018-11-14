@@ -69,6 +69,9 @@ class AppHeader extends Component {
         <Menu.Item key="/">
           <Link to="/">หน้าหลัก</Link>
         </Menu.Item>,
+        <Menu.Item key="/new-topic">
+          <Link to="/new-topic">ถามหมอ</Link>
+        </Menu.Item>,
         <Menu.Item key="/contactus">
           <Link to="/contactus">ติดต่อเรา</Link>
         </Menu.Item>,

@@ -39,36 +39,6 @@ body {
     margin-bottom: 1%;
 }
 
-/* Line With Text */
-
-div.background {
-    color: #17A2B7;
-    position: relative;
-    z-index: 1;
-    margin-top: 20px;
-    text-align: center;
-}
-
-div.background:before {
-    border-top: 1.5px solid #17A2B7;
-    content: "";
-    margin: 0 auto;
-    /* this centers the line to the full width specified */
-    position: absolute;
-    /* positioning must be absolute here, and relative positioning must be applied to the parent */
-    top: 50%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 99.5%;
-    z-index: -1;
-}
-
-div.background span {
-    /* to hide the lines from behind the text, you have to set the background color the same as the container */
-    background: #fff;
-    padding: 0 15px;
-}
 
 /* Question List */
 
@@ -123,14 +93,6 @@ div.background span {
     text-decoration: none;
 }
 
-#cardBottomBar {
-    background: #9E9E9E;
-    width: 99%;
-    height: 6vh;
-    margin: 0 auto;
-    display: table;
-}
-
 .child {
     display: table-cell;
     vertical-align: middle;
@@ -150,15 +112,8 @@ div.background span {
 }
 
 #topicCard {
-    background-image: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%);
+    background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
     border: none;
-}
-
-#answerCard {
-    margin-top: 2%;
-    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    border: none;
-    filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.2));
 }
 
 div.button3 {

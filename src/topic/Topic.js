@@ -9,6 +9,7 @@ import Skeleton from 'react-loading-skeleton';
 import AnswerCard from './AnswerCard';
 import Answer from './Answer';
 import { API_BASE_URL } from '../constants';
+import './style.css';
 
 export default class Topic extends React.Component {
   constructor(props) {
@@ -80,7 +81,11 @@ export default class Topic extends React.Component {
                 </Link>
               </Col>
             </Row>
-            <Row className="mt-1 ml-1 mb-2 mr-1">{isLoading ? <Skeleton count={3} /> : topicText}</Row>
+
+            <hr />
+
+            <Row className="mt-1 ml-1 mb-2 mr-1 topic-text-body" style={{color:'#000000'}}>{isLoading ? <Skeleton count={3} /> : topicText}</Row>
+            
             <div className="mt-1 ml-1 mb-4 mr-1">
               <Card>
                 <CardBody>
@@ -135,18 +140,24 @@ export default class Topic extends React.Component {
                 </CardBody>
               </Card>
             </div>
-            <div id="cardBottomBar">
-              <div className="child">
-                {isLoading ? <Skeleton width="40%" /> : username}
-                {isLoading ? <Skeleton width="40%" /> : createDate}
+
+            <hr />
+
+            <div className="child">
+              <div className="avatar">
+                <div className="avatar__icon__user"></div>
+                <div className="avatar__name">
+                  <p className="avatar__first">ถามโดย</p>
+                  <p className="avatar__second">{username}</p>
+                </div>
               </div>
             </div>
+            
           </Card>
         </Row>
 
-        <Row>
-          <Answer />
-        </Row>
+        <div className="background-answer"><span><FontAwesomeIcon icon="comments" size="lg" /> ตอบคำถาม</span></div>
+        <Answer isAuthenticated={this.props.isAuthenticated} currentUser={this.props.currentUser}/>
 
         <div className="background"><span><FontAwesomeIcon icon="comments" size="lg" />  {answerCount} คำตอบ</span></div>
         <div>

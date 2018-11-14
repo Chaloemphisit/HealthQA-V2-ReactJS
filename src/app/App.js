@@ -96,7 +96,8 @@ class App extends Component {
       description: "You're successfully logged in.",
     });
     this.loadCurrentUser();
-    this.props.history.push("/");
+    // this.props.history.push("/");
+    this.props.history.goBack();
   }
 
   render() {
@@ -131,7 +132,11 @@ class App extends Component {
                 render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
               </Route>
 
-              <PrivateRoute authenticated={this.state.isAuthenticated} path="/new-topic" component={NewTopic} handleLogout={this.handleLogout}></PrivateRoute>
+              <Route path="/new-topic"
+                render={(props) => <NewTopic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
+              </Route>
+
+              {/* <PrivateRoute authenticated={this.state.isAuthenticated} path="/new-topic" component={NewTopic} handleLogout={this.handleLogout}></PrivateRoute> */}
 
               <Route component={NotFound}></Route>
             </Switch>
