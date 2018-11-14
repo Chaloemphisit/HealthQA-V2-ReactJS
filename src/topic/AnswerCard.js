@@ -26,7 +26,7 @@ const AnswerCard = (props) => (
                             </Row>
 
                             <div className="avatar">
-                                <div className="avatar__icon__user"></div>
+                                <div className={comment.userType === "USER" ?"avatar__icon__user":"avatar__icon__doctor"}></div>
                                 <div className="avatar__name">
                                     <p className="avatar__first">ตอบโดย</p>
                                     <p className="avatar__second">{comment.name}</p>
