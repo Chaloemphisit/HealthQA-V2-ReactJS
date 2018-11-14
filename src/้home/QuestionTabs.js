@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import QuestionsListLoading from '../common/QuestionsListLoading';
+import { Notification } from 'antd';
 import { API_BASE_URL } from '../constants';
 
 
@@ -48,12 +49,10 @@ class QuestionTabs extends React.Component {
             }))
             .catch(error => {
                 this.setState({ error, isLoading: false })
-
-                if (error.response) {
-                    alert(error.response.data.message);
-                } else {
-                    alert('Something went wrong...');
-                }
+                Notification.error({
+                    message: 'Health QA',
+                    description: error.message || 'Sorry! Something went wrong. Please try again!'
+                });
             });
 
 
@@ -64,7 +63,12 @@ class QuestionTabs extends React.Component {
         const { isLoading, error } = this.state;
 
         if (error) {
-            return <p>{error.message}</p>;
+            return (
+                <div style={{ textAlign: 'center' }}>
+                    <h1>We're sorry, but {error.message || "Something went wrong. Please try again!"}</h1>
+                    <p>If you are the application owner check the logs for more information.</p>
+                </div>
+            );
         }
 
         if (isLoading) {

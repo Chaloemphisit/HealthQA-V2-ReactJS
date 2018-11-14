@@ -125,7 +125,7 @@ export default class NewTopic extends React.Component {
         });
       }).catch(error => {
         if (error.status === 401) {
-          this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create poll.');
+          this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
         } else {
           Notification.error({
             message: 'Health QA',

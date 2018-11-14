@@ -9,6 +9,7 @@ import Skeleton from 'react-loading-skeleton';
 import AnswerCard from './AnswerCard';
 import Answer from './Answer';
 import { API_BASE_URL } from '../constants';
+import { Notification } from 'antd';
 import './style.css';
 
 export default class Topic extends React.Component {
@@ -46,23 +47,32 @@ export default class Topic extends React.Component {
       .then(response => {
         if (response.ok) {
           return response.json();
-        } else {
-          throw new Error('Something went wrong ...');
         }
       })
       .then(topic => this.setState({ topic, isLoading: false }))
-      .catch(error => this.setState({ error, isLoading: false }));
+      .catch(error => {
+        this.setState({ error, isLoading: false })
+        Notification.error({
+          message: 'Health QA',
+          description: error.message || 'Sorry! Something went wrong. Please try again!'
+        });
+      });
   }
 
   render() {
     const { isLoading, error } = this.state;
 
     if (error) {
-      return <p>{error.message}</p>;
+      return (
+        <div style={{ textAlign: 'center', marginTop: '10%' }}>
+          <h1>We're sorry, but {error.message || "Something went wrong. Please try again!"}</h1>
+          <p>If you are the application owner check the logs for more information.</p>
+        </div>
+      );
     }
 
     const { topicId, topicName, topicText, height, weight, ageY, ageM, ageD, gender,
-      disease, questionPurpose, questionType, username, answerCount, createDate } = this.state.topic;
+      disease, questionPurpose, questionType, name, answerCount, createDate } = this.state.topic;
     return (
       <div className="container" id="topicContainer">
         <Row>
@@ -84,8 +94,8 @@ export default class Topic extends React.Component {
 
             <hr />
 
-            <Row className="mt-1 ml-1 mb-2 mr-1 topic-text-body" style={{color:'#000000'}}>{isLoading ? <Skeleton count={3} /> : topicText}</Row>
-            
+            <Row className="mt-1 ml-1 mb-2 mr-1 topic-text-body" style={{ color: '#000000' }}>{isLoading ? <Skeleton count={3} /> : topicText}</Row>
+
             <div className="mt-1 ml-1 mb-4 mr-1">
               <Card>
                 <CardBody>
@@ -126,7 +136,7 @@ export default class Topic extends React.Component {
                       <div className="topic-text-header">อายุ</div>
                     </Col>
                     <Col lg={10} md={9} sm={12} xs={12}>
-                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : (ageY > 0 ? ageY + " ปี " : '') + (ageM > 0 ? ageM + " เดือน " : '' + (ageD > 0 ? ageD + " วัน " : ''))}</div>
+                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : (ageY > 0 ? ageY + " ปี " : '') + (ageM > 0 ? ageM + " เดือน " : '' + (ageD > 0 ? ageD + " วัน " : '') + " (นับจากวันที่ถาม)")}</div>
                     </Col>
                   </Row>
                   <Row className="rowMargin">
@@ -147,17 +157,18 @@ export default class Topic extends React.Component {
               <div className="avatar">
                 <div className="avatar__icon__user"></div>
                 <div className="avatar__name">
-                  <p className="avatar__first">ถามโดย</p>
-                  <p className="avatar__second">{username}</p>
+                  {/* <p className="avatar__first">ถามโดย</p> */}
+                  <p className="avatar__first">{name}</p>
+                  <p className="avatar__second">{createDate}</p>
                 </div>
               </div>
             </div>
-            
+
           </Card>
         </Row>
 
         <div className="background-answer"><span><FontAwesomeIcon icon="comments" size="lg" /> ตอบคำถาม</span></div>
-        <Answer isAuthenticated={this.props.isAuthenticated} currentUser={this.props.currentUser}/>
+        <Answer isAuthenticated={this.props.isAuthenticated} currentUser={this.props.currentUser} />
 
         <div className="background"><span><FontAwesomeIcon icon="comments" size="lg" />  {answerCount} คำตอบ</span></div>
         <div>

@@ -26,6 +26,7 @@ import { Layout, notification } from 'antd';
 /*---------------------------------------- FontAwesome ----------------------------------------*/
 import { faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import NewTopic from '../topic/NewTopic';
+import LoadingIndicatorV1 from '../common/LoadingIndicatorV1';
 
 library.add(faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle);
 /*--------------------------------------------------------------------------------------------*/
@@ -101,11 +102,20 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return <LoadingIndicator />
+    if (!this.state.isLoading) {
+      const ele = document.getElementById('ipl-progress-indicator')
+      if (ele) {
+        // fade out
+        ele.classList.add('available')
+        setTimeout(() => {
+          // remove from DOM
+          ele.outerHTML = ''
+        }, 2000)
+      }
     }
     return (
       <Layout className="app-container">
+        <LoadingIndicatorV1 />
         <AppHeader isAuthenticated={this.state.isAuthenticated}
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout} />
