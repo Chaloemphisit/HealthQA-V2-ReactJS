@@ -68,7 +68,7 @@ class Answer extends Component {
                     message: 'Health QA',
                     description: "ตอบคำถามสำเร็จแล้ว",
                 });
-                smoothScroll((window.pageYOffset || document.documentElement.scrollTop)  - (document.documentElement.clientTop || 0));
+                smoothScroll((window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0));
             }).catch(error => {
                 if (error.status === 401) {
                     this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
