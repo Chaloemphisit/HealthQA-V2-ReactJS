@@ -20,12 +20,13 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import Home from '../้home/Home';
 import Topic from '../topic/Topic';
 import ContactUs from '../contactus/ContactUs';
-import { Layout, notification } from 'antd';
+import { Layout, notification, Spin } from 'antd';
 
 /*---------------------------------------- FontAwesome ----------------------------------------*/
 import { faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import NewTopic from '../topic/NewTopic';
 import LoadingIndicator from '../common/LoadingIndicator';
+import EditProfile from '../user/profile/EditProfile';
 
 library.add(faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle);
 /*--------------------------------------------------------------------------------------------*/
@@ -102,48 +103,54 @@ class App extends Component {
 
   render() {
     if (this.state.isLoading) {
-      return <LoadingIndicator/>
+      // return <LoadingIndicator/>
     }
     return (
       <Layout className="app-container">
-        {/* <LoadingIndicatorV1 /> */}
+
         <AppHeader isAuthenticated={this.state.isAuthenticated}
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout} />
 
+
         <Content className="app-content">
           <div className="container">
-            <Switch>
-              <Route exact path="/"
-                render={() => <Home />}>
-              </Route>
+            <Spin spinning={this.state.isLoading} size="large" delay={200}>
+              <Switch>
+                <Route exact path="/"
+                  render={() => <Home />}>
+                </Route>
 
-              <Route path="/topic/:id"
-                render={(props) => <Topic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></Route>
+                <Route path="/topic/:id"
+                  render={(props) => <Topic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></Route>
 
-              <Route path="/contactus" component={ContactUs}></Route>
+                <Route path="/contactus" component={ContactUs}></Route>
 
-              <Route path="/login"
-                render={(props) => <Login isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} onLogin={this.handleLogin} {...props} />}></Route>
+                <Route path="/login"
+                  render={(props) => <Login isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} onLogin={this.handleLogin} {...props} />}></Route>
 
-              <Route path="/signup"
-                render={(props) => <Signup isAuthenticated={this.state.isAuthenticated} {...props} />}></Route>
+                <Route path="/signup"
+                  render={(props) => <Signup isAuthenticated={this.state.isAuthenticated} {...props} />}></Route>
 
-              <Route path="/users/:username"
-                render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
-              </Route>
+                <Route path="/users/:username"
+                  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
+                </Route>
+                <Route path="/edit/users/:username"
+                  render={(props) => <EditProfile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
+                </Route>
 
-              <Route path="/new-topic"
-                render={(props) => <NewTopic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
-              </Route>
+                <Route path="/new-topic"
+                  render={(props) => <NewTopic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
+                </Route>
 
-              {/* <PrivateRoute authenticated={this.state.isAuthenticated} path="/new-topic" component={NewTopic} handleLogout={this.handleLogout}></PrivateRoute> */}
+                {/* <PrivateRoute authenticated={this.state.isAuthenticated} path="/new-topic" component={NewTopic} handleLogout={this.handleLogout}></PrivateRoute> */}
 
-              <Route component={NotFound}></Route>
-            </Switch>
+                <Route component={NotFound}></Route>
+              </Switch>
+            </Spin>
           </div>
         </Content>
-      </Layout>
+      </Layout >
     );
   }
 }

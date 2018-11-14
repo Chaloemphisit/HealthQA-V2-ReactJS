@@ -30,6 +30,15 @@ export function createTopic(topicData) {
     });
 }
 
+export function createComment(commentData, topicId) {
+    topicId = topicId || -10
+    return request({
+        url: API_BASE_URL + "/comment?id=" + topicId,
+        method: 'POST',
+        body: JSON.stringify(commentData)
+    });
+}
+
 export function getAllPolls(page, size) {
     page = page || 0;
     size = size || POLL_LIST_SIZE;

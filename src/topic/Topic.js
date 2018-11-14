@@ -39,9 +39,7 @@ export default class Topic extends React.Component {
     }
   }
 
-
-  componentDidMount() {
-    window.scrollTo(0, 0);
+  componentWillReceiveProps() {
     this.setState({ isLoading: true });
     fetch(API_BASE_URL + "/topic/" + this.props.match.params.id)
       .then(response => {
@@ -168,7 +166,7 @@ export default class Topic extends React.Component {
         </Row>
 
         <div className="background-answer"><span><FontAwesomeIcon icon="comments" size="lg" /> ตอบคำถาม</span></div>
-        <Answer isAuthenticated={this.props.isAuthenticated} currentUser={this.props.currentUser} />
+        <Answer isAuthenticated={this.props.isAuthenticated} currentUser={this.props.currentUser} {...this.props} />
 
         <div className="background"><span><FontAwesomeIcon icon="comments" size="lg" />  {answerCount} คำตอบ</span></div>
         <div>

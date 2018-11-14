@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Collapse, CardBody, Card } from 'reactstrap';
 import { Form, Input, Button, Radio, Select, InputNumber, DatePicker, Notification } from 'antd';
 import { Link } from 'react-router-dom';
+import { createComment } from '../util/APIUtils';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -39,46 +40,48 @@ class Answer extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        // if (!this.state.disease.value || !this.state.disease.value.trim()) {
-        //   this.setState({
-        //     disease: {
-        //       value: '-'
-        //     }
-        //   });
-        // }
+        const commentData = {
+            "commentText": this.state.answerText.value
+        };
 
-        // const topicData = {
-        //   "topicName": this.state.topicName.value,
-        //   "topicText": this.state.topicText.value,
-        //   "height": this.state.height.value,
-        //   "weight": this.state.weight.value,
-        //   "ageY": this.state.ageY.value,
-        //   "ageM": this.state.ageM.value,
-        //   "ageD": this.state.ageD.value,
-        //   "sex": this.state.sex.value,
-        //   "disease": this.state.disease.value,
-        //   "questionType": this.state.questionType.value,
-        //   "questionPurpose": this.state.questionPurpose.value
-        // };
+        const smoothScroll = (h) => {
+            let i = h || 0;
+            let x = document.body.scrollHeight || document.documentElement.scrollHeight;
+            if (i < x + 10) {
+                setTimeout(() => {
+                    window.scrollTo(0, i);
+                    smoothScroll(i + 60);
+                }, 10);
+            }
+        }
 
-        // createTopic(topicData)
-        //   .then(response => {
-        //     this.props.history.push("/");
-        //     Notification.success({
-        //       message: 'Health QA',
-        //       description: "ยินดีด้วย ตั้งคำถามสำเร็จแล้ว",
-        //     });
-        //   }).catch(error => {
-        //     if (error.status === 401) {
-        //       this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create poll.');
-        //     } else {
-        //       Notification.error({
-        //         message: 'Health QA',
-        //         description: error.message || 'Sorry! Something went wrong. Please try again!'
-        //       });
-        //     }
-        //   });
+        createComment(commentData, this.props.match.params.id)
+            .then(response => {
+                this.props.history.push("/topic/" + this.props.match.params.id);
+                // window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight)
+                this.setState({
+                    "answerText": {
+                        value: ''
+                    }
+                })
+                Notification.success({
+                    message: 'Health QA',
+                    description: "ตอบคำถามสำเร็จแล้ว",
+                });
+                smoothScroll(0);
+            }).catch(error => {
+                if (error.status === 401) {
+                    this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
+                } else {
+                    Notification.error({
+                        message: 'Health QA',
+                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    });
+                }
+            });
     }
+
+
 
 
     isFormInvalid() {

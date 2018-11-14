@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 // import PollList from '../../poll/PollList';
 import { getUserProfile } from '../../util/APIUtils';
-import { Avatar } from 'antd';
+import { Avatar, Button } from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 // import { formatDate } from '../../util/Helpers';
-import LoadingIndicator from '../../common/LoadingIndicator';
+// import LoadingIndicator from '../../common/LoadingIndicator';
 import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
 import UserQuestionTabs from './UserQuestionTabs';
 import { Card, CardBody } from 'reactstrap';
+import Skeleton from 'react-loading-skeleton';
 
 // const TabPane = Tabs.TabPane;
 
@@ -61,9 +62,9 @@ class Profile extends Component {
     }
 
     render() {
-        if (this.state.isLoading) {
-            return <LoadingIndicator />;
-        }
+        // if (this.state.isLoading) {
+        //     return <LoadingIndicator />;
+        // }
 
         if (this.state.notFound) {
             return <NotFound />;
@@ -78,17 +79,25 @@ class Profile extends Component {
                 {
                     this.state.user ? (
                         <div className="user-profile">
-                            <div className="user-details">
-                                <div className="user-avatar">
-                                    <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(this.state.user.username) }}>
-                                        {this.state.user.username[0]}
-                                    </Avatar>
-                                </div>
-                                <div className="user-summary">
-                                    <div className="full-name">{this.state.user.firstname+" "+this.state.user.lastname}</div>
-                                    <div className="username">@{this.state.user.username}</div>
-                                </div>
-                            </div>
+                            <Card outline color="info">
+                                <CardBody>
+                                    <div className="user-details">
+                                        <div className="user-avatar">
+                                            <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(this.state.user.username), fontSize: '2em' }}>
+                                                {this.state.user.username[0]}
+                                            </Avatar>
+                                        </div>
+                                        <div className="user-summary">
+                                            <div className="full-name">{this.state.user.firstname + " " + this.state.user.lastname}</div>
+                                            <div className="username">@{this.state.user.username}</div>
+                                            <div className="user-joined">{this.state.user.email}</div>
+                                            <div className="mt-3">
+                                            <Button type="primary" icon="edit" ghost>แก้ไขข้อมูล</Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </CardBody>
+                            </Card>
                             <div id="card-margin-top-bottom">
                                 <Card outline color="info">
                                     <CardBody>
@@ -97,8 +106,8 @@ class Profile extends Component {
                                 </Card>
                             </div>
                         </div>
-            ): null
-        }
+                    ) : null
+                }
             </div>
         );
     }
