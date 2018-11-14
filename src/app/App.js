@@ -15,7 +15,6 @@ import Signup from '../user/signup/Signup';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
-import LoadingIndicator from '../common/LoadingIndicator';
 import PrivateRoute from '../common/PrivateRoute';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import Home from '../้home/Home';
@@ -26,7 +25,6 @@ import { Layout, notification } from 'antd';
 /*---------------------------------------- FontAwesome ----------------------------------------*/
 import { faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import NewTopic from '../topic/NewTopic';
-import LoadingIndicatorV1 from '../common/LoadingIndicatorV1';
 
 library.add(faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle);
 /*--------------------------------------------------------------------------------------------*/
@@ -109,13 +107,13 @@ class App extends Component {
         ele.classList.add('available')
         setTimeout(() => {
           // remove from DOM
-          ele.outerHTML = ''
+          // ele.outerHTML = ''
         }, 2000)
       }
     }
     return (
       <Layout className="app-container">
-        <LoadingIndicatorV1 />
+        {/* <LoadingIndicatorV1 /> */}
         <AppHeader isAuthenticated={this.state.isAuthenticated}
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout} />
