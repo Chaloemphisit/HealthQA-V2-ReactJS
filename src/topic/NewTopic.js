@@ -1,99 +1,133 @@
 import React from 'react';
 
 import {
-  Card, CardHeader, CardBody, Col, Row, Button
+  Card, CardHeader, CardBody, Col, Row,
 } from 'reactstrap';
 // import { Link } from 'react-router-dom';
-import { AvForm, AvField, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
+// import { AvForm, AvField, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
 import { createTopic } from '../util/APIUtils';
 // import axios from 'axios';
-import { notification } from 'antd';
+import { Form, Input, Button, Radio, Select, InputNumber, DatePicker, Notification } from 'antd';
+
+const FormItem = Form.Item;
+const { TextArea } = Input;
+const RadioGroup = Radio.Group;
+const Option = Select.Option;
 
 export default class NewTopic extends React.Component {
   constructor(props) {
     super(props);
-    this.handleBirthdayChange = this.handleBirthdayChange.bind(this);
+
     this.state = {
-      question: '',
-      detail: '',
-      objective: '',
-      questionType: '',
-      gender: '1',
-      weight: '',
-      height: '',
-      ageY: '0',
-      ageM: '0',
-      ageD: '0',
-      congenitalDisease: ''
+      "topicName": {
+        value: ''
+      },
+      "topicText": {
+        value: ''
+      },
+      "height": {
+        value: ''
+      },
+      "weight": {
+        value: ''
+      },
+      "ageY": {
+        value: ''
+      },
+      "ageM": {
+        value: ''
+      },
+      "ageD": {
+        value: ''
+      },
+      "sex": {
+        value: 'disabled'
+      },
+      "disease": {
+        value: ''
+      },
+      "questionType": {
+        value: ''
+      },
+      "questionPurpose": {
+        value: ''
+      },
+      "birthDate": {
+        value: ''
+      }
     }
+    this.handleBirthdayChange = this.handleBirthdayChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.isFormInvalid = this.isFormInvalid.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange = async (event) => {
-    const { target } = event;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    // console.log(value)
-    const { name } = target;
-    await this.setState({
-      [name]: value,
+  handleInputChange(event, validationFun) {
+    const target = event.target;
+    const inputName = target.name;
+    const inputValue = target.value;
+    console.log(inputName)
+    this.setState({
+      [inputName]: {
+        value: inputValue,
+        ...validationFun(inputValue)
+      }
+    });
+
+    console.log(this.state)
+  }
+
+
+  handleChange(event, name, validationFun) {
+    console.log(event + "----->>>" + name + " ---->>>" + validationFun(event).validateStatus)
+
+    this.setState({
+      [name]: {
+        value: event,
+        ...validationFun(event)
+      }
     });
   }
 
-  handleBirthdayChange = (event) => {
-    const { target } = event;
-    var mdate = target.value;
-    var yearThen = parseInt(mdate.substring(0, 4), 10);
-    var monthThen = parseInt(mdate.substring(5, 7), 10);
-    var dayThen = parseInt(mdate.substring(8, 10), 10);
 
-    var bthDate, curDate, days;
-    var ageYears, ageMonths, ageDays;
-    bthDate = new Date(yearThen, monthThen - 1, dayThen);
-    curDate = new Date();
-    if (bthDate > curDate) return;
-    days = Math.floor((curDate - bthDate) / (1000 * 60 * 60 * 24));
-    ageYears = Math.floor(days / 365);
-    ageMonths = Math.floor((days % 365) / 31);
-    ageDays = days - (ageYears * 365) - (ageMonths * 31);
-    if (ageYears > 0) {
-      this.setState({ AgeY: ageYears })
-      // console.log(ageYears)
-    }
-    if (ageMonths > 0) {
-      this.setState({ AgeM: ageMonths })
-      // console.log(ageMonths)
-    }
-    if (ageDays > 0) {
-      this.setState({ AgeD: ageDays })
-      // console.log(ageDays)
-    }
-
-  }
-
-  handleSubmit = event => {
+  handleSubmit(event) {
     event.preventDefault();
 
+    if (!this.state.disease.value || !this.state.disease.value.trim()) {
+      this.setState({
+        disease: {
+          value: '-'
+        }
+      });
+    }
+
     const topicData = {
-      "topicName": this.state.question,
-      "topicText": this.state.detail,
-      "height": this.state.height,
-      "weight": this.state.weight,
-      "ageY": this.state.ageY,
-      "ageM": this.state.ageM,
-      "ageD": this.state.ageD,
-      "sex": this.state.gender,
-      "disease": this.state.congenitalDisease,
-      "questionType": this.state.questionType,
-      "questionPurpose": this.state.objective
+      "topicName": this.state.topicName.value,
+      "topicText": this.state.topicText.value,
+      "height": this.state.height.value,
+      "weight": this.state.weight.value,
+      "ageY": this.state.ageY.value,
+      "ageM": this.state.ageM.value,
+      "ageD": this.state.ageD.value,
+      "sex": this.state.sex.value,
+      "disease": this.state.disease.value,
+      "questionType": this.state.questionType.value,
+      "questionPurpose": this.state.questionPurpose.value
     };
 
     createTopic(topicData)
       .then(response => {
         this.props.history.push("/");
+        Notification.success({
+          message: 'Health QA',
+          description: "ยินดีด้วย ตั้งคำถามสำเร็จแล้ว",
+        });
       }).catch(error => {
         if (error.status === 401) {
           this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create poll.');
         } else {
-          notification.error({
+          Notification.error({
             message: 'Health QA',
             description: error.message || 'Sorry! Something went wrong. Please try again!'
           });
@@ -101,9 +135,19 @@ export default class NewTopic extends React.Component {
       });
   }
 
+  isFormInvalid() {
+    return !(this.state.topicName.validateStatus === 'success' &&
+      this.state.topicText.validateStatus === 'success' &&
+      this.state.height.validateStatus === 'success' &&
+      this.state.weight.validateStatus === 'success' &&
+      this.state.birthDate.validateStatus === 'success' &&
+      this.state.sex.validateStatus === 'success' &&
+      this.state.questionType.validateStatus === 'success' &&
+      this.state.questionPurpose.validateStatus === 'success'
+    );
+  }
 
   render() {
-    const { question, detail, objective, questionType, gender, weight, height, birthDate, congenitalDisease } = this.state
 
     return (
       // Show Div Full Page => container-fluid
@@ -111,130 +155,299 @@ export default class NewTopic extends React.Component {
         <Card outline color="info">
           <CardHeader style={{ backgroundColor: '#17A2B8', color: '#FFF' }} tag="h3">รายละเอียด</CardHeader>
           <CardBody>
-            <AvForm onSubmit={this.handleSubmit}>
-              <AvField
+            <Form onSubmit={this.handleSubmit}>
+              <FormItem
                 label="คำถาม"
-                type="text"
-                name="question"
-                id="question"
-                placeholder="ระบุคำถาม"
-                value={question}
-                onChange={(e) => {
-                  this.handleChange(e)
-                }}
-                validate={{
-                  required: { value: true, errorMessage: 'กรุณาระบุคำถาม' }
-                }} />
-              <AvField
+                validateStatus={this.state.topicName.validateStatus}
+                help={this.state.topicName.errorMsg}>
+                <Input
+                  size="large"
+                  name="topicName"
+                  autoComplete="off"
+                  placeholder="ระบุคำถาม"
+                  value={this.state.topicName.value}
+                  onChange={(event) => this.handleInputChange(event, this.validateTopicName)} />
+              </FormItem>
+              <FormItem
                 label="รายละเอียดคำถาม"
-                type="textarea"
-                name="detail"
-                id="detail"
-                value={detail}
-                onChange={(e) => {
-                  this.handleChange(e)
-                }}
-                validate={{
-                  required: { value: true, errorMessage: 'กรุณาระบุรายละเอียด' }
-                }} />
-
-              <AvField
+                validateStatus={this.state.topicText.validateStatus}
+                help={this.state.topicText.errorMsg}>
+                <TextArea
+                  rows={4}
+                  size="large"
+                  name="topicText"
+                  autoComplete="off"
+                  value={this.state.topicText.value}
+                  onChange={(event) => this.handleInputChange(event, this.validateTopicText)} />
+              </FormItem>
+              <FormItem
                 label="วัตถุประสงค์"
-                ttype="text"
-                name="objective"
-                id="objective"
-                placeholder="ระบุวัตถุประสงค์ที่ถาม"
-                value={objective}
-                onChange={(e) => {
-                  this.handleChange(e)
-                }}
-                validate={{
-                  required: { value: true, errorMessage: 'กรุณาระบุรายละเอียด' }
-                }} />
-
-              <AvRadioGroup
-                inline
-                name="questionType"
+                validateStatus={this.state.questionPurpose.validateStatus}
+                help={this.state.questionPurpose.errorMsg}>
+                <Input
+                  size="large"
+                  name="questionPurpose"
+                  autoComplete="off"
+                  placeholder="ระบุวัตถุประสงค์ที่ถาม"
+                  value={this.state.questionPurpose.value}
+                  onChange={(event) => this.handleInputChange(event, this.validatePurpose)} />
+              </FormItem>
+              <FormItem
                 label="ประเภทคำถาม"
-                value={questionType}
-                onInput={(e) => { this.handleChange(e) }}
-                validate={{
-                  required: { value: true, errorMessage: 'กรุณาเลือกประเภทของคำถาม' }
-                }}>
-                <AvRadio customInput label="คำถามเฉพาะทางแพทย์" value="D" />
-                <AvRadio customInput label="คำถามเฉพาะทางเภสัชกร" value="P" />
-              </AvRadioGroup>
+                validateStatus={this.state.questionType.validateStatus}
+                help={this.state.questionType.errorMsg}>
+                <RadioGroup
+                  name="questionType"
+                  size="large"
+                  onChange={(event) => this.handleInputChange(event, this.validateQuestionType)}
+                  value={this.state.questionType.value}>
+                  <Radio value="D">คำถามเฉพาะทางแพทย์</Radio>
+                  <Radio value="P">คำถามเฉพาะทางเภสัชกร</Radio>
+                </RadioGroup>
+              </FormItem>
+              <legend>ข้อมูลผู้ป่วย</legend>
               <Row form>
-                <legend>ข้อมูลผู้ป่วย</legend>
                 <Col md={2}>
-                  <AvField type="select" id="gender" name="gender" label="เพศ" helpMessage="กรุณาเลือกเพศของท่าน!"
-                    value={gender}
-                    onInput={(e) => {
-                      this.handleChange(e)
-                    }}
-                  >
-                    <option value="1">ชาย</option>
-                    <option value="2">หญิง</option>
+                  <FormItem
+                    label="เพศ"
+                    validateStatus={this.state.sex.validateStatus}
+                    help={this.state.sex.errorMsg}>
+                    <Select
+                      size="large"
+                      name="sex"
+                      value={this.state.sex.value}
+                      // onChange={this.handleChange}
+                      onChange={(event) => this.handleChange(event, "sex", this.validateSex)}
                     >
-                  </AvField>
+                      <Option value="disabled" disabled>เลือกเพศ</Option>
+                      <Option value="M">ชาย</Option>
+                      <Option value="F">หญิง</Option>
+                    </Select>
+                  </FormItem>
                 </Col>
                 <Col md={3}>
-                  <AvField
+                  <FormItem
                     label="น้ำหนัก (กก.)"
-                    type="number"
-                    name="weight"
-                    id="weight"
-                    value={weight}
-                    onChange={(e) => {
-                      this.handleChange(e)
-                    }}
-                    validate={{
-                      required: { value: true, errorMessage: 'กรุณาระบุน้ำหนัก' }
-                    }} />
-
+                    validateStatus={this.state.weight.validateStatus}
+                    help={this.state.weight.errorMsg}>
+                    <InputNumber
+                      value={this.state.weight.value}
+                      style={{ width: '100%' }}
+                      name="weight"
+                      size="large"
+                      min={1}
+                      onChange={(event) => this.handleChange(event, "weight", this.validateWeight)} />
+                  </FormItem>
                 </Col>
                 <Col md={3}>
-                  <AvField
+                  <FormItem
                     label="ส่วนสูง (ซม.)"
-                    type="number"
-                    name="height"
-                    id="height"
-                    value={height}
-                    onChange={(e) => {
-                      this.handleChange(e)
-                    }}
-                    validate={{
-                      required: { value: true, errorMessage: 'กรุณาระบุส่วนสูง' }
-                    }} />
-
+                    validateStatus={this.state.height.validateStatus}
+                    help={this.state.height.errorMsg}>
+                    <InputNumber
+                      value={this.state.height.value}
+                      style={{ width: '100%' }}
+                      size="large"
+                      name="height"
+                      min={1}
+                      onChange={(event) => this.handleChange(event, "height", this.validateHeight)} />
+                  </FormItem>
                 </Col>
                 <Col md={4}>
-                  <AvField name="birthDate" id="birthDate" label="วันเกิด" type="date"
-                    value={birthDate}
-                    onInput={(e) => {
-                      this.handleBirthdayChange(e)
-                    }}
-                    validate={{
-                      required: { value: true, errorMessage: 'กรุณาระบุวันเกิด' }
-                    }} />
+                  <FormItem
+                    label="วันเกิด"
+                    validateStatus={this.state.birthDate.validateStatus}
+                    help={this.state.birthDate.errorMsg}>
+                    <DatePicker
+                      // value={this.state.birthDate.value}
+                      style={{ width: '100%' }}
+                      size="large"
+                      // onChange={(event) => this.handleChange(event, "birthDate", this.validateBirthDate)}
+                      onChange={(date, dateString) => {
+                        this.handleBirthdayChange(date, dateString)
+                      }}
+                    />
+                  </FormItem>
                 </Col>
               </Row>
-              <AvField
+              <FormItem
                 label="โรคประจำตัว"
-                type="text"
-                name="congenitalDisease"
-                id="congenitalDisease"
-                placeholder="ระบุโรคประจำตัว"
-                value={congenitalDisease}
-                onChange={(e) => {
-                  this.handleChange(e)
-                }}
-              />
-              <Button size="lg" color="danger" className="float-right">ตั้งคำถาม</Button>{' '}
-            </AvForm>
+                validateStatus={this.state.disease.validateStatus}
+                help={this.state.disease.errorMsg}>
+                <Input
+                  size="large"
+                  name="disease"
+                  autoComplete="off"
+                  placeholder="ระบุโรคประจำตัว"
+                  value={this.state.disease.value}
+                  onChange={(event) => this.handleInputChange(event, this.validateDisease)} />
+              </FormItem>
+              <FormItem>
+                <Button type="primary"
+                  htmlType="submit"
+                  size="large"
+                  className="signup-form-button"
+                  disabled={this.isFormInvalid()}>ตั่งคำถาม</Button>
+              </FormItem>
+            </Form>
           </CardBody>
         </Card>
       </div>
     );
   }
+  // Validation Functions
+
+  validateTopicName = (topicName) => {
+    if (topicName.length < 10) {
+      return {
+        validateStatus: 'error',
+        errorMsg: `คำถามสั้นเกินไปนะ.)`
+      }
+    } else {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
+  }
+
+  validateTopicText = (topicText) => {
+    if (topicText.length < 20) {
+      return {
+        validateStatus: 'error',
+        errorMsg: `รายละเอียดสั้นเกินไปนะ.)`
+      }
+    } else {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
+  }
+
+  validateHeight = (height) => {
+    if (!height) {
+      return {
+        validateStatus: 'error',
+        errorMsg: `กรุณาระบุส่วนสูง.`
+      }
+    } else {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
+  }
+
+  validateWeight = (weight) => {
+    if (!weight) {
+      return {
+        validateStatus: 'error',
+        errorMsg: `กรุณาระบุน้ำหนัก.`
+      }
+    } else {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
+  }
+
+  handleBirthdayChange = (date, dateString) => {
+    const CurrentDate = new Date();
+    const GivenDate = new Date(dateString);
+
+    if (GivenDate > CurrentDate) {
+      this.setState({
+        birthDate: {
+          value: dateString,
+          validateStatus: 'error',
+          errorMsg: `วันเกิดไม่ถูกต้อง.`
+        }
+      });
+    } else {
+
+      var mdate = dateString;
+      var yearThen = parseInt(mdate.substring(0, 4), 10);
+      var monthThen = parseInt(mdate.substring(5, 7), 10);
+      var dayThen = parseInt(mdate.substring(8, 10), 10);
+
+      var bthDate, curDate, days;
+      var ageYears, ageMonths, ageDays;
+      bthDate = new Date(yearThen, monthThen - 1, dayThen);
+      curDate = new Date();
+      if (bthDate > curDate) return;
+      days = Math.floor((curDate - bthDate) / (1000 * 60 * 60 * 24));
+      ageYears = Math.floor(days / 365);
+      ageMonths = Math.floor((days % 365) / 31);
+      ageDays = days - (ageYears * 365) - (ageMonths * 31);
+
+      this.setState({
+        birthDate: {
+          value: dateString,
+          validateStatus: 'success',
+          errorMsg: null
+        },
+        ageY: {
+          value: ageYears
+        },
+        ageM: {
+          value: ageMonths
+        },
+        ageD: {
+          value: ageDays
+        }
+      });
+    }
+  }
+
+  validateSex = (sex) => {
+    if (sex === "disabled") {
+      return {
+        validateStatus: 'error',
+        errorMsg: `กรุณาระบุเพศ.`
+      }
+    } else {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
+  }
+
+  validateQuestionType = (questionType) => {
+    if (!questionType) {
+      return {
+        validateStatus: 'error',
+        errorMsg: `กรุณาเลือกประเภทคำถาม.`
+      }
+    } else {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
+  }
+
+  validatePurpose = (purpose) => {
+    if (purpose.length < 10) {
+      return {
+        validateStatus: 'error',
+        errorMsg: `วัตถุประสงคฺสั้นเกินไปนะ.)`
+      }
+    } else {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
+  }
+
+  validateDisease = (disease) => {
+    return {
+      validateStatus: 'success',
+      errorMsg: null,
+    };
+  }
+
 }

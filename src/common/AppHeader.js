@@ -5,10 +5,10 @@ import {
 } from 'react-router-dom';
 import './AppHeader.css';
 import '../css/style.css';
-import pollIcon from '../poll.svg';
+// import pollIcon from '../poll.svg';
 import { Menu, Dropdown, Icon } from 'antd';
 import headerLogo from '../img/header-logo.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import {
   Navbar
@@ -131,7 +131,7 @@ function ProfileDropdownMenu(props) {
       overlay={dropdownMenu}
       trigger={['click']}
       getPopupContainer={() => document.getElementsByClassName('profile-menu')[0]}>
-      <a className="ant-dropdown-link">
+      <a className="ant-dropdown-link" href="/">
         <Icon type="user" className="nav-icon" style={{ marginRight: 0 }} /> <Icon type="down" />
       </a>
     </Dropdown>

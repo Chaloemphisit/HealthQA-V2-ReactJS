@@ -22,6 +22,7 @@ export default class Topic extends React.Component {
         wieght: '',
         ageY: '',
         ageM: '',
+        ageD: '',
         gender: '',
         disease: '',
         questionPurpose: '',
@@ -59,7 +60,7 @@ export default class Topic extends React.Component {
       return <p>{error.message}</p>;
     }
 
-    const { topicId, topicName, topicText, height, weight, ageY, ageM, gender,
+    const { topicId, topicName, topicText, height, weight, ageY, ageM, ageD, gender,
       disease, questionPurpose, questionType, username, answerCount, createDate } = this.state.topic;
     return (
       <div className="container" id="topicContainer">
@@ -79,8 +80,8 @@ export default class Topic extends React.Component {
                 </Link>
               </Col>
             </Row>
+            <Row className="mt-1 ml-1 mb-2 mr-1">{isLoading ? <Skeleton count={3} /> : topicText}</Row>
             <div className="mt-1 ml-1 mb-4 mr-1">
-              {isLoading ? <Skeleton count={3} /> : topicText}
               <Card>
                 <CardBody>
                   <Row className="rowMargin">
@@ -117,10 +118,10 @@ export default class Topic extends React.Component {
                   </Row>
                   <Row className="rowMargin">
                     <Col lg={2} md={3} sm={12} xs={12}>
-                      <div className="topic-text-header">วันเกิด</div>
+                      <div className="topic-text-header">อายุ</div>
                     </Col>
                     <Col lg={10} md={9} sm={12} xs={12}>
-                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : ageY + " ปี " + ageM + " เดือน"}</div>
+                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : (ageY > 0 ? ageY + " ปี " : '') + (ageM > 0 ? ageM + " เดือน " : '' + (ageD > 0 ? ageD + " วัน " : ''))}</div>
                     </Col>
                   </Row>
                   <Row className="rowMargin">

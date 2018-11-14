@@ -9,7 +9,7 @@ import {
 import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 
-import NewPoll from '../poll/NewPoll';
+// import NewPoll from '../poll/NewPoll';
 import Login from '../user/login/Login';
 import Signup from '../user/signup/Signup';
 import Profile from '../user/profile/Profile';
@@ -62,7 +62,8 @@ class App extends Component {
           isAuthenticated: true,
           isLoading: false
         });
-      }).catch(error => {
+      })
+      .catch(error => {
         this.setState({
           isLoading: false
         });
@@ -115,20 +116,23 @@ class App extends Component {
                 render={() => <Home />}>
               </Route>
 
-              <Route path="/topic/:id" 
-              render={(props) => <Topic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></Route>
+              <Route path="/topic/:id"
+                render={(props) => <Topic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></Route>
 
               <Route path="/contactus" component={ContactUs}></Route>
 
               <Route path="/login"
-                render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
+                render={(props) => <Login isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} onLogin={this.handleLogin} {...props} />}></Route>
 
-              <Route path="/signup" component={Signup}></Route>
+              <Route path="/signup"
+                render={(props) => <Signup isAuthenticated={this.state.isAuthenticated} {...props} />}></Route>
 
               <Route path="/users/:username"
                 render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
               </Route>
+
               <PrivateRoute authenticated={this.state.isAuthenticated} path="/new-topic" component={NewTopic} handleLogout={this.handleLogout}></PrivateRoute>
+
               <Route component={NotFound}></Route>
             </Switch>
           </div>

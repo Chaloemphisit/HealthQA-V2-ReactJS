@@ -89,9 +89,9 @@ export function checkEmailAvailability(email) {
 
 export function getCurrentUser() {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
-        return Promise.reject("No access token set.");
+        console.log("No access token set.")
     }
-    console.log(localStorage.getItem(ACCESS_TOKEN))
+    // console.log(localStorage.getItem(ACCESS_TOKEN))
     return request({
         url: API_BASE_URL + "/user/me",
         method: 'GET'
