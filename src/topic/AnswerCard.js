@@ -5,6 +5,7 @@ import {
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './style.css';
+import { beautyDate } from './DateUltils';
 
 const AnswerCard = (props) => (
     props.comments.map(
@@ -16,7 +17,7 @@ const AnswerCard = (props) => (
                         <div className="child">
                             <Row>
                                 <Col md={10} xs={10} sm={10}>
-                                    <span class="ask__date">{comment.createDate}</span>
+                                    <span class="ask__date">{beautyDate(comment.createDate)}</span>
                                 </Col>
                                 <Col md={2} xs={2} sm={2}>
                                     <Link to={"/spam/comment/" + comment.commentId} ><div className="float-right" id="trash"> <FontAwesomeIcon icon="trash-alt" /></div>
@@ -26,7 +27,7 @@ const AnswerCard = (props) => (
                             </Row>
 
                             <div className="avatar">
-                                <div className={comment.userType === "USER" ?"avatar__icon__user":"avatar__icon__doctor"}></div>
+                                <div className={comment.userType === "USER" ? "avatar__icon__user" : "avatar__icon__doctor"}></div>
                                 <div className="avatar__name">
                                     <p className="avatar__first">ตอบโดย</p>
                                     <p className="avatar__second">{comment.name}</p>

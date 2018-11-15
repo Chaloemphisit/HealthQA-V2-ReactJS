@@ -11,6 +11,7 @@ import Answer from './Answer';
 import { API_BASE_URL } from '../constants';
 import { Notification } from 'antd';
 import './style.css';
+import { beautyDate } from './DateUltils';
 
 export default class Topic extends React.Component {
   constructor(props) {
@@ -179,7 +180,7 @@ export default class Topic extends React.Component {
                 <div className="avatar__name">
                   {/* <p className="avatar__first">ถามโดย</p> */}
                   <p className="avatar__first">{name}</p>
-                  <p className="avatar__second">{createDate}</p>
+                  <p className="avatar__second">{beautyDate(createDate)}</p>
                 </div>
               </div>
             </div>
