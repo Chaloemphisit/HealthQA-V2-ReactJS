@@ -114,6 +114,20 @@ export function getUserProfile(username) {
     });
 }
 
+export function getUserTopics() {
+    return request({
+        url: API_BASE_URL + "/profile/topic",
+        method: 'GET'
+    });
+}
+
+export function getUserAnsTopics() {
+    return request({
+        url: API_BASE_URL + "/profile/comment",
+        method: 'GET'
+    });
+}
+
 export function getUserCreatedPolls(username, page, size) {
     page = page || 0;
     size = size || POLL_LIST_SIZE;

@@ -45,6 +45,12 @@ class Signup extends Component {
         }
     }
 
+    componentDidUpdate() {
+        if (this.props.isAuthenticated) {
+            this.props.history.goBack();
+        }
+    }
+
     handleInputChange(event, validationFun) {
         const target = event.target;
         const inputName = target.name;

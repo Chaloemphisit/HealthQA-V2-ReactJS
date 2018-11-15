@@ -7,6 +7,7 @@ import axios from 'axios';
 import QuestionsListLoading from '../../common/QuestionsListLoading';
 import { Notification } from 'antd';
 import { API_BASE_URL } from '../../constants';
+import { getUserTopics, getUserAnsTopics } from '../../util/APIUtils';
 
 
 class UserQuestionTabs extends React.Component {
@@ -15,48 +16,68 @@ class UserQuestionTabs extends React.Component {
         super(props);
 
         this.state = {
-            topics: {
-                allTopics: [],
-                answeredTopics: [],
-                noAnswerTopic: []
-            },
+            userTopics: [],
+            userAnsTopics: [],
             isLoading: false,
             error: null
         }
+
+        this.loadUserTopics = this.loadUserTopics.bind(this);
     }
 
     handleSelect(e) {
         console.log('Selected tab: ' + e.Tabs.activeTab);
     }
 
-    componentDidMount() {
-        this.setState({ isLoading: true });
+    loadUserTopics() {
+        this.setState({
+            isLoading: true
+        });
 
-        axios.all([
-            axios.get(API_BASE_URL + '/topic/all'),
-            axios.get(API_BASE_URL + '/topic/ans'),
-            axios.get(API_BASE_URL + '/topic/noAns')
-        ])
-            .then(axios.spread((allTopicsRes, ansTopicsRes, noAnsTopicRes) => {
+        getUserTopics()
+            .then(response => {
                 this.setState({
-                    topics: {
-                        allTopics: allTopicsRes.data,
-                        answeredTopics: ansTopicsRes.data,
-                        noAnswerTopic: noAnsTopicRes.data
-                    },
+                    userTopics: response,
                     isLoading: false
-                })
-            }))
-            .catch(error => {
-                this.setState({ error, isLoading: false })
-                Notification.error({
-                    message: 'Health QA',
-                    description: error.message || 'Sorry! Something went wrong. Please try again!'
                 });
+            }).catch(error => {
+                if (error.status === 404) {
+                    this.setState({
+                        notFound: true,
+                        isLoading: false
+                    });
+                } else {
+                    this.setState({
+                        serverError: true,
+                        isLoading: false
+                    });
+                }
             });
 
+        getUserAnsTopics()
+            .then(response => {
+                this.setState({
+                    userAnsTopics: response,
+                    isLoading: false
+                });
+            }).catch(error => {
+                if (error.status === 404) {
+                    this.setState({
+                        notFound: true,
+                        isLoading: false
+                    });
+                } else {
+                    this.setState({
+                        serverError: true,
+                        isLoading: false
+                    });
+                }
+            });
+    }
 
-
+    componentDidMount() {
+        this.setState({ isLoading: true });
+        this.loadUserTopics();
     }
 
     render() {
@@ -94,7 +115,7 @@ class UserQuestionTabs extends React.Component {
                         <Tabs.Tab id="tab1" title="คำถามที่ฉันตั้ง" >
                             <div className="mt-3" >
                                 {
-                                    this.state.topics.allTopics.map(
+                                    this.state.userTopics.map(
                                         (question, index) =>
                                             < ListGroup key={index} >
                                                 <ListGroupItem>
@@ -114,7 +135,7 @@ class UserQuestionTabs extends React.Component {
                         <Tabs.Tab id="tab2" title="คำถามที่ฉันตอบ">
                             <div className="mt-3">
                                 {
-                                    this.state.topics.answeredTopics.map(
+                                    this.state.userAnsTopics.map(
                                         (question, index) =>
                                             < ListGroup key={index}>
                                                 <ListGroupItem>
