@@ -61,6 +61,10 @@ class Profile extends Component {
         }
     }
 
+    handleButtonClick = () => {
+        this.props.history.push("/edit/users/" + this.props.match.params.username);
+    }
+
     render() {
         // if (this.state.isLoading) {
         //     return <LoadingIndicator />;
@@ -73,6 +77,8 @@ class Profile extends Component {
         if (this.state.serverError) {
             return <ServerError />;
         }
+
+
 
         return (
             <div className="profile">
@@ -92,7 +98,7 @@ class Profile extends Component {
                                             <div className="username">@{this.state.user.username}</div>
                                             <div className="user-joined">{this.state.user.email}</div>
                                             <div className="mt-3">
-                                            <Button type="primary" icon="edit" ghost>แก้ไขข้อมูล</Button>
+                                                <Button type="primary" icon="edit" ghost onClick={this.handleButtonClick}>แก้ไขข้อมูล</Button>
                                             </div>
                                         </div>
                                     </div>
