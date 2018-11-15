@@ -2,14 +2,20 @@
   margin-top: 160px;   
 }
 
-@media all and (max-width: 431px) {
+@media all and (max-width: 501px) {
   .app-content {
     margin-top: 230px;   
   }
 }
 
-@media all and (max-width: 341px) {
+@media all and (max-width: 410px) {
   .app-content {
     margin-top: 290px;   
+  }
+}
+
+@media all and (max-width: 250px) {
+  .app-content {
+    margin-top: 350px;   
   }
 }

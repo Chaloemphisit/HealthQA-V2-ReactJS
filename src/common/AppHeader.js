@@ -18,25 +18,7 @@ class AppHeader extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isOpen: false
-    };
-
     this.handleMenuClick = this.handleMenuClick.bind(this);
-  }
-
-  toggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-
-  closeNav = () => {
-    if (this.state.isOpen === true) {
-      this.setState({
-        isOpen: false
-      });
-    }
   }
 
   handleMenuClick({ key }) {

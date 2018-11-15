@@ -3,10 +3,7 @@ import { Tabs } from "@yazanaabed/react-tabs";
 import { ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Badge, Label } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import QuestionsListLoading from '../../common/QuestionsListLoading';
-import { Notification } from 'antd';
-import { API_BASE_URL } from '../../constants';
 import { getUserTopics, getUserAnsTopics } from '../../util/APIUtils';
 
 

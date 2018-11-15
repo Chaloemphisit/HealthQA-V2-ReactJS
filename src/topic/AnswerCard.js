@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    Card, CardTitle, CardText, Col, Row, UncontrolledTooltip
+    Card, CardText, Col, Row, UncontrolledTooltip
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +17,7 @@ const AnswerCard = (props) => (
                         <div className="child">
                             <Row>
                                 <Col md={10} xs={10} sm={10}>
-                                    <span class="ask__date">{beautyDate(comment.createDate)}</span>
+                                    <span className="ask__date">{beautyDate(comment.createDate)}</span>
                                 </Col>
                                 <Col md={2} xs={2} sm={2}>
                                     <Link to={"/spam/comment/" + comment.commentId} ><div className="float-right" id="trash"> <FontAwesomeIcon icon="trash-alt" /></div>

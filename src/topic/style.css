@@ -7,7 +7,8 @@
 
 .answer {
     margin-top: 2%;
-    background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
+    /* background-image: linear-gradient(20deg, #e9defa 0%, #fbfcdb 100%); */
+    background-image: linear-gradient(to left bottom, #e9defa 0%, #fbfcdb 100%);
 }
 
 .ask__commentaries>p {

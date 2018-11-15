@@ -1,9 +1,3 @@
-html,
-body {
-    /* background-color: #f0f2fa; */
-    height: 100%;
-    /* margin: 0; */
-}
 
 .navbar-nav span[role=button] {
     padding: 15px;
@@ -38,6 +32,11 @@ body {
     font-size: 1.0em;
     color: #828282;
     margin-left: 10px;
+}
+
+.topic-text{
+    width: 100%;
+    word-wrap: break-word;
 }
 
 .rowMargin {

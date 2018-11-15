@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Collapse, CardBody, Card } from 'reactstrap';
-import { Form, Input, Button, Radio, Select, InputNumber, DatePicker, Notification } from 'antd';
+import { CardBody, Card } from 'reactstrap';
+import { Form, Input, Button, Notification } from 'antd';
 import { Link } from 'react-router-dom';
 import { createComment } from '../util/APIUtils';
 
@@ -26,7 +26,7 @@ class Answer extends Component {
         const target = event.target;
         const inputName = target.name;
         const inputValue = target.value;
-        console.log(inputName)
+        // console.log(inputName)
         this.setState({
             [inputName]: {
                 value: inputValue,
@@ -34,7 +34,7 @@ class Answer extends Component {
             }
         });
 
-        console.log(this.state)
+        // console.log(this.state)
     }
 
     handleSubmit(event) {
@@ -94,7 +94,7 @@ class Answer extends Component {
         let ansForm;
         if (this.props.currentUser) {
             ansForm = [
-                <Form onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmit} key="2">
 
                     <FormItem
                         label="รายละเอียดคำถาม"
@@ -120,7 +120,7 @@ class Answer extends Component {
             ]
         } else {
             ansForm = [
-                <div>
+                <div key="1">
                     <div style={{ textAlign: 'center' }}>
                         <h4>คุณยังไม่ได้เข้าสู่ระบบ, กรุณาเข้าสู่ระบบเพื่อตอบคำถาม</h4>
                     </div>
@@ -132,7 +132,7 @@ class Answer extends Component {
         }
         return (
             <div style={{ width: '100%' }}>
-                <Card className="mt-4" className="answer">
+                <Card className="mt-4 answer">
                     <CardBody>
                         {ansForm}
                     </CardBody>

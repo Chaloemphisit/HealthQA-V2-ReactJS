@@ -56,7 +56,7 @@ export default class Topic extends React.Component {
     }
 
     smoothScroll((window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0));
-    
+
     // document.body.scrollTop = 0; // For Safari
     // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     this.handleLoadData()
@@ -115,7 +115,11 @@ export default class Topic extends React.Component {
 
             <hr />
 
-            <Row className="mt-1 ml-1 mb-2 mr-1 topic-text-body" style={{ color: '#000000' }}>{isLoading ? <Skeleton count={3} /> : topicText}</Row>
+            <Row className="mt-1 ml-1 mb-2 mr-1 topic-text-body" style={{ color: '#000000' }}>
+              <div className="topic-text">
+                {isLoading ? <Skeleton count={3} /> : topicText}
+              </div>
+            </Row>
 
             <div className="mt-1 ml-1 mb-4 mr-1">
               <Card>

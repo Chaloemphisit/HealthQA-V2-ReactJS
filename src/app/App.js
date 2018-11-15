@@ -15,7 +15,7 @@ import Signup from '../user/signup/Signup';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
-import PrivateRoute from '../common/PrivateRoute';
+// import PrivateRoute from '../common/PrivateRoute';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import Home from '../้home/Home';
 import Topic from '../topic/Topic';
@@ -25,7 +25,7 @@ import { Layout, notification, Spin } from 'antd';
 /*---------------------------------------- FontAwesome ----------------------------------------*/
 import { faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import NewTopic from '../topic/NewTopic';
-import LoadingIndicator from '../common/LoadingIndicator';
+// import LoadingIndicator from '../common/LoadingIndicator';
 import EditProfile from '../user/profile/EditProfile';
 
 library.add(faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle);
@@ -74,7 +74,7 @@ class App extends Component {
   componentDidMount() {
     this.loadCurrentUser();
     // if (this.state.currentUser.username)
-      // alert(this.state.currentUser.username)
+    // alert(this.state.currentUser.username)
   }
 
   handleLogout(redirectTo = "/", notificationType = "success", description = "You're successfully logged out.") {

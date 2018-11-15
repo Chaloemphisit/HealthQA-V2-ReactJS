@@ -67,7 +67,7 @@ export default class NewTopic extends React.Component {
     const target = event.target;
     const inputName = target.name;
     const inputValue = target.value;
-    console.log(inputName)
+    // console.log(inputName)
     this.setState({
       [inputName]: {
         value: inputValue,
@@ -75,12 +75,12 @@ export default class NewTopic extends React.Component {
       }
     });
 
-    console.log(this.state)
+    // console.log(this.state)
   }
 
 
   handleChange(event, name, validationFun) {
-    console.log(event + "----->>>" + name + " ---->>>" + validationFun(event).validateStatus)
+    // console.log(event + "----->>>" + name + " ---->>>" + validationFun(event).validateStatus)
 
     this.setState({
       [name]: {

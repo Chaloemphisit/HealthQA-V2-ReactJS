@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Row, Col, Card, CardBody, Container, Jumbotron } from 'reactstrap';
+import { Card, CardBody, Container, Jumbotron } from 'reactstrap';
 import QuestionTabs from './QuestionTabs';
 import './style.css'
 
-import { Input } from 'antd';
+// import { Input } from 'antd';
 
-const Search = Input.Search;
+// const Search = Input.Search;
 
 const Home = (props) => {
 

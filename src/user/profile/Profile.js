@@ -10,7 +10,6 @@ import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
 import UserQuestionTabs from './UserQuestionTabs';
 import { Card, CardBody } from 'reactstrap';
-import Skeleton from 'react-loading-skeleton';
 
 // const TabPane = Tabs.TabPane;
 
