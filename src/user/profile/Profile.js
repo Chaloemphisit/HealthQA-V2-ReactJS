@@ -35,6 +35,7 @@ class Profile extends Component {
                     isLoading: false
                 });
             }).catch(error => {
+                // console.log("---------->"+error.status)
                 if (error.status === 404) {
                     this.setState({
                         notFound: true,

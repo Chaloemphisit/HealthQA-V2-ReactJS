@@ -8,10 +8,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Skeleton from 'react-loading-skeleton';
 import AnswerCard from './AnswerCard';
 import Answer from './Answer';
-import { API_BASE_URL } from '../constants';
-import { Notification } from 'antd';
 import './style.css';
 import { beautyDate } from './DateUltils';
+import NotFound from '../common/NotFound';
+import ServerError from '../common/ServerError';
+import { getTopic } from '../util/APIUtils';
 
 export default class Topic extends React.Component {
   constructor(props) {
@@ -63,33 +64,41 @@ export default class Topic extends React.Component {
   }
 
   handleLoadData = () => {
-    this.setState({ isLoading: true });
-    fetch(API_BASE_URL + "/topic/" + this.props.match.params.id)
+    this.setState({
+      isLoading: true
+    });
+
+    getTopic(this.props.match.params.id)
       .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then(topic => this.setState({ topic, isLoading: false }))
-      .catch(error => {
-        this.setState({ error, isLoading: false })
-        Notification.error({
-          message: 'Health QA',
-          description: error.message || 'Sorry! Something went wrong. Please try again!'
+        this.setState({
+          topic: response,
+          isLoading: false
         });
+      }).catch(error => {
+        if (error.status === 404) {
+          this.setState({
+            notFound: true,
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            serverError: true,
+            isLoading: false
+          });
+        }
       });
+
   }
 
   render() {
-    const { isLoading, error } = this.state;
+    const { isLoading } = this.state;
 
-    if (error) {
-      return (
-        <div style={{ textAlign: 'center', marginTop: '10%' }}>
-          <h1>We're sorry, but {error.message || "Something went wrong. Please try again!"}</h1>
-          <p>If you are the application owner check the logs for more information.</p>
-        </div>
-      );
+    if (this.state.notFound) {
+      return <NotFound />;
+    }
+
+    if (this.state.serverError) {
+      return <ServerError />;
     }
 
     const { topicId, topicName, topicText, height, weight, ageY, ageM, ageD, gender,
@@ -115,7 +124,7 @@ export default class Topic extends React.Component {
 
             <hr />
 
-            <Row className="mt-1 ml-1 mb-2 mr-1 topic-text-body" style={{ color: '#000000' }}>
+            <Row className="mt-1 ml-1 mb-2 mr-2 topic-text-body">
               <div className="topic-text">
                 {isLoading ? <Skeleton count={3} /> : topicText}
               </div>
@@ -197,7 +206,11 @@ export default class Topic extends React.Component {
 
         <div className="background"><span><FontAwesomeIcon icon="comments" size="lg" />  {answerCount} คำตอบ</span></div>
         <div>
-          <AnswerCard comments={this.state.topic.comments} />
+          {
+            this.state.topic.comments ? (
+              <AnswerCard comments={this.state.topic.comments} />
+            ) : null
+          }
         </div>
       </div>
     );

@@ -37,7 +37,7 @@ const AnswerCard = (props) => (
                     </div>
                     <hr />
                     <Row className="mt-4 ml-2 mb-4">
-                        <CardText>{comment.commentText}</CardText>
+                        <CardText className="answer-text">{comment.commentText}</CardText>
                     </Row>
 
                 </Card>

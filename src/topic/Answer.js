@@ -15,7 +15,8 @@ class Answer extends Component {
         this.state = {
             "answerText": {
                 value: ''
-            }
+            },
+            isSubmit: false,
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -40,6 +41,14 @@ class Answer extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
+        this.setState({
+            isSubmit: true
+        },
+            this.callCreateAnswer()
+        )
+    }
+
+    callCreateAnswer = () => {
         const commentData = {
             "commentText": this.state.answerText.value
         };
@@ -62,7 +71,8 @@ class Answer extends Component {
                 this.setState({
                     "answerText": {
                         value: ''
-                    }
+                    },
+                    isSubmit: false
                 })
                 Notification.success({
                     message: 'Health QA',
@@ -83,9 +93,8 @@ class Answer extends Component {
 
 
 
-
     isFormInvalid() {
-        return !(this.state.answerText.validateStatus === 'success');
+        return !(this.state.answerText.validateStatus === 'success' && this.state.isSubmit === false);
     }
 
 
@@ -97,7 +106,7 @@ class Answer extends Component {
                 <Form onSubmit={this.handleSubmit} key="2">
 
                     <FormItem
-                        label="รายละเอียดคำถาม"
+                        label="รายละเอียดคำตอบ"
                         validateStatus={this.state.answerText.validateStatus}
                         help={this.state.answerText.errorMsg}>
                         <TextArea
@@ -145,7 +154,7 @@ class Answer extends Component {
         if (answerText.length < 10) {
             return {
                 validateStatus: 'error',
-                errorMsg: `คำตอบสั้นเกินไปนะ.)`
+                errorMsg: `คำตอบสั้นเกินไปนะ.`
             }
         } else {
             return {

@@ -22,6 +22,13 @@ const request = (options) => {
         );
 };
 
+export function getTopic(topicId) {
+    return request({
+        url: API_BASE_URL + "/topic/" + topicId,
+        method: 'GET'
+    });
+}
+
 export function createTopic(topicData) {
     return request({
         url: API_BASE_URL + "/topic",

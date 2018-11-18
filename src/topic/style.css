@@ -11,6 +11,13 @@
     background-image: linear-gradient(to left bottom, #e9defa 0%, #fbfcdb 100%);
 }
 
+.answer-text{
+    width: 98%;
+    word-wrap: break-word;
+
+    /* position: absolute; */
+}
+
 .ask__commentaries>p {
     padding: 8px 0;
     color: #9E9E9E;

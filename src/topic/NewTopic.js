@@ -44,7 +44,9 @@ export default class NewTopic extends React.Component {
         value: 'disabled'
       },
       "disease": {
-        value: ''
+        value: '',
+        validateStatus: 'success',
+        errorMsg: null,
       },
       "questionType": {
         value: ''
@@ -94,14 +96,16 @@ export default class NewTopic extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
+
+
     if (!this.state.disease.value || !this.state.disease.value.trim()) {
       this.setState({
         disease: {
           value: '-'
         }
-      });
+      }
+      );
     }
-
     const topicData = {
       "topicName": this.state.topicName.value,
       "topicText": this.state.topicText.value,
@@ -118,12 +122,14 @@ export default class NewTopic extends React.Component {
 
     createTopic(topicData)
       .then(response => {
-        this.props.history.push("/");
+        this.props.history.push(response.redirect);
+
         Notification.success({
           message: 'Health QA',
           description: "ยินดีด้วย ตั้งคำถามสำเร็จแล้ว",
         });
-      }).catch(error => {
+      })
+      .catch(error => {
         if (error.status === 401) {
           this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
         } else {
@@ -143,7 +149,8 @@ export default class NewTopic extends React.Component {
       this.state.birthDate.validateStatus === 'success' &&
       this.state.sex.validateStatus === 'success' &&
       this.state.questionType.validateStatus === 'success' &&
-      this.state.questionPurpose.validateStatus === 'success'
+      this.state.questionPurpose.validateStatus === 'success' &&
+      this.state.disease.validateStatus === 'success'
     );
   }
 
@@ -317,7 +324,12 @@ export default class NewTopic extends React.Component {
     if (topicName.length < 10) {
       return {
         validateStatus: 'error',
-        errorMsg: `คำถามสั้นเกินไปนะ.)`
+        errorMsg: `คำถามสั้นเกินไปนะ.`
+      }
+    } else if (topicName.length > 255) {
+      return {
+        validateStatus: 'error',
+        errorMsg: `คำถามยาวเกินไปนะ.`
       }
     } else {
       return {
@@ -325,13 +337,14 @@ export default class NewTopic extends React.Component {
         errorMsg: null,
       };
     }
+
   }
 
   validateTopicText = (topicText) => {
-    if (topicText.length < 20) {
+    if (topicText.length < 10) {
       return {
         validateStatus: 'error',
-        errorMsg: `รายละเอียดสั้นเกินไปนะ.)`
+        errorMsg: `รายละเอียดสั้นเกินไปนะ.`
       }
     } else {
       return {
@@ -446,10 +459,15 @@ export default class NewTopic extends React.Component {
   }
 
   validatePurpose = (purpose) => {
-    if (purpose.length < 10) {
+    if (purpose.length < 5) {
       return {
         validateStatus: 'error',
-        errorMsg: `วัตถุประสงคฺสั้นเกินไปนะ.)`
+        errorMsg: `วัตถุประสงค์สั้นเกินไปนะ.`
+      }
+    } else if (purpose.length > 255) {
+      return {
+        validateStatus: 'error',
+        errorMsg: `วัตถุประสงค์ยาวเกินไปนะ.`
       }
     } else {
       return {
@@ -460,10 +478,17 @@ export default class NewTopic extends React.Component {
   }
 
   validateDisease = (disease) => {
-    return {
-      validateStatus: 'success',
-      errorMsg: null,
-    };
+    if (disease.length > 255) {
+      return {
+        validateStatus: 'error',
+        errorMsg: `ข้อความยาวเกินไปนะ.`
+      }
+    } else {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
   }
 
 }
