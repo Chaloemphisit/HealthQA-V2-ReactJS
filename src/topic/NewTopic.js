@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 // import { AvForm, AvField, AvRadioGroup, AvRadio } from 'availity-reactstrap-validation';
 import { createTopic } from '../util/APIUtils';
 // import axios from 'axios';
-import { Form, Input, Button, Radio, Select, InputNumber, DatePicker, Notification } from 'antd';
+import { Form, Input, Button, Radio, Select, InputNumber, DatePicker, Notification, Spin } from 'antd';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -56,7 +56,8 @@ export default class NewTopic extends React.Component {
       },
       "birthDate": {
         value: ''
-      }
+      },
+      isLoading: false,
     }
     this.handleBirthdayChange = this.handleBirthdayChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -95,7 +96,9 @@ export default class NewTopic extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-
+    this.setState({
+      isLoading: true,
+    });
 
 
     if (!this.state.disease.value || !this.state.disease.value.trim()) {
@@ -122,12 +125,13 @@ export default class NewTopic extends React.Component {
 
     createTopic(topicData)
       .then(response => {
-        this.props.history.push(response.redirect);
+        this.setState({
+          isLoading: false,
+        },
+          this.handleSuccess(response.redirect)
+        );
 
-        Notification.success({
-          message: 'Health QA',
-          description: "ยินดีด้วย ตั้งคำถามสำเร็จแล้ว",
-        });
+
       })
       .catch(error => {
         if (error.status === 401) {
@@ -139,6 +143,14 @@ export default class NewTopic extends React.Component {
           });
         }
       });
+  }
+
+  handleSuccess = (redirect) => {
+    this.props.history.push(redirect);
+    Notification.success({
+      message: 'Health QA',
+      description: "ยินดีด้วย ตั้งคำถามสำเร็จแล้ว",
+    });
   }
 
   isFormInvalid() {
@@ -314,7 +326,9 @@ export default class NewTopic extends React.Component {
     return (
       // Show Div Full Page => container-fluid
       <div className="container" id="card-margin-top-bottom">
-        {newTopicForm}
+        <Spin spinning={this.state.isLoading} size="large" style={{marginTop:'30%'}}>
+          {newTopicForm}
+        </Spin>
       </div>
     );
   }

@@ -90,7 +90,7 @@ class QuestionTabs extends React.Component {
         }
 
         if (isLoading) {
-            message.loading('กำลังโหลดข้อมูล...', 0);
+            // message.loading('กำลังโหลดข้อมูล...', 0);
             return (
                 <div>
                     <Spin spinning={isLoading} size="large">
@@ -146,7 +146,7 @@ class QuestionTabs extends React.Component {
                                 {
                                     !this.state.isLoading && !this.state.last ? (
                                         <div className="load-more-polls">
-                                            <Button type="dashed" onClick={this.handleLoadMore} disabled={this.state.isLoading}>
+                                            <Button type="dashed"  onClick={this.handleLoadMore} disabled={this.state.isLoading}>
                                                 <Icon type="plus" /> Load more
                             </Button>
                                         </div>) : null
@@ -176,6 +176,27 @@ class QuestionTabs extends React.Component {
                                     )
                                 }
                             </div>
+                            <div className="mt-3" align="center">
+                                {
+                                    !this.state.isLoading && this.state.topics.allTopics.length === 0 ? (
+                                        <div className="no-polls-found">
+                                            <span>No Topic Found.</span>
+                                        </div>
+                                    ) : null
+                                }
+                                {
+                                    !this.state.isLoading && !this.state.last ? (
+                                        <div className="load-more-polls">
+                                            <Button type="dashed" onClick={this.handleLoadMore} disabled={this.state.isLoading}>
+                                                <Icon type="plus" /> Load more
+                            </Button>
+                                        </div>) : null
+                                }
+                                {
+                                    this.state.isLoading ?
+                                        <LoadingIndicator /> : null
+                                }
+                            </div>
                         </Tabs.Tab>
                         <Tabs.Tab id="tab3" title="คำถามที่ยังไม่ได้ตอบ">
                             <div className="mt-3">
@@ -194,6 +215,27 @@ class QuestionTabs extends React.Component {
                                                 </ListGroupItem>
                                             </ListGroup >
                                     )
+                                }
+                            </div>
+                            <div className="mt-3" align="center">
+                                {
+                                    !this.state.isLoading && this.state.topics.allTopics.length === 0 ? (
+                                        <div className="no-polls-found">
+                                            <span>No Topic Found.</span>
+                                        </div>
+                                    ) : null
+                                }
+                                {
+                                    !this.state.isLoading && !this.state.last ? (
+                                        <div className="load-more-polls">
+                                            <Button type="dashed" onClick={this.handleLoadMore} disabled={this.state.isLoading}>
+                                                <Icon type="plus" /> Load more
+                            </Button>
+                                        </div>) : null
+                                }
+                                {
+                                    this.state.isLoading ?
+                                        <LoadingIndicator /> : null
                                 }
                             </div>
                         </Tabs.Tab>
