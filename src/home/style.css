@@ -204,3 +204,13 @@
     -webkit-transform: translateX(200%);
     transform: translateX(200%);
 }
+
+
+.no-polls-found {
+    font-size: 20px;
+    text-align: center;
+}
+
+.load-more-polls {
+    text-align: center;
+}

@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import QuestionsListLoading from '../common/QuestionsListLoading';
-import { Notification, message, Spin } from 'antd';
+import { Notification, message, Spin, Button, Icon } from 'antd';
 import { API_BASE_URL } from '../constants';
+import LoadingIndicator from '../common/LoadingIndicator';
+import './style.css';
 
 
 class QuestionTabs extends React.Component {
@@ -20,30 +22,49 @@ class QuestionTabs extends React.Component {
                 answeredTopics: [],
                 noAnswerTopic: []
             },
+            page: 0,
+            size: 5,
+            last: true,
             isLoading: false,
             error: null
         }
     }
 
     handleSelect(e) {
-        console.log('Selected tab: ' + e.Tabs.activeTab);
+        // console.log('Selected tab: ' + e.Tabs.activeTab);
     }
 
     componentDidMount() {
+        this.loadTopics();
+    }
+
+    handleLoadMore = () => {
+        this.loadTopics(this.state.page, this.state.size);
+        // console.log(this.state.page + " <<>>" + this.state.size)
+    }
+
+    loadTopics = (page = this.state.page, size = this.state.size) => {
         this.setState({ isLoading: true });
 
         axios.all([
-            axios.get(API_BASE_URL + '/topic/all'),
-            axios.get(API_BASE_URL + '/topic/ans'),
-            axios.get(API_BASE_URL + '/topic/noAns')
+            axios.get(API_BASE_URL + '/topic/all?page=' + page + '&size=' + size),
+            axios.get(API_BASE_URL + '/topic/ans?page=' + page + '&size=' + size),
+            axios.get(API_BASE_URL + '/topic/noAns?page=' + page + '&size=' + size)
         ])
             .then(axios.spread((allTopicsRes, ansTopicsRes, noAnsTopicRes) => {
+                const allTopics = this.state.topics.allTopics.slice();
+                const ansTopics = this.state.topics.answeredTopics.slice();
+                const noAnsTopics = this.state.topics.noAnswerTopic.slice();
+
                 this.setState({
                     topics: {
-                        allTopics: allTopicsRes.data,
-                        answeredTopics: ansTopicsRes.data,
-                        noAnswerTopic: noAnsTopicRes.data
+                        allTopics: allTopics.concat(allTopicsRes.data.content),
+                        answeredTopics: ansTopics.concat(ansTopicsRes.data.content),
+                        noAnswerTopic: noAnsTopics.concat(noAnsTopicRes.data.content)
                     },
+                    page: allTopicsRes.data.page,
+                    size: allTopicsRes.data.size,
+                    last: allTopicsRes.data.last,
                     isLoading: false
                 })
             }))
@@ -54,9 +75,6 @@ class QuestionTabs extends React.Component {
                     description: error.message || 'Sorry! Something went wrong. Please try again!'
                 });
             });
-
-
-
     }
 
     render() {
@@ -114,6 +132,28 @@ class QuestionTabs extends React.Component {
                                                 </ListGroupItem>
                                             </ListGroup >
                                     )
+                                }
+
+                            </div>
+                            <div className="mt-3" align="center">
+                                {
+                                    !this.state.isLoading && this.state.topics.allTopics.length === 0 ? (
+                                        <div className="no-polls-found">
+                                            <span>No Topic Found.</span>
+                                        </div>
+                                    ) : null
+                                }
+                                {
+                                    !this.state.isLoading && !this.state.last ? (
+                                        <div className="load-more-polls">
+                                            <Button type="dashed" onClick={this.handleLoadMore} disabled={this.state.isLoading}>
+                                                <Icon type="plus" /> Load more
+                            </Button>
+                                        </div>) : null
+                                }
+                                {
+                                    this.state.isLoading ?
+                                        <LoadingIndicator /> : null
                                 }
                             </div>
                         </Tabs.Tab>
