@@ -29,6 +29,20 @@ export function getTopic(topicId) {
     });
 }
 
+export function reportComment(id) {
+    return request({
+        url: API_BASE_URL + "/comment/report/" + id,
+        method: 'PUT'
+    });
+}
+
+export function reportTopic(id) {
+    return request({
+        url: API_BASE_URL + "/topic/report/" + id,
+        method: 'PUT'
+    });
+}
+
 export function createTopic(topicData) {
     return request({
         url: API_BASE_URL + "/topic",

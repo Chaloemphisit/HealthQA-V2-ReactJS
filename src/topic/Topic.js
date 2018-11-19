@@ -1,19 +1,22 @@
 import React from 'react';
 
 import {
-  Card, CardTitle, Col, Row, Label, UncontrolledTooltip, CardBody
+  Card, CardTitle, CardText, Col, Row, Label, UncontrolledTooltip, CardBody
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Skeleton from 'react-loading-skeleton';
-import AnswerCard from './AnswerCard';
+// import AnswerCard from './AnswerCard';
 import Answer from './Answer';
 import './style.css';
 import { beautyDate } from './DateUltils';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
-import { getTopic } from '../util/APIUtils';
-import { Spin } from 'antd';
+import { getTopic, reportTopic, reportComment } from '../util/APIUtils';
+import { Spin, Modal, notification } from 'antd';
+
+// const confirm = Modal.confirm;
+
 
 export default class Topic extends React.Component {
   constructor(props) {
@@ -38,7 +41,12 @@ export default class Topic extends React.Component {
         comments: []
       },
       isLoading: false,
-      error: null
+      error: null,
+      ModalReportText: 'คลิกที่ปุ่ม OK เพื่อแจ้งให้เจ้าหน้าที่รับทราบ',
+      ModalReportVisible: false,
+      isReportTopic: null,
+      confirmLoading: false,
+      reportCommentId: null,
     }
   }
 
@@ -91,8 +99,99 @@ export default class Topic extends React.Component {
 
   }
 
+  confirmReportComment = (e) => {
+    // console.log(e)
+    this.setState({
+      ModalReportVisible: true,
+      isReportTopic: false,
+      reportCommentId: e,
+    });
+  }
+
+  confirmReportTopic = (e) => {
+    this.setState({
+      ModalReportVisible: true,
+      isReportTopic: true,
+    });
+  }
+
+  handleReportTopicOK = () => {
+    this.setState({
+      ModalReportText: 'กำลังดำเนินการ, กรุณารอสักครู่...',
+      confirmLoading: true,
+    });
+
+    reportTopic(this.props.match.params.id)
+      .then(response => {
+        setTimeout(() => {
+
+          this.setState({
+            ModalReportVisible: false,
+            confirmLoading: false,
+            ModalReportText: 'คลิกที่ปุ่ม OK เพื่อแจ้งให้เจ้าหน้าที่รับทราบ',
+          },
+            notification.success({
+              message: 'Health QA',
+              description: "แจ้งข้อความไม่เหมาะสมเรียบร้อย, เจ้าหน้าที่อาจจะใช้เวลา 1-2 วัน ในการตรวจสอบ",
+            })
+          );
+        }, 1000);
+      })
+      .catch(error => {
+        if (error.status === 401) {
+          this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
+        } else {
+          Notification.error({
+            message: 'Health QA',
+            description: error.message || 'Sorry! Something went wrong. Please try again!'
+          });
+        }
+      });
+  }
+
+  handleReportCommentOK = () => {
+    this.setState({
+      ModalReportText: 'กำลังดำเนินการ, กรุณารอสักครู่...',
+      confirmLoading: true,
+    });
+
+    reportComment(this.state.reportCommentId)
+      .then(response => {
+        setTimeout(() => {
+
+          this.setState({
+            ModalReportVisible: false,
+            confirmLoading: false,
+            ModalReportText: 'คลิกที่ปุ่ม OK เพื่อแจ้งให้เจ้าหน้าที่รับทราบ',
+          },
+            notification.success({
+              message: 'Health QA',
+              description: "แจ้งข้อความไม่เหมาะสมเรียบร้อย, เจ้าหน้าที่อาจจะใช้เวลา 1-2 วัน ในการตรวจสอบ",
+            })
+          );
+        }, 1000);
+      })
+      .catch(error => {
+        if (error.status === 401) {
+          this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
+        } else {
+          Notification.error({
+            message: 'Health QA',
+            description: error.message || 'Sorry! Something went wrong. Please try again!'
+          });
+        }
+      });
+  }
+
+  handleReportCancel = () => {
+    // console.log('Clicked cancel button');
+    this.setState({
+      ModalReportVisible: false,
+    });
+  }
+
   render() {
-    const { isLoading } = this.state;
+    const { ModalReportVisible, confirmLoading, ModalReportText, isLoading } = this.state;
 
     if (this.state.notFound) {
       return <NotFound />;
@@ -102,10 +201,19 @@ export default class Topic extends React.Component {
       return <ServerError />;
     }
 
-    const { topicId, topicName, topicText, height, weight, ageY, ageM, ageD, gender,
+    const { topicName, topicText, height, weight, ageY, ageM, ageD, gender,
       disease, questionPurpose, questionType, name, answerCount, createDate } = this.state.topic;
     return (
       <div className="container" id="topicContainer">
+        <Modal title="คุณต้องการแจ้งข้อความไม่เหมาะสมใช่หรือไม่ ?"
+          visible={ModalReportVisible}
+          centered
+          onOk={this.state.isReportTopic ? this.handleReportTopicOK : this.handleReportCommentOK}
+          confirmLoading={confirmLoading}
+          onCancel={this.handleReportCancel}
+        >
+          <p>{ModalReportText}</p>
+        </Modal>
         <Spin spinning={this.state.isLoading} size="large" delay={200}>
           <Row>
             <Card body id="topicCard">
@@ -118,9 +226,9 @@ export default class Topic extends React.Component {
 
                 </Col>
                 <Col md={2} xs={2} sm={2}>
-                  <Link to={"/spam/" + topicId} ><div href="/" className="float-right" id="trash"> <FontAwesomeIcon icon="trash-alt" /></div>
-                    <UncontrolledTooltip placement="right" target="trash">แจ้งลบ</UncontrolledTooltip>
-                  </Link>
+                  <div href="/" className="float-right" onClick={this.confirmReportTopic}> <FontAwesomeIcon icon="trash-alt" id="trash" /></div>
+                  <UncontrolledTooltip placement="right" target="trash">แจ้งลบ</UncontrolledTooltip>
+
                 </Col>
               </Row>
 
@@ -210,7 +318,40 @@ export default class Topic extends React.Component {
           <div>
             {
               this.state.topic.comments ? (
-                <AnswerCard comments={this.state.topic.comments} />
+                this.state.topic.comments.map(
+                  (comment, index) =>
+                    <Row key={index}>
+                      <Card body className={comment.userType === "USER" ? "ask__commentaries ask__commentaries--user ask__commentaries--type" : "ask__commentaries ask__commentaries--doctor ask__commentaries--type"}>
+
+                        <div id="card-top-bar">
+                          <div className="child">
+                            <Row>
+                              <Col md={10} xs={10} sm={10}>
+                                <span className="ask__date">{beautyDate(comment.createDate)}</span>
+                              </Col>
+                              <Col md={2} xs={2} sm={2}>
+                                <div className="float-right" key={comment.commentId} onClick={(e) => this.confirmReportComment(comment.commentId, "comment")}> <FontAwesomeIcon icon="trash-alt" id="trash" /></div>
+                                <UncontrolledTooltip placement="right" target="trash">แจ้งลบ</UncontrolledTooltip>
+                              </Col>
+                            </Row>
+
+                            <div className="avatar">
+                              <div className={comment.userType === "USER" ? "avatar__icon__user" : "avatar__icon__doctor"}></div>
+                              <div className="avatar__name">
+                                <p className="avatar__first">ตอบโดย</p>
+                                <p className="avatar__second">{comment.name}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr />
+                        <Row className="mt-4 ml-2 mb-4">
+                          <CardText className="answer-text">{comment.commentText}</CardText>
+                        </Row>
+
+                      </Card>
+                    </Row>
+                )
               ) : null
             }
           </div>

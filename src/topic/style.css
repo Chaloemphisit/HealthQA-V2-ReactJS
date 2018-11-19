@@ -11,10 +11,9 @@
     background-image: linear-gradient(to left bottom, #e9defa 0%, #fbfcdb 100%);
 }
 
-.answer-text{
+.answer-text {
     width: 98%;
     word-wrap: break-word;
-
     /* position: absolute; */
 }
 
@@ -143,6 +142,7 @@ div.background span {
 }
 
 /* --------------------------------- Line with Text --> answer   ------------------------------------------------------ */
+
 div.background-answer {
     color: #fc6076;
     position: relative;
@@ -170,4 +170,12 @@ div.background-answer span {
     /* to hide the lines from behind the text, you have to set the background color the same as the container */
     background: #fff;
     padding: 0 15px;
+}
+
+#trash {
+    color: #828282;
+}
+
+#trash:hover {
+    color: rgb(0, 180, 180);
 }
