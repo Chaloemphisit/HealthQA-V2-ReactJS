@@ -15,12 +15,14 @@ import Signup from '../user/signup/Signup';
 import Profile from '../user/profile/Profile';
 import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
+import Home from '../home/Home';
+
 // import PrivateRoute from '../common/PrivateRoute';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import Home from '../้home/Home';
+
 import Topic from '../topic/Topic';
 import ContactUs from '../contactus/ContactUs';
-import { Layout, notification, Spin } from 'antd';
+import { Layout, notification } from 'antd';
 
 /*---------------------------------------- FontAwesome ----------------------------------------*/
 import { faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
@@ -117,7 +119,7 @@ class App extends Component {
 
         <Content className="app-content">
           <div className="container">
-            <Spin spinning={this.state.isLoading} size="large" delay={200}>
+            {/* <Spin spinning={this.state.isLoading} size="large" delay={200}> */}
               <Switch>
                 <Route exact path="/"
                   render={() => <Home />}>
@@ -149,7 +151,7 @@ class App extends Component {
 
                 <Route component={NotFound}></Route>
               </Switch>
-            </Spin>
+            {/* </Spin> */}
           </div>
         </Content>
       </Layout >

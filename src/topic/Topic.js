@@ -13,6 +13,7 @@ import { beautyDate } from './DateUltils';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
 import { getTopic } from '../util/APIUtils';
+import { Spin } from 'antd';
 
 export default class Topic extends React.Component {
   constructor(props) {
@@ -105,113 +106,115 @@ export default class Topic extends React.Component {
       disease, questionPurpose, questionType, name, answerCount, createDate } = this.state.topic;
     return (
       <div className="container" id="topicContainer">
-        <Row>
-          <Card body id="topicCard">
-            <Row>
-              <Col md={10} xs={10} sm={10}>
-                <CardTitle style={{ fontSize: '1.6em' }}>{isLoading ? <Skeleton width="40%" /> : topicName}</CardTitle>
-                {isLoading ? <Skeleton width="30%" /> : (
-                  <Label className="ml-2"> <FontAwesomeIcon icon="question" />{" " + questionType}</Label>
-                )}
+        <Spin spinning={this.state.isLoading} size="large" delay={200}>
+          <Row>
+            <Card body id="topicCard">
+              <Row>
+                <Col md={10} xs={10} sm={10}>
+                  <CardTitle style={{ fontSize: '1.6em' }}>{isLoading ? <Skeleton width="40%" /> : topicName}</CardTitle>
+                  {isLoading ? <Skeleton width="30%" /> : (
+                    <Label className="ml-2"> <FontAwesomeIcon icon="question" />{" " + questionType}</Label>
+                  )}
 
-              </Col>
-              <Col md={2} xs={2} sm={2}>
-                <Link to={"/spam/" + topicId} ><div href="/" className="float-right" id="trash"> <FontAwesomeIcon icon="trash-alt" /></div>
-                  <UncontrolledTooltip placement="right" target="trash">แจ้งลบ</UncontrolledTooltip>
-                </Link>
-              </Col>
-            </Row>
+                </Col>
+                <Col md={2} xs={2} sm={2}>
+                  <Link to={"/spam/" + topicId} ><div href="/" className="float-right" id="trash"> <FontAwesomeIcon icon="trash-alt" /></div>
+                    <UncontrolledTooltip placement="right" target="trash">แจ้งลบ</UncontrolledTooltip>
+                  </Link>
+                </Col>
+              </Row>
 
-            <hr />
+              <hr />
 
-            <Row className="mt-1 ml-1 mb-2 mr-2 topic-text-body">
-              <div className="topic-text">
-                {isLoading ? <Skeleton count={3} /> : topicText}
+              <Row className="mt-1 ml-1 mb-2 mr-2 topic-text-body">
+                <div className="topic-text">
+                  {isLoading ? <Skeleton count={3} /> : topicText}
+                </div>
+              </Row>
+
+              <div className="mt-1 ml-1 mb-4 mr-1">
+                <Card>
+                  <CardBody>
+                    <Row className="rowMargin">
+                      <Col lg={2} md={3} sm={12} xs={12}>
+                        <div className="topic-text-header">วัตถุประสงค์</div>
+                      </Col>
+                      <Col lg={10} md={9} sm={12} xs={12}>
+                        <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : questionPurpose}</div>
+                      </Col>
+                    </Row>
+                    <Row className="rowMargin">
+                      <Col lg={2} md={3} sm={12} xs={12}>
+                        <div className="topic-text-header">เพศ</div>
+                      </Col>
+                      <Col lg={10} md={9} sm={12} xs={12}>
+                        <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : gender}</div>
+                      </Col>
+                    </Row>
+                    <Row className="rowMargin">
+                      <Col lg={2} md={3} sm={12} xs={12}>
+                        <div className="topic-text-header">น้ำหนัก</div>
+                      </Col>
+                      <Col lg={10} md={9} sm={12} xs={12}>
+                        <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : weight}</div>
+                      </Col>
+                    </Row>
+                    <Row className="rowMargin">
+                      <Col lg={2} md={3} sm={12} xs={12}>
+                        <div className="topic-text-header">ส่วนสูง</div>
+                      </Col>
+                      <Col lg={10} md={9} sm={12} xs={12}>
+                        <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : height}</div>
+                      </Col>
+                    </Row>
+                    <Row className="rowMargin">
+                      <Col lg={2} md={3} sm={12} xs={12}>
+                        <div className="topic-text-header">อายุ</div>
+                      </Col>
+                      <Col lg={10} md={9} sm={12} xs={12}>
+                        <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : (ageY > 0 ? ageY + " ปี " : '') + (ageM > 0 ? ageM + " เดือน " : '' + (ageD > 0 ? ageD + " วัน " : '') + " (นับจากวันที่ถาม)")}</div>
+                      </Col>
+                    </Row>
+                    <Row className="rowMargin">
+                      <Col lg={2} md={3} sm={12} xs={12}>
+                        <div className="topic-text-header">โรคประจำตัว</div>
+                      </Col>
+                      <Col lg={10} md={9} sm={12} xs={12}>
+                        <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : disease}</div>
+                      </Col>
+                    </Row>
+                  </CardBody>
+                </Card>
               </div>
-            </Row>
 
-            <div className="mt-1 ml-1 mb-4 mr-1">
-              <Card>
-                <CardBody>
-                  <Row className="rowMargin">
-                    <Col lg={2} md={3} sm={12} xs={12}>
-                      <div className="topic-text-header">วัตถุประสงค์</div>
-                    </Col>
-                    <Col lg={10} md={9} sm={12} xs={12}>
-                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : questionPurpose}</div>
-                    </Col>
-                  </Row>
-                  <Row className="rowMargin">
-                    <Col lg={2} md={3} sm={12} xs={12}>
-                      <div className="topic-text-header">เพศ</div>
-                    </Col>
-                    <Col lg={10} md={9} sm={12} xs={12}>
-                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : gender}</div>
-                    </Col>
-                  </Row>
-                  <Row className="rowMargin">
-                    <Col lg={2} md={3} sm={12} xs={12}>
-                      <div className="topic-text-header">น้ำหนัก</div>
-                    </Col>
-                    <Col lg={10} md={9} sm={12} xs={12}>
-                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : weight}</div>
-                    </Col>
-                  </Row>
-                  <Row className="rowMargin">
-                    <Col lg={2} md={3} sm={12} xs={12}>
-                      <div className="topic-text-header">ส่วนสูง</div>
-                    </Col>
-                    <Col lg={10} md={9} sm={12} xs={12}>
-                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : height}</div>
-                    </Col>
-                  </Row>
-                  <Row className="rowMargin">
-                    <Col lg={2} md={3} sm={12} xs={12}>
-                      <div className="topic-text-header">อายุ</div>
-                    </Col>
-                    <Col lg={10} md={9} sm={12} xs={12}>
-                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : (ageY > 0 ? ageY + " ปี " : '') + (ageM > 0 ? ageM + " เดือน " : '' + (ageD > 0 ? ageD + " วัน " : '') + " (นับจากวันที่ถาม)")}</div>
-                    </Col>
-                  </Row>
-                  <Row className="rowMargin">
-                    <Col lg={2} md={3} sm={12} xs={12}>
-                      <div className="topic-text-header">โรคประจำตัว</div>
-                    </Col>
-                    <Col lg={10} md={9} sm={12} xs={12}>
-                      <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : disease}</div>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
-            </div>
+              <hr />
 
-            <hr />
-
-            <div className="child">
-              <div className="avatar">
-                <div className="avatar__icon__user"></div>
-                <div className="avatar__name">
-                  {/* <p className="avatar__first">ถามโดย</p> */}
-                  <p className="avatar__first">{name}</p>
-                  <p className="avatar__second">{beautyDate(createDate)}</p>
+              <div className="child">
+                <div className="avatar">
+                  <div className="avatar__icon__user"></div>
+                  <div className="avatar__name">
+                    {/* <p className="avatar__first">ถามโดย</p> */}
+                    <p className="avatar__first">{name}</p>
+                    <p className="avatar__second">{beautyDate(createDate)}</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-          </Card>
-        </Row>
+            </Card>
+          </Row>
 
-        <div className="background-answer"><span><FontAwesomeIcon icon="comments" size="lg" /> ตอบคำถาม</span></div>
-        <Answer isAuthenticated={this.props.isAuthenticated} currentUser={this.props.currentUser} {...this.props} />
+          <div className="background-answer"><span><FontAwesomeIcon icon="comments" size="lg" /> ตอบคำถาม</span></div>
+          <Answer isAuthenticated={this.props.isAuthenticated} currentUser={this.props.currentUser} {...this.props} />
 
-        <div className="background"><span><FontAwesomeIcon icon="comments" size="lg" />  {answerCount} คำตอบ</span></div>
-        <div>
-          {
-            this.state.topic.comments ? (
-              <AnswerCard comments={this.state.topic.comments} />
-            ) : null
-          }
-        </div>
+          <div className="background"><span><FontAwesomeIcon icon="comments" size="lg" />  {answerCount} คำตอบ</span></div>
+          <div>
+            {
+              this.state.topic.comments ? (
+                <AnswerCard comments={this.state.topic.comments} />
+              ) : null
+            }
+          </div>
+        </Spin>
       </div>
     );
   }

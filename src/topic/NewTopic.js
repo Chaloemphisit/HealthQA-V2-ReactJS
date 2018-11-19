@@ -321,7 +321,12 @@ export default class NewTopic extends React.Component {
   // Validation Functions
 
   validateTopicName = (topicName) => {
-    if (topicName.length < 10) {
+    if (topicName.length === 0) {
+      return {
+        validateStatus: 'error',
+        errorMsg: 'กรุณาระบุคำถาม!'
+      }
+    } else if (topicName.length < 10) {
       return {
         validateStatus: 'error',
         errorMsg: `คำถามสั้นเกินไปนะ.`
@@ -341,7 +346,12 @@ export default class NewTopic extends React.Component {
   }
 
   validateTopicText = (topicText) => {
-    if (topicText.length < 10) {
+    if (topicText.length === 0) {
+      return {
+        validateStatus: 'error',
+        errorMsg: 'กรุณาระบุรายละเอียด!'
+      }
+    } else if (topicText.length < 10) {
       return {
         validateStatus: 'error',
         errorMsg: `รายละเอียดสั้นเกินไปนะ.`
@@ -459,7 +469,12 @@ export default class NewTopic extends React.Component {
   }
 
   validatePurpose = (purpose) => {
-    if (purpose.length < 5) {
+    if (purpose.length === 0) {
+      return {
+        validateStatus: 'error',
+        errorMsg: 'กรุณาระบุวัตถุประสงค์!'
+      }
+    } else if (purpose.length < 5) {
       return {
         validateStatus: 'error',
         errorMsg: `วัตถุประสงค์สั้นเกินไปนะ.`

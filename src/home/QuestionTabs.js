@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import QuestionsListLoading from '../common/QuestionsListLoading';
-import { Notification } from 'antd';
+import { Notification, message, Spin } from 'antd';
 import { API_BASE_URL } from '../constants';
 
 
@@ -72,15 +72,20 @@ class QuestionTabs extends React.Component {
         }
 
         if (isLoading) {
+            message.loading('กำลังโหลดข้อมูล...', 0);
             return (
                 <div>
-                    <Tabs activeTab={{ id: "tab1" }}>
-                        <Tabs.Tab id="tab1" title="คำถามทั้งหมด" ><div className="mt-3" > <QuestionsListLoading /></div> </Tabs.Tab>
-                        <Tabs.Tab id="tab2" title="คำถามที่ตอบแล้ว"><div className="mt-3"> <QuestionsListLoading /></div> </Tabs.Tab>
-                        <Tabs.Tab id="tab3" title="คำถามที่ยังไม่ได้ตอบ"> <div className="mt-3"><QuestionsListLoading /></div></Tabs.Tab>
-                    </Tabs>
+                    <Spin spinning={isLoading} size="large">
+                        <Tabs activeTab={{ id: "tab1" }}>
+                            <Tabs.Tab id="tab1" title="คำถามทั้งหมด" ><div className="mt-3" > <QuestionsListLoading /></div> </Tabs.Tab>
+                            <Tabs.Tab id="tab2" title="คำถามที่ตอบแล้ว"><div className="mt-3"> <QuestionsListLoading /></div> </Tabs.Tab>
+                            <Tabs.Tab id="tab3" title="คำถามที่ยังไม่ได้ตอบ"> <div className="mt-3"><QuestionsListLoading /></div></Tabs.Tab>
+                        </Tabs>
+                    </Spin>
                 </div>
             );
+        } else {
+            message.destroy()
         }
         return (
 

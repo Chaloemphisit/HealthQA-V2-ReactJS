@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CardBody, Card } from 'reactstrap';
-import { Form, Input, Button, Notification } from 'antd';
+import { Form, Input, Button, Notification, Spin } from 'antd';
 import { Link } from 'react-router-dom';
 import { createComment } from '../util/APIUtils';
 
@@ -17,6 +17,7 @@ class Answer extends Component {
                 value: ''
             },
             isSubmit: false,
+            isLoading: false,
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -42,7 +43,8 @@ class Answer extends Component {
         event.preventDefault();
 
         this.setState({
-            isSubmit: true
+            isSubmit: true,
+            isLoading: true,
         },
             this.callCreateAnswer()
         )
@@ -55,12 +57,12 @@ class Answer extends Component {
 
         const smoothScroll = (h) => {
             let i = h || 0;
-            let x = document.body.scrollHeight || document.documentElement.scrollHeight;
-            if (i < x + 10) {
+            let x = (document.body.scrollHeight || document.documentElement.scrollHeight) + 20;
+            if (i < x) {
                 setTimeout(() => {
                     window.scrollTo(0, i);
                     smoothScroll(i + 60);
-                }, 10);
+                }, 15);
             }
         }
 
@@ -68,17 +70,22 @@ class Answer extends Component {
             .then(response => {
                 this.props.history.push("/topic/" + this.props.match.params.id);
                 // window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight)
-                this.setState({
-                    "answerText": {
-                        value: ''
-                    },
-                    isSubmit: false
-                })
+
                 Notification.success({
                     message: 'Health QA',
                     description: "ตอบคำถามสำเร็จแล้ว",
                 });
-                smoothScroll((window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0));
+            })
+            .then(response => {
+                this.setState({
+                    "answerText": {
+                        value: ''
+                    },
+                    isSubmit: false,
+                    isLoading: false,
+                },
+                    smoothScroll((window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0))
+                )
             }).catch(error => {
                 if (error.status === 401) {
                     this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
@@ -141,11 +148,13 @@ class Answer extends Component {
         }
         return (
             <div style={{ width: '100%' }}>
-                <Card className="mt-4 answer">
-                    <CardBody>
-                        {ansForm}
-                    </CardBody>
-                </Card>
+                <Spin spinning={this.state.isLoading} size="large">
+                    <Card className="mt-4 answer">
+                        <CardBody>
+                            {ansForm}
+                        </CardBody>
+                    </Card>
+                </Spin>
             </div>
         );
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import PollList from '../../poll/PollList';
 import { getUserProfile } from '../../util/APIUtils';
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Spin } from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 // import { formatDate } from '../../util/Helpers';
 // import LoadingIndicator from '../../common/LoadingIndicator';
@@ -9,6 +9,7 @@ import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
 import UserQuestionTabs from './UserQuestionTabs';
+import Skeleton from 'react-loading-skeleton';
 import { Card, CardBody } from 'reactstrap';
 
 // const TabPane = Tabs.TabPane;
@@ -82,23 +83,24 @@ class Profile extends Component {
 
         return (
             <div className="profile">
-                {
-                    this.state.user ? (
+                <Spin spinning={this.state.user ? false : true} size="large" delay={200}>
+                    {
+                        // this.state.user ? (
                         <div className="user-profile">
                             <Card outline color="info">
                                 <CardBody>
                                     <div className="user-details">
                                         <div className="user-avatar">
-                                            <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(this.state.user.username), fontSize: '2em' }}>
-                                                {this.state.user.username[0]}
+                                            <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(!this.state.user ? 'wait' : this.state.user.username), fontSize: '2em' }}>
+                                                {!this.state.user ? 'x' : this.state.user.username[0]}
                                             </Avatar>
                                         </div>
                                         <div className="user-summary">
-                                            <div className="full-name">{this.state.user.firstname + " " + this.state.user.lastname}</div>
-                                            <div className="username">@{this.state.user.username}</div>
-                                            <div className="user-joined">{this.state.user.email}</div>
+                                            <div className="full-name">{!this.state.user ? <Skeleton width="300px" /> : this.state.user.firstname + " " + this.state.user.lastname}</div>
+                                            <div className="username">{!this.state.user ? <Skeleton width="250px" /> : "@" + this.state.user.username}</div>
+                                            <div className="user-joined">{!this.state.user ? <Skeleton width="200px" /> : this.state.user.email}</div>
                                             <div className="mt-3">
-                                                <Button type="primary" icon="edit" ghost onClick={this.handleButtonClick}>แก้ไขข้อมูล</Button>
+                                                {!this.state.user ? <Skeleton width="100px" /> : <Button type="primary" icon="edit" ghost onClick={this.handleButtonClick}>แก้ไขข้อมูล</Button>}
                                             </div>
                                         </div>
                                     </div>
@@ -112,8 +114,9 @@ class Profile extends Component {
                                 </Card>
                             </div>
                         </div>
-                    ) : null
-                }
+                        // ) : null
+                    }
+                </Spin>
             </div>
         );
     }
