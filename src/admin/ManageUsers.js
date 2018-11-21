@@ -155,14 +155,14 @@ class ManageUsers extends Component {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    this.state.admin.map(
-                                                        (admin, index) =>
+                                                    this.state.doctor.map(
+                                                        (doctor, index) =>
                                                             <tr key={index}>
-                                                                <th scope="row">{admin.id}</th>
-                                                                <td>{admin.firstName}</td>
-                                                                <td>{admin.lastName}</td>
-                                                                <td>{admin.username}</td>
-                                                                <td>{admin.email}</td>
+                                                                <th scope="row">{doctor.id}</th>
+                                                                <td>{doctor.firstName}</td>
+                                                                <td>{doctor.lastName}</td>
+                                                                <td>{doctor.username}</td>
+                                                                <td>{doctor.email}</td>
                                                                 <td style={{ width: '100px' }}>
                                                                     <div>
                                                                         <Button
@@ -171,7 +171,7 @@ class ManageUsers extends Component {
                                                                             className="ml-2"
                                                                             shape="circle"
                                                                             icon="delete"
-                                                                            onClick={(e) => this.handleTopicDeleteButton(admin.id)} />
+                                                                            onClick={(e) => this.handleTopicDeleteButton(doctor.id)} />
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -197,14 +197,14 @@ class ManageUsers extends Component {
                                             </thead>
                                             <tbody>
                                                 {
-                                                    this.state.doctor.map(
-                                                        (doctor, index) =>
+                                                    this.state.admin.map(
+                                                        (admin, index) =>
                                                             <tr key={index}>
-                                                                <th scope="row">{doctor.id}</th>
-                                                                <td>{doctor.firstName}</td>
-                                                                <td>{doctor.lastName}</td>
-                                                                <td>{doctor.username}</td>
-                                                                <td>{doctor.email}</td>
+                                                                <th scope="row">{admin.id}</th>
+                                                                <td>{admin.firstName}</td>
+                                                                <td>{admin.lastName}</td>
+                                                                <td>{admin.username}</td>
+                                                                <td>{admin.email}</td>
                                                                 <td style={{ width: '100px' }}>
                                                                     <div>
                                                                         <Button
@@ -213,7 +213,7 @@ class ManageUsers extends Component {
                                                                             className="ml-2"
                                                                             shape="circle"
                                                                             icon="delete"
-                                                                            onClick={(e) => this.handleTopicDeleteButton(doctor.id)} />
+                                                                            onClick={(e) => this.handleTopicDeleteButton(admin.id)} />
                                                                     </div>
                                                                 </td>
                                                             </tr>

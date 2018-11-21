@@ -165,7 +165,7 @@ export function checkEmailAvailability(email) {
 
 export function getCurrentUser() {
     if (!localStorage.getItem(ACCESS_TOKEN)) {
-        console.log("No access token set.")
+        // console.log("No access token set.")
         // return null;
     }
     // console.log(localStorage.getItem(ACCESS_TOKEN))

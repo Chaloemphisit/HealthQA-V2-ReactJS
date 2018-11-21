@@ -23,7 +23,7 @@ class UserQuestionTabs extends React.Component {
     }
 
     handleSelect(e) {
-        console.log('Selected tab: ' + e.Tabs.activeTab);
+        // console.log('Selected tab: ' + e.Tabs.activeTab);
     }
 
     loadUserTopics() {

@@ -50,7 +50,7 @@ class Home extends React.Component {
         this.setState({
           searchResult: response,
           isLoading: false
-        }, console.log(response));
+        }, console.log("---->"+this.state.q));
       }).catch(error => {
         if (error.status === 404) {
           this.setState({
@@ -99,6 +99,7 @@ class Home extends React.Component {
             <Spin spinning={this.state.isLoading} size="large">
               {
                 this.state.q ? (
+
                   <div className="mt-3">
                     {
                       this.state.searchResult.map(
