@@ -3,6 +3,8 @@ import React from 'react';
 import { Card, CardBody, Container, Jumbotron } from 'reactstrap';
 import QuestionTabs from './QuestionTabs';
 import './style.css'
+import React from 'react';
+import Fade from 'react-reveal/Fade';
 
 // import { Input } from 'antd';
 
@@ -16,6 +18,11 @@ const Home = (props) => {
       <Jumbotron fluid className="align-items-center">
         <Container fluid>
           <div >
+        
+        <Fade bottom>
+          <h1>React Reveal</h1>
+        </Fade>
+     
             <fieldset className="field-container">
               <input type="text" placeholder="อาการแบบนี้ถือเป็น bipolar หรือไม่..." className="field" />
               <div className="icons-container">

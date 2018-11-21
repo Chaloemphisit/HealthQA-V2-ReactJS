@@ -125,6 +125,22 @@ export function signup(signupRequest) {
     });
 }
 
+export function signupAdmin(signupRequest) {
+    return request({
+        url: API_BASE_URL + "/admin/auth/signup/admin",
+        method: 'POST',
+        body: JSON.stringify(signupRequest)
+    });
+}
+
+export function signupDoctor(signupRequest) {
+    return request({
+        url: API_BASE_URL + "/admin/auth/signup/doctor",
+        method: 'POST',
+        body: JSON.stringify(signupRequest)
+    });
+}
+
 export function checkUsernameAvailability(username) {
     return request({
         url: API_BASE_URL + "/user/checkUsernameAvailability?username=" + username,

@@ -4,8 +4,11 @@ import { Table } from 'reactstrap';
 import './admin.css';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
-import { getReports, getUsers } from '../util/APIUtils';
+import { getReports, getUsers, signup } from '../util/APIUtils';
 import { Card, CardBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import SignupAdmin from './signup/SignupAdmin';
+import SignupDoctor from './signup/SignupDoctor';
 
 const TabPane = Tabs.TabPane;
 
@@ -23,6 +26,7 @@ class ManageUsers extends Component {
             topicId: null,
             commentId: null,
             isTopic: null,
+            isDoctor: null,
         }
     }
     componentDidMount() {
@@ -70,6 +74,26 @@ class ManageUsers extends Component {
         console.log(e)
         // this.props.history.push("/topic/" + e);
     }
+    toggleDoctor = () => {
+        this.setState({
+            modal: !this.state.modal,
+            isDoctor: true
+        });
+    }
+
+    toggleAdmin = () => {
+        this.setState({
+            modal: !this.state.modal,
+            isDoctor: false
+        });
+    }
+
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal,
+            isDoctor: null
+        });
+    }
 
     render() {
         const { error } = this.state;
@@ -94,8 +118,17 @@ class ManageUsers extends Component {
         const tabBarStyle = {
             textAlign: 'center'
         };
+
         return (
             <Card outline color="danger">
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                    <ModalBody> 
+                        {this.state.isDoctor?<SignupDoctor/>:<SignupAdmin/>}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
                 <CardBody>
                     <div className="profile">
                         <Spin spinning={this.state.isLoading} size="large" delay={200}>
@@ -107,7 +140,7 @@ class ManageUsers extends Component {
                                     className="profile-tabs">
                                     <TabPane tab="หมอ" key="1">
                                         <div className="mb-2">
-                                            <Button type="primary" ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
+                                            <Button type="primary" onClick={this.toggleDoctor} ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
                                         </div>
                                         <Table striped>
                                             <thead>
@@ -149,7 +182,7 @@ class ManageUsers extends Component {
                                     </TabPane>
                                     <TabPane tab="ผู้ดูแลระบบ" key="2">
                                         <div className="mb-2">
-                                            <Button type="primary" ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
+                                            <Button type="primary" onClick={this.toggleAdmin} ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
                                         </div>
                                         <Table striped>
                                             <thead>
