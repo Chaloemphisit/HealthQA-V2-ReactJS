@@ -19,10 +19,13 @@ class Home extends React.Component {
       error: null,
 
     }
+
+    this.timer = null;
+
   }
 
   handleSearch = () => {
-    console.log("Test")
+    // console.log("Test")
   }
 
   // handleInputChange(event) {
@@ -35,22 +38,31 @@ class Home extends React.Component {
   //   }, console.log(this.state));
   // }
 
+
   handleInputChange(event) {
     const target = event.target;
     const inputValue = target.value;
+
+    clearTimeout(this.timer);
+    this.timer = setTimeout(this.handlesearch(inputValue), 3000)
+  }
+
+  handlesearch(event) {
+    // const target = event.target;
+    // const inputValue = target.value;
 
     this.setState({
       q: event,
       isLoading: true,
     })
 
-    search(inputValue)
+    search(event)
       .then(response => {
         console.log(response)
         this.setState({
           searchResult: response,
           isLoading: false
-        }, console.log("---->"+this.state.q));
+        });
       }).catch(error => {
         if (error.status === 404) {
           this.setState({
