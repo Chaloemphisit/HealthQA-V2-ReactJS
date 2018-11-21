@@ -16,7 +16,7 @@ const PrivateRoute = ({ component: Component, authenticated, currentUser, ...res
           ) : (
               <Redirect
                 to={{
-                  pathname: '/NotFound',
+                  pathname: '/',
                   state: { from: props.location }
                 }}
               />
@@ -25,7 +25,7 @@ const PrivateRoute = ({ component: Component, authenticated, currentUser, ...res
       ) : (
           <Redirect
             to={{
-              pathname: '/NotFound',
+              pathname: '/',
               state: { from: props.location }
             }}
           />

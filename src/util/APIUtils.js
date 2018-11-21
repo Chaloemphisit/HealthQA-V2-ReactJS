@@ -50,6 +50,20 @@ export function reportTopic(id) {
     });
 }
 
+export function deleteComment(id) {
+    return request({
+        url: API_BASE_URL + "/admin/report/comment/" + id,
+        method: 'PUT'
+    });
+}
+
+export function deleteTopic(id) {
+    return request({
+        url: API_BASE_URL + "/admin/report/topic/" + id,
+        method: 'PUT'
+    });
+}
+
 export function getReportTopic() {
     return request({
         url: API_BASE_URL + "/admin/report/topic",

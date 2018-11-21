@@ -96,7 +96,6 @@ export default class Topic extends React.Component {
           });
         }
       });
-
   }
 
   confirmReportComment = (e) => {
