@@ -111,7 +111,6 @@ class Answer extends Component {
         if (this.props.currentUser) {
             ansForm = [
                 <Form onSubmit={this.handleSubmit} key="2">
-
                     <FormItem
                         label="รายละเอียดคำตอบ"
                         validateStatus={this.state.answerText.validateStatus}

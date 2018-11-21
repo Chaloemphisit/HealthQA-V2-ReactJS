@@ -83,6 +83,11 @@
     /* border-color: #E7E7E7; */
 }
 
+.navbar-admin {
+    background-color: #FF1744;
+    /* border-color: #E7E7E7; */
+}
+
 .link-none-underline:hover {
     /* color: #FFFFFF; */
     text-decoration: none;

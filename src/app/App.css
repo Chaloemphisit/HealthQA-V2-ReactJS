@@ -1,21 +1,21 @@
 .app-content {
-  margin-top: 160px;   
+    margin-top: 160px;
 }
 
 @media all and (max-width: 501px) {
-  .app-content {
-    margin-top: 230px;   
-  }
+    .app-content {
+        margin-top: 230px;
+    }
 }
 
 @media all and (max-width: 410px) {
-  .app-content {
-    margin-top: 290px;   
-  }
+    .app-content {
+        margin-top: 290px;
+    }
 }
 
 @media all and (max-width: 250px) {
-  .app-content {
-    margin-top: 350px;   
-  }
+    .app-content {
+        margin-top: 350px;
+    }
 }

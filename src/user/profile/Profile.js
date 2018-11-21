@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import PollList from '../../poll/PollList';
 import { getUserProfile } from '../../util/APIUtils';
-import { Avatar, Button, Spin } from 'antd';
+import { Avatar, Spin } from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 // import { formatDate } from '../../util/Helpers';
 // import LoadingIndicator from '../../common/LoadingIndicator';
@@ -100,7 +100,7 @@ class Profile extends Component {
                                             <div className="username">{!this.state.user ? <Skeleton width="250px" /> : "@" + this.state.user.username}</div>
                                             <div className="user-joined">{!this.state.user ? <Skeleton width="200px" /> : this.state.user.email}</div>
                                             <div className="mt-3">
-                                                {!this.state.user ? <Skeleton width="100px" /> : <Button type="primary" icon="edit" ghost onClick={this.handleButtonClick}>แก้ไขข้อมูล</Button>}
+                                                {/* {!this.state.user ? <Skeleton width="100px" /> : <Button type="primary" icon="edit" ghost onClick={this.handleButtonClick}>แก้ไขข้อมูล</Button>} */}
                                             </div>
                                         </div>
                                     </div>

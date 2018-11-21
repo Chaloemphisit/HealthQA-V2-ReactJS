@@ -6,7 +6,7 @@ import {
   Switch
 } from 'react-router-dom';
 
-import { getCurrentUser } from '../util/APIUtils';
+import { getCurrentUser, login } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 
 // import NewPoll from '../poll/NewPoll';
@@ -17,7 +17,7 @@ import AppHeader from '../common/AppHeader';
 import NotFound from '../common/NotFound';
 import Home from '../home/Home';
 
-// import PrivateRoute from '../common/PrivateRoute';
+import PrivateRoute from '../common/PrivateRoute';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 import Topic from '../topic/Topic';
@@ -29,11 +29,12 @@ import { faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle } f
 import NewTopic from '../topic/NewTopic';
 // import LoadingIndicator from '../common/LoadingIndicator';
 import EditProfile from '../user/profile/EditProfile';
+import RequestRemove from '../admin/RequestRemove';
 
 library.add(faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle);
 /*--------------------------------------------------------------------------------------------*/
 
-const { Content } = Layout;
+const { Content, Footer } = Layout;
 
 class App extends Component {
   constructor(props) {
@@ -41,7 +42,8 @@ class App extends Component {
     this.state = {
       currentUser: null,
       isAuthenticated: false,
-      isLoading: false
+      isLoading: false,
+      authority: null,
     }
     this.handleLogout = this.handleLogout.bind(this);
     this.loadCurrentUser = this.loadCurrentUser.bind(this);
@@ -84,7 +86,8 @@ class App extends Component {
 
     this.setState({
       currentUser: null,
-      isAuthenticated: false
+      isAuthenticated: false,
+      authorities: null,
     });
 
     this.props.history.push(redirectTo);
@@ -110,50 +113,58 @@ class App extends Component {
       // return <LoadingIndicator/>
     }
     return (
-      <Layout className="app-container">
 
+      <Layout className="app-container">
         <AppHeader isAuthenticated={this.state.isAuthenticated}
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout} />
-
-
-        <Content className="app-content">
+        <Content className="app-content" style={{ background: '#fff', minHeight: 280 }}>
           <div className="container">
-            {/* <Spin spinning={this.state.isLoading} size="large" delay={200}> */}
-              <Switch>
-                <Route exact path="/"
+
+            <Switch>
+              {this.state.currentUser ?
+                this.state.currentUser.authorities[0].authority === "ADMIN" ?
+                  <Route exact path="/"
+                    render={() => <RequestRemove/>}>
+                  </Route>
+                  :
+                  <Route exact path="/"
+                    render={() => <Home />}>
+                  </Route>
+                : <Route exact path="/"
                   render={() => <Home />}>
                 </Route>
+              }
 
-                <Route path="/topic/:id"
-                  render={(props) => <Topic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></Route>
 
-                <Route path="/contactus" component={ContactUs}></Route>
+              <Route path="/topic/:id"
+                render={(props) => <Topic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}></Route>
 
-                <Route path="/login"
-                  render={(props) => <Login isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} onLogin={this.handleLogin} {...props} />}></Route>
+              <Route path="/contactus" component={ContactUs}></Route>
 
-                <Route path="/signup"
-                  render={(props) => <Signup isAuthenticated={this.state.isAuthenticated} {...props} />}></Route>
+              <Route path="/login"
+                render={(props) => <Login isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} onLogin={this.handleLogin} {...props} />}></Route>
 
-                <Route path="/users/:username"
-                  render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
-                </Route>
-                <Route path="/edit/users/:username"
-                  render={(props) => <EditProfile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
-                </Route>
+              <Route path="/signup"
+                render={(props) => <Signup isAuthenticated={this.state.isAuthenticated} {...props} />}></Route>
 
-                <Route path="/new-topic"
-                  render={(props) => <NewTopic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
-                </Route>
+              <Route path="/users/:username"
+                render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
+              </Route>
+              <Route path="/edit/users/:username"
+                render={(props) => <EditProfile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
+              </Route>
 
-                {/* <PrivateRoute authenticated={this.state.isAuthenticated} path="/new-topic" component={NewTopic} handleLogout={this.handleLogout}></PrivateRoute> */}
-
-                <Route component={NotFound}></Route>
-              </Switch>
-            {/* </Spin> */}
+              <Route path="/new-topic"
+                render={(props) => <NewTopic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
+              </Route>
+              <PrivateRoute authenticated={this.state.isAuthenticated} path="/admin/dashboard" currentUser={this.state.currentUser} component={Home} handleLogout={this.handleLogout}></PrivateRoute>
+              <Route path="/NotFound" component={NotFound}></Route>
+              <Route component={NotFound}></Route>
+            </Switch>
           </div>
         </Content>
+        {/* <Footer style={{ textAlign: 'center', bottom: 'calc()', position: 'absolute',width:'100%' }} >Health QA ©2018 Created by Chaloemphisit Sirichai</Footer> */}
       </Layout >
     );
   }

@@ -305,7 +305,7 @@ export default class NewTopic extends React.Component {
                   htmlType="submit"
                   size="large"
                   className="signup-form-button"
-                  disabled={this.isFormInvalid()}>ตั่งคำถาม</Button>
+                  disabled={this.isFormInvalid()}>ตั้งคำถาม</Button>
               </FormItem>
             </Form>
           </CardBody>
