@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { signupAdmin, checkUsernameAvailability, checkEmailAvailability } from '../../util/APIUtils';
 import './Signup.css';
-import { Link } from 'react-router-dom';
 import {
     NAME_MIN_LENGTH, NAME_MAX_LENGTH,
     USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,

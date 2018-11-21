@@ -4,9 +4,9 @@ import { Table } from 'reactstrap';
 import './admin.css';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
-import { getReports, getUsers, signup } from '../util/APIUtils';
+import { getUsers } from '../util/APIUtils';
 import { Card, CardBody } from 'reactstrap';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
 import SignupAdmin from './signup/SignupAdmin';
 import SignupDoctor from './signup/SignupDoctor';
 
@@ -122,8 +122,8 @@ class ManageUsers extends Component {
         return (
             <Card outline color="danger">
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalBody> 
-                        {this.state.isDoctor?<SignupDoctor/>:<SignupAdmin/>}
+                    <ModalBody>
+                        {this.state.isDoctor ? <SignupDoctor /> : <SignupAdmin />}
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>

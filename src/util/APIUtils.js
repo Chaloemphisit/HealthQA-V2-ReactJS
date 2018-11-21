@@ -100,6 +100,13 @@ export function createTopic(topicData) {
     });
 }
 
+export function search(q) {
+    return request({
+        url: API_BASE_URL + "/topic/search?q=" + q,
+        method: 'GET'
+    });
+}
+
 export function createComment(commentData, topicId) {
     topicId = topicId || -10
     return request({
