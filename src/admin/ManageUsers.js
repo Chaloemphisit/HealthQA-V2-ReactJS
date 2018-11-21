@@ -4,7 +4,7 @@ import { Table } from 'reactstrap';
 import './admin.css';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
-import { getReports } from '../util/APIUtils';
+import { getReports, getUsers } from '../util/APIUtils';
 import { Card, CardBody } from 'reactstrap';
 
 const TabPane = Tabs.TabPane;
@@ -13,13 +13,18 @@ class ManageUsers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            topic: [],
-            comment: [],
+            admin: [],
+            doctor: [],
             isLoading: false,
             error: null,
+            ModalText: 'ท่านต้องการลบคำถามนี้ใช่หรือไม่ ?',
+            ModalVisible: false,
+            confirmLoading: false,
+            topicId: null,
+            commentId: null,
+            isTopic: null,
         }
     }
-
     componentDidMount() {
         this.handleLoadData();
     }
@@ -29,12 +34,12 @@ class ManageUsers extends Component {
             isLoading: true
         });
 
-        getReports()
+        getUsers()
             .then(response => {
-                console.log(response.topic)
+                console.log(response)
                 this.setState({
-                    topic: response.topic,
-                    comment: response.comment,
+                    admin: response.admin,
+                    doctor: response.doctor,
                     isLoading: false
                 });
             }).catch(error => {
@@ -107,41 +112,37 @@ class ManageUsers extends Component {
                                         <Table striped>
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>คำถาม</th>
-                                                    <th>รายละเอียด</th>
+                                                    <th>User ID</th>
+                                                    <th>Firstname</th>
+                                                    <th>Lastname</th>
+                                                    <th>Username</th>
+                                                    <th>Email</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
-                                                    this.props.currentUser ? (
-                                                        this.state.topic.map(
-                                                            (topic, index) =>
-                                                                <tr key={index}>
-                                                                    <th scope="row">{topic.id}</th>
-                                                                    <td>{topic.topicName.substring(0, 60)}{topic.topicName.length > 60 ? "..." : null}</td>
-                                                                    <td>{topic.topicText.substring(0, 60)}{topic.topicText.length > 60 ? "..." : null}</td>
-                                                                    <td style={{ width: '100px' }}>
-                                                                        <div>
-                                                                            <Button
-                                                                                type="primary"
-                                                                                ghost
-                                                                                shape="circle"
-                                                                                icon="select"
-                                                                                onClick={(e) => this.handleTopicViewButton(topic.id)} />
-                                                                            <Button
-                                                                                type="danger"
-                                                                                ghost
-                                                                                className="ml-2"
-                                                                                shape="circle"
-                                                                                icon="delete"
-                                                                                onClick={(e) => this.handleTopicDeleteButton(topic.id)} />
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                        )
-                                                    ) : null
+                                                    this.state.admin.map(
+                                                        (admin, index) =>
+                                                            <tr key={index}>
+                                                                <th scope="row">{admin.id}</th>
+                                                                <td>{admin.firstName}</td>
+                                                                <td>{admin.lastName}</td>
+                                                                <td>{admin.username}</td>
+                                                                <td>{admin.email}</td>
+                                                                <td style={{ width: '100px' }}>
+                                                                    <div>
+                                                                        <Button
+                                                                            type="danger"
+                                                                            ghost
+                                                                            className="ml-2"
+                                                                            shape="circle"
+                                                                            icon="delete"
+                                                                            onClick={(e) => this.handleTopicDeleteButton(admin.id)} />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                    )
                                                 }
                                             </tbody>
                                         </Table>
@@ -153,41 +154,37 @@ class ManageUsers extends Component {
                                         <Table striped>
                                             <thead>
                                                 <tr>
-                                                    <th>Topic ID</th>
-                                                    <th>Comment ID</th>
-                                                    <th>รายละเอียดคำตอบ</th>
+                                                    <th>User ID</th>
+                                                    <th>Firstname</th>
+                                                    <th>Lastname</th>
+                                                    <th>Username</th>
+                                                    <th>Email</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
-                                                    this.props.currentUser ? (
-                                                        this.state.comment.map(
-                                                            (comment, index) =>
-                                                                <tr key={index}>
-                                                                    <th>{comment.topicId}</th>
-                                                                    <th scope="row">{comment.id}</th>
-                                                                    <td>{comment.commentText.substring(0, 60)}{comment.commentText.length > 60 ? "..." : null}</td>
-                                                                    <td style={{ width: '100px' }}>
-                                                                        <div>
-                                                                            <Button
-                                                                                type="primary"
-                                                                                ghost
-                                                                                shape="circle"
-                                                                                icon="select"
-                                                                                onClick={(e) => this.handleTopicViewButton(comment.topicId)} />
-                                                                            <Button
-                                                                                type="danger"
-                                                                                ghost
-                                                                                className="ml-2"
-                                                                                shape="circle"
-                                                                                icon="delete"
-                                                                                onClick={(e) => this.handleCommentDeleteButton(comment.id, comment.topicId)} />
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                        )
-                                                    ) : null
+                                                    this.state.doctor.map(
+                                                        (doctor, index) =>
+                                                            <tr key={index}>
+                                                                <th scope="row">{doctor.id}</th>
+                                                                <td>{doctor.firstName}</td>
+                                                                <td>{doctor.lastName}</td>
+                                                                <td>{doctor.username}</td>
+                                                                <td>{doctor.email}</td>
+                                                                <td style={{ width: '100px' }}>
+                                                                    <div>
+                                                                        <Button
+                                                                            type="danger"
+                                                                            ghost
+                                                                            className="ml-2"
+                                                                            shape="circle"
+                                                                            icon="delete"
+                                                                            onClick={(e) => this.handleTopicDeleteButton(doctor.id)} />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                    )
                                                 }
                                             </tbody>
                                         </Table>
@@ -197,7 +194,7 @@ class ManageUsers extends Component {
                         </Spin>
                     </div>
                 </CardBody>
-            </Card>
+            </Card >
         );
     }
 }

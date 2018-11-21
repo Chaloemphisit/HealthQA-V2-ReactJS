@@ -36,7 +36,7 @@ class RequestRemove extends Component {
 
         getReports()
             .then(response => {
-                console.log(response.topic)
+                // console.log(response.topic)
                 this.setState({
                     topic: response.topic,
                     comment: response.comment,
@@ -62,7 +62,7 @@ class RequestRemove extends Component {
     }
 
     handleTopicDeleteButton = (e) => {
-        console.log(e)
+        // console.log(e)
         this.setState({
             ModalVisible: true,
             topicId: e,
@@ -72,10 +72,11 @@ class RequestRemove extends Component {
     }
 
     handleCommentDeleteButton = (e) => {
-        console.log(e)
+        // console.log(e)
         this.setState({
             ModalVisible: true,
             commentId: e,
+            topicId: null,
             isTopic: false,
         });
         // this.props.history.push("/topic/" + e);
@@ -184,7 +185,7 @@ class RequestRemove extends Component {
                 <Modal title="ยืนยันการทำรายการ"
                     visible={this.state.ModalVisible}
                     centered
-                    onOk={this.handleModalTopicOK}
+                    onOk={this.state.isTopic ? this.handleModalTopicOK : this.handleModalCommentOK}
                     confirmLoading={this.state.confirmLoading}
                     onCancel={this.handleModalCancel}
                 >
@@ -218,7 +219,7 @@ class RequestRemove extends Component {
                                                                     <th scope="row">{topic.id}</th>
                                                                     <td>{topic.topicName.substring(0, 60)}{topic.topicName.length > 60 ? "..." : null}</td>
                                                                     <td>{topic.topicText.substring(0, 60)}{topic.topicText.length > 60 ? "..." : null}</td>
-                                                                    <td style={{ width: '100px' }}>
+                                                                    <td style={{ width: '150px' }}>
                                                                         <div>
                                                                             <Button
                                                                                 type="primary"
@@ -261,7 +262,7 @@ class RequestRemove extends Component {
                                                                     <th>{comment.topicId}</th>
                                                                     <th scope="row">{comment.id}</th>
                                                                     <td>{comment.commentText.substring(0, 60)}{comment.commentText.length > 60 ? "..." : null}</td>
-                                                                    <td style={{ width: '100px' }}>
+                                                                    <td style={{ width: '150px' }}>
                                                                         <div>
                                                                             <Button
                                                                                 type="primary"
@@ -275,7 +276,7 @@ class RequestRemove extends Component {
                                                                                 className="ml-2"
                                                                                 shape="circle"
                                                                                 icon="delete"
-                                                                                onClick={(e) => this.handleCommentDeleteButton(comment.id, comment.topicId)} />
+                                                                                onClick={(e) => this.handleCommentDeleteButton(comment.id)} />
                                                                         </div>
                                                                     </td>
                                                                 </tr>

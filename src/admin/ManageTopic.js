@@ -57,7 +57,7 @@ class ManageTopic extends Component {
     }
 
     handleTopicDeleteButton = (e) => {
-        console.log(e)
+        // console.log(e)
         this.setState({
             ModalVisible: true,
             topicId: e,

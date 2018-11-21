@@ -78,6 +78,13 @@ export function getReportComment() {
     });
 }
 
+export function getUsers() {
+    return request({
+        url: API_BASE_URL + "/admin/users",
+        method: 'GET'
+    });
+}
+
 export function getReports() {
     return request({
         url: API_BASE_URL + "/admin/report/all",

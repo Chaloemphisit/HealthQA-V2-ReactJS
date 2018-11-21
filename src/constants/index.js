@@ -1,5 +1,5 @@
-export const API_BASE_URL = 'https://health-qa-api.herokuapp.com/api';
-// export const API_BASE_URL = 'http://192.168.1.182:8080/api';
+// export const API_BASE_URL = 'https://health-qa-api.herokuapp.com/api';
+export const API_BASE_URL = 'http://192.168.1.182:8080/api';
 //export const API_BASE_URL = '/api';
 export const ACCESS_TOKEN = 'accessToken';
 
