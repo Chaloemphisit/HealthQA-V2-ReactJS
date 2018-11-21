@@ -157,9 +157,9 @@ class ManageTopic extends Component {
                                                     (topic, index) =>
                                                         <tr key={index}>
                                                             <th scope="row">{topic.id}</th>
-                                                            <td>{topic.topicName.substring(0, 60)}{topic.topicName.length > 60 ? "..." : null}</td>
+                                                            <td>{topic.topicName.substring(0, 20)}{topic.topicName.length > 60 ? "..." : null}</td>
                                                             <td>{topic.topicText.substring(0, 60)}{topic.topicText.length > 60 ? "..." : null}</td>
-                                                            <td style={{ width: '100px' }}>
+                                                            <td style={{ width: '150px' }}>
                                                                 <div>
                                                                     <Button
                                                                         type="primary"
