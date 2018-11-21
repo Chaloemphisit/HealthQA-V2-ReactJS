@@ -6,7 +6,7 @@ import {
   Switch
 } from 'react-router-dom';
 
-import { getCurrentUser, login } from '../util/APIUtils';
+import { getCurrentUser } from '../util/APIUtils';
 import { ACCESS_TOKEN } from '../constants';
 
 // import NewPoll from '../poll/NewPoll';
@@ -24,17 +24,19 @@ import Topic from '../topic/Topic';
 import ContactUs from '../contactus/ContactUs';
 import { Layout, notification } from 'antd';
 
-/*---------------------------------------- FontAwesome ----------------------------------------*/
-import { faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import NewTopic from '../topic/NewTopic';
-// import LoadingIndicator from '../common/LoadingIndicator';
 import EditProfile from '../user/profile/EditProfile';
 import RequestRemove from '../admin/RequestRemove';
+import ManageUsers from '../admin/ManageUsers';
+import NewTopic from '../topic/NewTopic';
+
+/*---------------------------------------- FontAwesome ----------------------------------------*/
+import { faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import ManageTopic from '../admin/ManageTopic';
 
 library.add(faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle);
 /*--------------------------------------------------------------------------------------------*/
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 class App extends Component {
   constructor(props) {
@@ -158,7 +160,9 @@ class App extends Component {
               <Route path="/new-topic"
                 render={(props) => <NewTopic isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
               </Route>
-              <PrivateRoute authenticated={this.state.isAuthenticated} path="/admin/dashboard" currentUser={this.state.currentUser} component={Home} handleLogout={this.handleLogout}></PrivateRoute>
+              <PrivateRoute authenticated={this.state.isAuthenticated} path="/admin/manage/user" currentUser={this.state.currentUser} component={ManageUsers} handleLogout={this.handleLogout}></PrivateRoute>
+              <PrivateRoute authenticated={this.state.isAuthenticated} path="/admin/manage/topic" currentUser={this.state.currentUser} component={ManageTopic} handleLogout={this.handleLogout}></PrivateRoute>
+
               <Route path="/NotFound" component={NotFound}></Route>
               <Route component={NotFound}></Route>
             </Switch>

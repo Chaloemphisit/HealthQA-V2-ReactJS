@@ -34,11 +34,11 @@ class AppHeader extends Component {
 
 
     if (this.props.currentUser) {
-      // navTop = [
-      //   <Navbar dark expand="md" key={1} className={this.props.currentUser.authorities[0].authority === "ADMIN" ? "navbar-admin" : "navbar-default"}>
-      //     <div className="top-logo"><Link to="/"><img src={headerLogo} className="inverted" alt="Header Logo" height="60" /></Link></div>
-      //   </Navbar>
-      // ]
+      navTop = [
+        <Navbar dark expand="md" key={1} className="navbar-default" >
+          <div className="top-logo"><Link to="/"><img src={headerLogo} className="inverted" alt="Header Logo" height="60" /></Link></div>
+        </Navbar>
+      ]
 
       if (this.props.currentUser.authorities[0].authority === "USER" || this.props.currentUser.authorities[0].authority === "S_USER") {
         menuItems = [
@@ -67,11 +67,9 @@ class AppHeader extends Component {
         ]
 
         menuItems = [
-          <Menu.Item key={1}>
-            <Link to="/">หน้าหลัก</Link>
-          </Menu.Item>,
+
           <Menu.Item key={2}>
-            <Link to="/admin/request-remove">คำขอแจ้งลบ</Link>
+            <Link to="/">คำขอแจ้งลบ</Link>
           </Menu.Item>,
           <Menu.Item key={3}>
             <Link to="/admin/manage/user">จัดการผู้ใช้งาน</Link>
@@ -118,7 +116,7 @@ class AppHeader extends Component {
           {navTop}
           <div className="container">
             <div className="app-title" >
-              {this.props.currentUser ? (this.props.currentUser.authorities[0].authority === "ADMIN" ? <Link to="/admin">Health QA [Admin]</Link> : <Link to="/">Health QA</Link>) : null}
+              {this.props.currentUser ? (this.props.currentUser.authorities[0].authority === "ADMIN" ? <Link to="/">Health QA [Admin]</Link> : <Link to="/">Health QA</Link>) : null}
             </div>
             <Menu
               className="app-menu"

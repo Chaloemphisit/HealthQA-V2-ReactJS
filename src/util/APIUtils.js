@@ -29,6 +29,13 @@ export function getTopic(topicId) {
     });
 }
 
+export function getManageTopic() {
+    return request({
+        url: API_BASE_URL + "/admin/topic/",
+        method: 'GET'
+    });
+}
+
 export function reportComment(id) {
     return request({
         url: API_BASE_URL + "/comment/report/" + id,
@@ -53,6 +60,13 @@ export function getReportTopic() {
 export function getReportComment() {
     return request({
         url: API_BASE_URL + "/admin/report/comment",
+        method: 'GET'
+    });
+}
+
+export function getReports() {
+    return request({
+        url: API_BASE_URL + "/admin/report/all",
         method: 'GET'
     });
 }

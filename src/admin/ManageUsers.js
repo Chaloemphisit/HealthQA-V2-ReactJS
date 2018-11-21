@@ -9,7 +9,7 @@ import { Card, CardBody } from 'reactstrap';
 
 const TabPane = Tabs.TabPane;
 
-class RequestRemove extends Component {
+class ManageUsers extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -100,7 +100,10 @@ class RequestRemove extends Component {
                                     tabBarStyle={tabBarStyle}
                                     size="large"
                                     className="profile-tabs">
-                                    <TabPane tab="รายการแจ้งลบคำถาม" key="1">
+                                    <TabPane tab="หมอ" key="1">
+                                        <div className="mb-2">
+                                            <Button type="primary" ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
+                                        </div>
                                         <Table striped>
                                             <thead>
                                                 <tr>
@@ -143,7 +146,10 @@ class RequestRemove extends Component {
                                             </tbody>
                                         </Table>
                                     </TabPane>
-                                    <TabPane tab="รายการแจ้งลบคำตอบ" key="2">
+                                    <TabPane tab="ผู้ดูแลระบบ" key="2">
+                                        <div className="mb-2">
+                                            <Button type="primary" ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
+                                        </div>
                                         <Table striped>
                                             <thead>
                                                 <tr>
@@ -196,4 +202,4 @@ class RequestRemove extends Component {
     }
 }
 
-export default RequestRemove;
+export default ManageUsers;
