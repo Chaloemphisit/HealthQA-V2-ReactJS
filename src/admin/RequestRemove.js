@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Tabs, Button, Spin } from 'antd';
+import { Tabs, Button, Spin, Notification, Modal } from 'antd';
 import { Table } from 'reactstrap';
 import './admin.css';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
-import { getReports } from '../util/APIUtils';
+import { getReports, deleteComment, deleteTopic } from '../util/APIUtils';
 import { Card, CardBody } from 'reactstrap';
 
 const TabPane = Tabs.TabPane;
@@ -17,9 +17,14 @@ class RequestRemove extends Component {
             comment: [],
             isLoading: false,
             error: null,
+            ModalText: 'ท่านต้องการลบคำถามนี้ใช่หรือไม่ ?',
+            ModalVisible: false,
+            confirmLoading: false,
+            topicId: null,
+            commentId: null,
+            isTopic: null,
         }
     }
-
     componentDidMount() {
         this.handleLoadData();
     }
@@ -58,12 +63,97 @@ class RequestRemove extends Component {
 
     handleTopicDeleteButton = (e) => {
         console.log(e)
+        this.setState({
+            ModalVisible: true,
+            topicId: e,
+            isTopic: true,
+        });
         // this.props.history.push("/topic/" + e);
     }
 
     handleCommentDeleteButton = (e) => {
         console.log(e)
+        this.setState({
+            ModalVisible: true,
+            commentId: e,
+            isTopic: false,
+        });
         // this.props.history.push("/topic/" + e);
+    }
+
+    handleModalCancel = () => {
+        // console.log('Clicked cancel button');
+        this.setState({
+            ModalVisible: false,
+        });
+    }
+
+    handleModalTopicOK = () => {
+        this.setState({
+            ModalText: 'กำลังดำเนินการ, กรุณารอสักครู่...',
+            confirmLoading: true,
+        });
+
+        deleteTopic(this.state.topicId)
+            .then(response => {
+                setTimeout(() => {
+                    this.setState({
+                        ModalVisible: false,
+                        confirmLoading: false,
+                        ModalText: 'ท่านต้องการลบคำถามนี้ใช่หรือไม่ ?',
+                    },
+                        this.handleLoadData(),
+                        Notification.success({
+                            message: 'Health QA',
+                            description: "ลบคำถามเรียบร้อยแล้ว",
+                        })
+                    );
+                }, 1000);
+            })
+            .catch(error => {
+                if (error.status === 401) {
+                    this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
+                } else {
+                    Notification.error({
+                        message: 'Health QA',
+                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    });
+                }
+            });
+    }
+
+    handleModalCommentOK = () => {
+        this.setState({
+            ModalText: 'กำลังดำเนินการ, กรุณารอสักครู่...',
+            confirmLoading: true,
+        });
+
+        deleteComment(this.state.commentId)
+            .then(response => {
+                setTimeout(() => {
+                    this.setState({
+                        ModalVisible: false,
+                        confirmLoading: false,
+                        ModalText: 'ท่านต้องการลบคำถามนี้ใช่หรือไม่ ?',
+                    },
+                        this.handleLoadData(),
+                        Notification.success({
+                            message: 'Health QA',
+                            description: "ลบคำถามเรียบร้อยแล้ว",
+                        })
+                    );
+                }, 1000);
+            })
+            .catch(error => {
+                if (error.status === 401) {
+                    this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
+                } else {
+                    Notification.error({
+                        message: 'Health QA',
+                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    });
+                }
+            });
     }
 
     render() {
@@ -91,6 +181,15 @@ class RequestRemove extends Component {
         };
         return (
             <Card outline color="danger">
+                <Modal title="ยืนยันการทำรายการ"
+                    visible={this.state.ModalVisible}
+                    centered
+                    onOk={this.handleModalTopicOK}
+                    confirmLoading={this.state.confirmLoading}
+                    onCancel={this.handleModalCancel}
+                >
+                    <p>{this.state.ModalText}</p>
+                </Modal>
                 <CardBody>
                     <div className="profile">
                         <Spin spinning={this.state.isLoading} size="large" delay={200}>
