@@ -2,10 +2,10 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    /* max-width: inherit; */
+    max-width: '100%';
 
-    width: 50%;
+    /* width: 50%; */
     word-wrap: break-word;
 
-    position: absolute;
+    /* position: absolute; */
 }

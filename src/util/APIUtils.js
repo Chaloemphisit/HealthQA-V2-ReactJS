@@ -43,6 +43,20 @@ export function reportTopic(id) {
     });
 }
 
+export function getReportTopic() {
+    return request({
+        url: API_BASE_URL + "/admin/report/topic",
+        method: 'GET'
+    });
+}
+
+export function getReportComment() {
+    return request({
+        url: API_BASE_URL + "/admin/report/comment",
+        method: 'GET'
+    });
+}
+
 export function createTopic(topicData) {
     return request({
         url: API_BASE_URL + "/topic",

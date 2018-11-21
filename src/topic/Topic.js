@@ -155,7 +155,7 @@ export default class Topic extends React.Component {
       confirmLoading: true,
     });
 
-    reportComment(this.state.reportCommentId)
+    reportComment()
       .then(response => {
         setTimeout(() => {
 

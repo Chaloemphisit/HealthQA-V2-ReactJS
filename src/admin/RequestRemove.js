@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Tabs, Button, Notification } from 'antd';
+import { Tabs, Button, Notification, Spin } from 'antd';
 import { Table } from 'reactstrap';
 import LoadingIndicator from '../common/LoadingIndicator';
 import './RequestRemove.css';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
-import { API_BASE_URL } from '../constants';
+import { API_BASE_URL, ACCESS_TOKEN } from '../constants';
 import axios from 'axios';
+import { getReportTopic } from '../util/APIUtils';
 
 const TabPane = Tabs.TabPane;
 
@@ -16,48 +17,65 @@ class RequestRemove extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            topic: [],
+            comment: [],
             isLoading: false,
             error: null,
 
         }
     }
 
-    loadTopics = (page = this.state.page, size = this.state.size) => {
-        this.setState({ isLoading: true });
+    componentDidMount() {
+        this.handleLoadData();
+    }
 
-        axios.all([
-            axios.get(API_BASE_URL + '/topic/all?page=' + page + '&size=' + size),
-            axios.get(API_BASE_URL + '/topic/ans?page=' + page + '&size=' + size),
-            axios.get(API_BASE_URL + '/topic/noAns?page=' + page + '&size=' + size)
-        ])
-            .then(axios.spread((allTopicsRes, ansTopicsRes, noAnsTopicRes) => {
-                const allTopics = this.state.topics.allTopics.slice();
-                const ansTopics = this.state.topics.answeredTopics.slice();
-                const noAnsTopics = this.state.topics.noAnswerTopic.slice();
+    handleLoadData = () => {
+        this.setState({
+            isLoading: true
+        });
 
+        getReportTopic()
+            .then(response => {
                 this.setState({
-                    topics: {
-                        allTopics: allTopics.concat(allTopicsRes.data.content),
-                        answeredTopics: ansTopics.concat(ansTopicsRes.data.content),
-                        noAnswerTopic: noAnsTopics.concat(noAnsTopicRes.data.content)
-                    },
-                    page: allTopicsRes.data.page,
-                    size: allTopicsRes.data.size,
-                    last: allTopicsRes.data.last,
+                    topic: response,
                     isLoading: false
-                })
-            }))
-            .catch(error => {
-                this.setState({ error, isLoading: false })
-                Notification.error({
-                    message: 'Health QA',
-                    description: error.message || 'Sorry! Something went wrong. Please try again!'
-                });
+                },
+                    console.log(this.state)
+                );
+            }).catch(error => {
+                if (error.status === 404) {
+                    this.setState({
+                        notFound: true,
+                        isLoading: false
+                    });
+                } else {
+                    this.setState({
+                        serverError: true,
+                        isLoading: false
+                    });
+                }
             });
+
+    }
+
+    handleViewButton = (e) => {
+        this.props.history.push("/topic/" + e);
+    }
+
+    handleDeleteButton = (e) => {
+        console.log(e)
+        // this.props.history.push("/topic/" + e);
     }
 
     render() {
         const { isLoading, error } = this.state;
+        if (this.state.notFound) {
+            return <NotFound />;
+        }
+
+        if (this.state.serverError) {
+            return <ServerError />;
+        }
 
         if (error) {
             return (
@@ -74,64 +92,60 @@ class RequestRemove extends Component {
         };
         return (
             <div className="profile">
-                <div className="user-poll-details">
-                    <Tabs defaultActiveKey="1"
-                        animated={false}
-                        tabBarStyle={tabBarStyle}
-                        size="large"
-                        className="profile-tabs">
-                        <TabPane tab="รายการแจ้งลบคำถาม" key="1">
-                            <Table striped>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>คำถาม</th>
-                                        <th>รายละเอียด</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>
-                                            <div>
-                                                <Button type="primary" ghost shape="circle" icon="select" />
-                                                <Button type="danger" ghost className="ml-2" shape="circle" icon="delete" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>
-                                            <div>
-                                                <Button type="primary" ghost shape="circle" icon="select" />
-                                                <Button type="danger" ghost className="ml-2" shape="circle" icon="delete" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>
-                                            <div>
-                                                <Button type="primary" ghost shape="circle" icon="select" />
-                                                <Button type="danger" ghost className="ml-2" shape="circle" icon="delete" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        </TabPane>
-                        <TabPane tab="รายการแจ้งลบคำตอบ" key="2">
+                <Spin spinning={this.state.isLoading} size="large" delay={200}>
+                    <div className="user-poll-details">
+                        <Tabs defaultActiveKey="1"
+                            animated={false}
+                            tabBarStyle={tabBarStyle}
+                            size="large"
+                            className="profile-tabs">
+                            <TabPane tab="รายการแจ้งลบคำถาม" key="1">
+                                <Table striped>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>คำถาม</th>
+                                            <th>รายละเอียด</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            this.state.topic.map(
+                                                (topic, index) =>
+                                                    <tr key={index}>
+                                                        <th scope="row">{topic.id}</th>
+                                                        <td>{topic.topicName}</td>
+                                                        <td>{topic.topicText.substring(1, 100)}{topic.topicText.length > 100 ? "..." : null}</td>
+                                                        <td style={{ width: '100px' }}>
+                                                            <div>
+                                                                <Button
+                                                                    type="primary"
+                                                                    ghost
+                                                                    shape="circle"
+                                                                    icon="select"
+                                                                    onClick={(e) => this.handleViewButton(topic.id)} />
+                                                                <Button
+                                                                    type="danger"
+                                                                    ghost
+                                                                    className="ml-2"
+                                                                    shape="circle"
+                                                                    icon="delete"
+                                                                    onClick={(e) => this.handleDeleteButton(topic.id)} />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                            )
+                                        }
+                                    </tbody>
+                                </Table>
+                            </TabPane>
+                            <TabPane tab="รายการแจ้งลบคำตอบ" key="2">
 
-                        </TabPane>
-                    </Tabs>
-                </div>
+                            </TabPane>
+                        </Tabs>
+                    </div>
+                </Spin>
             </div>
         );
     }

@@ -125,7 +125,7 @@ class App extends Component {
               {this.state.currentUser ?
                 this.state.currentUser.authorities[0].authority === "ADMIN" ?
                   <Route exact path="/"
-                    render={() => <RequestRemove/>}>
+                    render={(props) => <RequestRemove isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
                   </Route>
                   :
                   <Route exact path="/"
