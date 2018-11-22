@@ -116,7 +116,12 @@ class AppHeader extends Component {
           {navTop}
           <div className="container">
             <div className="app-title" >
-              {this.props.currentUser ? (this.props.currentUser.authorities[0].authority === "ADMIN" ? <Link to="/">Health QA [Admin]</Link> : <Link to="/">Health QA</Link>) : null}
+              {this.props.currentUser ?
+                (this.props.currentUser.authorities[0].authority === "ADMIN" ?
+                  <Link to="/">Health QA [Admin]</Link>
+                  : <Link to="/">Health QA</Link>)
+                : <Link to="/">Health QA</Link>
+              }
             </div>
             <Menu
               className="app-menu"
