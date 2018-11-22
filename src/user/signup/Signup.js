@@ -249,16 +249,25 @@ class Signup extends Component {
                 validateStatus: 'error',
                 errorMsg: `Username is too short (Minimum ${USERNAME_MIN_LENGTH} characters needed.)`
             }
-        } else if (username.length > USERNAME_MAX_LENGTH) {
+        }
+        if (username.length > USERNAME_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
                 errorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)`
             }
-        } else {
+        }
+
+        const USERNAME_REGEX = RegExp('^[A-Za-z]+$');
+        if (!USERNAME_REGEX.test(username)) {
             return {
-                validateStatus: null,
-                errorMsg: null
+                validateStatus: 'error',
+                errorMsg: 'ชื่อนี้มีอักขระบางตัวที่ไม่ได้รับอนุญาตให้ใช้ได้'
             }
+        }
+
+        return {
+            validateStatus: null,
+            errorMsg: null
         }
     }
 
@@ -371,6 +380,9 @@ class Signup extends Component {
     }
 
     validatePassword = (password) => {
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+        const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+
         if (password.length < PASSWORD_MIN_LENGTH) {
             return {
                 validateStatus: 'error',
@@ -381,11 +393,21 @@ class Signup extends Component {
                 validationStatus: 'error',
                 errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
             }
-        } else {
+        } if (strongRegex.test(password)) {
             return {
                 validateStatus: 'success',
-                errorMsg: null,
-            };
+                errorMsg: `ความยากรหัสผ่านสูง`
+            }
+        } else if (mediumRegex.test(password)) {
+            return {
+                validateStatus: 'success',
+                errorMsg: `ความยากรหัสผ่านปานกลาง`
+            }
+        } else {
+            return {
+                validateStatus: 'error',
+                errorMsg: `รหัสผ่านง่ายเกินไป`
+            }
         }
     }
 

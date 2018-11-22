@@ -369,6 +369,9 @@ class SignupAdmin extends Component {
     }
 
     validatePassword = (password) => {
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+        const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
+
         if (password.length < PASSWORD_MIN_LENGTH) {
             return {
                 validateStatus: 'error',
@@ -379,11 +382,21 @@ class SignupAdmin extends Component {
                 validationStatus: 'error',
                 errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
             }
-        } else {
+        } if (strongRegex.test(password)) {
             return {
                 validateStatus: 'success',
-                errorMsg: null,
-            };
+                errorMsg: `ความยากรหัสผ่านสูง`
+            }
+        } else if (mediumRegex.test(password)) {
+            return {
+                validateStatus: 'success',
+                errorMsg: `ความยากรหัสผ่านปานกลาง`
+            }
+        } else {
+            return {
+                validateStatus: 'error',
+                errorMsg: `รหัสผ่านง่ายเกินไป`
+            }
         }
     }
 
