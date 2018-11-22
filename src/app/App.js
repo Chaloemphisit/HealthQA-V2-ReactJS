@@ -136,7 +136,7 @@ class App extends Component {
         <AppHeader isAuthenticated={this.state.isAuthenticated}
           currentUser={this.state.currentUser}
           onLogout={this.handleLogout} />
-        <Content className="app-content" style={{ background: '#fff', minHeight: 280 }}>
+        <Content className="app-content" style={{ background: '#fff' }}>
           <div className="container">
 
             <Switch>

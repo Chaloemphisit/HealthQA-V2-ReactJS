@@ -1,17 +1,17 @@
 {
   "main.css": "/static/css/main.e30a54cc.chunk.css",
-  "main.js": "/static/js/main.e63ebec7.chunk.js",
-  "main.js.map": "/static/js/main.e63ebec7.chunk.js.map",
+  "main.js": "/static/js/main.1ff56487.chunk.js",
+  "main.js.map": "/static/js/main.1ff56487.chunk.js.map",
   "static/css/1.33133eea.chunk.css": "/static/css/1.33133eea.chunk.css",
   "static/js/1.058e97c5.chunk.js": "/static/js/1.058e97c5.chunk.js",
   "static/js/1.058e97c5.chunk.js.map": "/static/js/1.058e97c5.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.229c360f.js",
   "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
   "static/media/header-logo.png": "/static/media/header-logo.98d73a69.png",
-  "static/media/style.css": "/static/media/Avatar-Doctor-Men.0af1b36b.svg",
-  "static/css/main.e30a54cc.chunk.css.map": "/static/css/main.e30a54cc.chunk.css.map",
+  "static/media/style.css": "/static/media/Avatar-User.359266bc.svg",
   "static/css/1.33133eea.chunk.css.map": "/static/css/1.33133eea.chunk.css.map",
+  "static/css/main.e30a54cc.chunk.css.map": "/static/css/main.e30a54cc.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.16686a589e003d35304a73f561ee13a1.js": "/precache-manifest.16686a589e003d35304a73f561ee13a1.js",
+  "precache-manifest.06c23bcc71f45766f7f8dd386c6a5a34.js": "/precache-manifest.06c23bcc71f45766f7f8dd386c6a5a34.js",
   "service-worker.js": "/service-worker.js"
 }
