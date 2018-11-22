@@ -165,7 +165,7 @@ class SignupDoctor extends Component {
                                 name="password"
                                 type="password"
                                 autoComplete="off"
-                                placeholder="A password between 8 to 26 characters"
+                                placeholder="password must have and contains at least 1 letter and 1 number"
                                 value={this.state.password.value}
                                 onChange={(event) => this.handleInputChange(event, this.validatePassword)} />
                         </FormItem>
@@ -389,15 +389,10 @@ class SignupDoctor extends Component {
     }
 
     validatePassword = (password) => {
-        const strongRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#/$%/^&/*])(?=.{8,})');
-        const mediumRegex = new RegExp('^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})');
+        const strongRegex = new RegExp('^(?=.*[a-zก-๙])(?=.*[A-Zก-๙])(?=.*[0-9])(?=.*[!@#/$%/^&/*])(?=.{8,})');
+        const mediumRegex = new RegExp('^(((?=.*[a-zก-๙])(?=.*[A-Zก-๙]))|((?=.*[a-zก-๙])(?=.*[0-9]))|((?=.*[A-Zก-๙])(?=.*[0-9])))(?=.{8,})');
 
-        if (password.length < PASSWORD_MIN_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)`
-            }
-        } else if (password.length > PASSWORD_MAX_LENGTH) {
+        if (password.length > PASSWORD_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
                 errorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
@@ -414,8 +409,8 @@ class SignupDoctor extends Component {
             }
         } else {
             return {
-                validateStatus: 'success',
-                errorMsg: null
+                validateStatus: 'error',
+                errorMsg: 'รหัสผ่านง่ายเกินไป'
             }
         }
     }
