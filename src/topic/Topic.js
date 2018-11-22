@@ -13,7 +13,7 @@ import { beautyDate } from './DateUltils';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
 import { getTopic, reportTopic, reportComment } from '../util/APIUtils';
-import { Spin, Modal, notification } from 'antd';
+import { Spin, Modal, Notification } from 'antd';
 
 // const confirm = Modal.confirm;
 
@@ -129,7 +129,7 @@ export default class Topic extends React.Component {
             confirmLoading: false,
             ModalReportText: 'คลิกที่ปุ่ม OK เพื่อแจ้งให้เจ้าหน้าที่รับทราบ',
           },
-            notification.success({
+            Notification.success({
               message: 'Health QA',
               description: "แจ้งข้อความไม่เหมาะสมเรียบร้อย, เจ้าหน้าที่อาจจะใช้เวลา 1-2 วัน ในการตรวจสอบ",
             })
@@ -154,7 +154,7 @@ export default class Topic extends React.Component {
       confirmLoading: true,
     });
 
-    reportComment()
+    reportComment(this.state.reportCommentId)
       .then(response => {
         setTimeout(() => {
 
@@ -163,7 +163,7 @@ export default class Topic extends React.Component {
             confirmLoading: false,
             ModalReportText: 'คลิกที่ปุ่ม OK เพื่อแจ้งให้เจ้าหน้าที่รับทราบ',
           },
-            notification.success({
+            Notification.success({
               message: 'Health QA',
               description: "แจ้งข้อความไม่เหมาะสมเรียบร้อย, เจ้าหน้าที่อาจจะใช้เวลา 1-2 วัน ในการตรวจสอบ",
             })
