@@ -44,7 +44,7 @@ class Home extends React.Component {
     const inputValue = target.value;
 
     clearTimeout(this.timer);
-    this.timer = setTimeout(this.handlesearch(inputValue), 3000)
+    this.timer = setTimeout(this.handlesearch(inputValue), 5000)
   }
 
   handlesearch(event) {
