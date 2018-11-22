@@ -12,7 +12,7 @@ class Login extends Component {
         super(props)
 
         if (this.props.isAuthenticated) {
-            this.props.history.push("/new-topic");
+            this.props.history.push("/");
         }
     }
     render() {

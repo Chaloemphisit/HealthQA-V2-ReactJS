@@ -109,8 +109,8 @@ class App extends Component {
       description: "You're successfully logged in.",
     });
     this.loadCurrentUser();
-    // this.props.history.push("/");
-    this.props.history.goBack();
+    this.props.history.push("/");
+    // this.props.history.goBack();
   }
 
   render() {
