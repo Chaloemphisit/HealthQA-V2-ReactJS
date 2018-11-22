@@ -32,6 +32,7 @@ import NewTopic from '../topic/NewTopic';
 /*---------------------------------------- FontAwesome ----------------------------------------*/
 import { faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import ManageTopic from '../admin/ManageTopic';
+import LoadingFullPage from '../common/loading/LoadingFullPage';
 
 library.add(faEnvelope, faKey, faComments, faQuestion, faTrashAlt, faUserCircle);
 /*--------------------------------------------------------------------------------------------*/
@@ -68,9 +69,7 @@ class App extends Component {
           currentUser: response,
           isAuthenticated: true,
           isLoading: false
-        },
-          this.handleLoading()
-        );
+        });
       })
       .catch(error => {
         this.setState({
@@ -79,18 +78,6 @@ class App extends Component {
           this.handleLoading()
         );
       });
-  }
-
-  handleLoading = () => {
-    const ele = document.getElementById('ipl-progress-indicator')
-    if (ele) {
-      // fade out
-      ele.classList.add('available')
-      setTimeout(() => {
-        // remove from DOM
-        ele.outerHTML = ''
-      }, 1000)
-    }
   }
 
   componentDidMount() {
@@ -128,7 +115,7 @@ class App extends Component {
 
   render() {
     if (this.state.isLoading) {
-      // return <LoadingIndicator/>
+      return <LoadingFullPage />
     }
     return (
 
