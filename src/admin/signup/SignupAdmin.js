@@ -190,17 +190,26 @@ class SignupAdmin extends Component {
                 validateStatus: 'error',
                 errorMsg: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`
             }
-        } else if (name.length > NAME_MAX_LENGTH) {
+        } if (name.length > NAME_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
                 errorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`
             }
-        } else {
-            return {
-                validateStatus: 'success',
-                errorMsg: null,
-            };
         }
+
+        const NAME_REGEX = RegExp('^[A-Za-zก-๙]+$');
+        if (!NAME_REGEX.test(name)) {
+            return {
+                validateStatus: 'error',
+                errorMsg: 'ชื่อนี้มีอักขระบางตัวที่ไม่ได้รับอนุญาตให้ใช้ได้'
+            }
+        }
+
+        return {
+            validateStatus: 'success',
+            errorMsg: null,
+        };
+
     }
 
     validateEmail = (email) => {
