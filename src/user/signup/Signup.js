@@ -405,8 +405,8 @@ class Signup extends Component {
             }
         } else {
             return {
-                validateStatus: 'error',
-                errorMsg: `รหัสผ่านง่ายเกินไป`
+                validateStatus: 'success',
+                errorMsg: null
             }
         }
     }
