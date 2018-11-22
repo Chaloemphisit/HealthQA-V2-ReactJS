@@ -81,7 +81,6 @@ class SignupAdmin extends Component {
                     message: 'Health QA',
                     description: "Thank you! You're successfully registered. Please Login to continue!",
                 });
-                this.props.history.push("/login");
             }).catch(error => {
                 notification.error({
                     message: 'Health QA',
