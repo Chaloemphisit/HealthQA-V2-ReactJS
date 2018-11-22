@@ -151,6 +151,7 @@ class ManageTopic extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
+
                                         {
                                             this.state.topic ? (
                                                 this.state.topic.map(
@@ -182,6 +183,13 @@ class ManageTopic extends Component {
                                         }
                                     </tbody>
                                 </Table>
+                                {
+                                    !this.state.isLoading && this.state.topic.length === 0 ? (
+                                            <div className="no-polls-found">
+                                                <span>No Topic Found.</span>
+                                        </div>
+                                    ) : null
+                                }
                             </div>
                         </Spin>
                     </div>

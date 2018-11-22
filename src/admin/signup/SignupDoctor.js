@@ -171,7 +171,7 @@ class SignupDoctor extends Component {
                         </FormItem>
                         <Row>
                             <Col span={24} style={{ textAlign: 'right' }}>
-                                <Button type="danger" size="large" ghost htmlType="submit" disabled={this.isFormInvalid()}>ลงทะเบียน</Button>
+                                <Button type="primary" size="large" ghost htmlType="submit" disabled={this.isFormInvalid()}>ลงทะเบียน</Button>
                                 <Button type="danger" size="large" ghost style={{ marginLeft: 8 }} onClick={this.props.onClick}>ยกเลิก</Button>
                             </Col>
                         </Row>

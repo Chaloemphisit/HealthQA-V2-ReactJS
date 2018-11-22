@@ -242,6 +242,13 @@ class RequestRemove extends Component {
                                                 }
                                             </tbody>
                                         </Table>
+                                        {
+                                            !this.state.isLoading && this.state.topic.length === 0 ? (
+                                                <div className="no-polls-found">
+                                                    <span>No Data Found.</span>
+                                                </div>
+                                            ) : null
+                                        }
                                     </TabPane>
                                     <TabPane tab="รายการแจ้งลบคำตอบ" key="2">
                                         <Table striped>
@@ -285,6 +292,13 @@ class RequestRemove extends Component {
                                                 }
                                             </tbody>
                                         </Table>
+                                        {
+                                            !this.state.isLoading && this.state.comment.length === 0 ? (
+                                                <div className="no-polls-found">
+                                                    <span>No Data Found.</span>
+                                                </div>
+                                            ) : null
+                                        }
                                     </TabPane>
                                 </Tabs>
                             </div>

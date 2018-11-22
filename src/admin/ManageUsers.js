@@ -223,6 +223,13 @@ class ManageUsers extends Component {
                                                 }
                                             </tbody>
                                         </Table>
+                                        {
+                                            !this.state.isLoading && this.state.doctor.length === 0 ? (
+                                                <div className="no-polls-found">
+                                                    <span>No Users Found.</span>
+                                                </div>
+                                            ) : null
+                                        }
                                     </TabPane>
                                     <TabPane tab="ผู้ดูแลระบบ" key="2">
                                         <div className="mb-2">
@@ -265,6 +272,13 @@ class ManageUsers extends Component {
                                                 }
                                             </tbody>
                                         </Table>
+                                        {
+                                            !this.state.isLoading && this.state.admin.length === 0 ? (
+                                                <div className="no-polls-found">
+                                                    <span>No Users Found.</span>
+                                                </div>
+                                            ) : null
+                                        }
                                     </TabPane>
                                 </Tabs>
                             </div>
