@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="utf-8">
-  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <!-- <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png"> -->
+  <link rel="shortcut icon" href="%PUBLIC_URL%/img/header-logo.png">
   <meta name="viewport" content="width=device-width, initial-scale=0.86, minimum-scale=0.86, shrink-to-fit=no">
 
   <!-- this is for Chrome, Firefox OS, Opera and Vivaldi -->
@@ -22,6 +23,8 @@
         homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
       -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+
+  <link rel="stylesheet" type="text/css" href="css/style.css">
   <!--
         Notice the use of %PUBLIC_URL% in the tags above.
         It will be replaced with the URL of the `public` folder during the build.
@@ -39,6 +42,15 @@
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
+  <div class="ipl-progress-indicator" id="ipl-progress-indicator">
+    <div class="ipl-progress-indicator-head">
+      <div class="first-indicator"></div>
+      <div class="second-indicator"></div>
+    </div>
+    <div class="insp-logo-frame">
+      <img src="img/header-logo.png" class="insp-logo-frame-img" alt="Logo">
+    </div>
+  </div>
   <div id="root"></div>
   <!--
       This HTML file is a template.

@@ -68,13 +68,29 @@ class App extends Component {
           currentUser: response,
           isAuthenticated: true,
           isLoading: false
-        });
+        },
+          this.handleLoading()
+        );
       })
       .catch(error => {
         this.setState({
           isLoading: false
-        });
+        },
+          this.handleLoading()
+        );
       });
+  }
+
+  handleLoading = () => {
+    const ele = document.getElementById('ipl-progress-indicator')
+    if (ele) {
+      // fade out
+      ele.classList.add('available')
+      setTimeout(() => {
+        // remove from DOM
+        ele.outerHTML = ''
+      }, 1000)
+    }
   }
 
   componentDidMount() {

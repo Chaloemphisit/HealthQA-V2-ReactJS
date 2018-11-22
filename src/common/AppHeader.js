@@ -62,7 +62,7 @@ class AppHeader extends Component {
 
         navTop = [
           <Navbar dark expand="md" key={1} className="navbar-admin" >
-            <div className="top-logo"><Link to="/admin"><img src={headerLogo} className="inverted" alt="Header Logo" height="60" /></Link></div>
+            <div className="top-logo"><Link to="/"><img src={headerLogo} className="inverted" alt="Header Logo" height="60" /></Link></div>
           </Navbar>
         ]
 
