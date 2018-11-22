@@ -8,7 +8,7 @@ import {
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../../constants';
 
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, notification, Row, Col } from 'antd';
 const FormItem = Form.Item;
 
 class SignupDoctor extends Component {
@@ -75,12 +75,12 @@ class SignupDoctor extends Component {
         };
         signupDoctor(signupRequest)
             .then(response => {
-                this.props.history.push("/admin/manage/user")
+                this.props.onClick()
+                this.props.handleLoadData()
                 notification.success({
                     message: 'Health QA',
                     description: "Thank you! You're successfully registered. Please Login to continue!",
                 });
-                this.props.history.push("/login");
             }).catch(error => {
                 notification.error({
                     message: 'Health QA',
@@ -101,7 +101,7 @@ class SignupDoctor extends Component {
     render() {
         return (
             <div className="signup-container">
-                <h1 className="page-title">Sign Up Doctor or Pharmacist</h1>
+                <h3 className="page-title">ลงทะเบียนแพทย์/เภสัชกร</h3>
                 <div className="signup-content">
                     <Form onSubmit={this.handleSubmit} className="signup-form">
                         <FormItem
@@ -169,19 +169,25 @@ class SignupDoctor extends Component {
                                 value={this.state.password.value}
                                 onChange={(event) => this.handleInputChange(event, this.validatePassword)} />
                         </FormItem>
-                        <FormItem>
+                        <Row>
+                            <Col span={24} style={{ textAlign: 'right' }}>
+                                <Button type="danger" size="large" ghost htmlType="submit" disabled={this.isFormInvalid()}>ลงทะเบียน</Button>
+                                <Button type="danger" size="large" ghost style={{ marginLeft: 8 }} onClick={this.props.onClick}>ยกเลิก</Button>
+                            </Col>
+                        </Row>
+                        {/* <FormItem >
                             <Button type="primary"
                                 htmlType="submit"
                                 size="large"
                                 className="signup-form-button"
                                 disabled={this.isFormInvalid()}>Sign up</Button>
-                                <Button type="primary"
+                            <Button type="primary"
                                 htmlType="submit"
                                 size="large"
                                 className="signup-form-button"
                                 disabled={this.isFormInvalid()}>Cancel
                                 </Button>
-                        </FormItem>
+                        </FormItem> */}
                     </Form>
                 </div>
             </div>

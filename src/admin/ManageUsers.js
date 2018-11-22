@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Tabs, Button, Spin } from 'antd';
+import { Tabs, Button, Spin, Modal, Notification } from 'antd';
 import { Table } from 'reactstrap';
 import './admin.css';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
-import { getUsers } from '../util/APIUtils';
+import { getUsers, deleteUser } from '../util/APIUtils';
 import { Card, CardBody } from 'reactstrap';
-import { Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal as ModelReactStrap, ModalBody } from 'reactstrap';
 import SignupAdmin from './signup/SignupAdmin';
 import SignupDoctor from './signup/SignupDoctor';
 
@@ -20,12 +20,10 @@ class ManageUsers extends Component {
             doctor: [],
             isLoading: false,
             error: null,
-            ModalText: 'ท่านต้องการลบคำถามนี้ใช่หรือไม่ ?',
+            ModalText: 'ท่านต้องการลบผู้ใช้นี้ใช่หรือไม่ ?',
             ModalVisible: false,
             confirmLoading: false,
-            topicId: null,
-            commentId: null,
-            isTopic: null,
+            username: null,
             isDoctor: null,
         }
     }
@@ -40,7 +38,7 @@ class ManageUsers extends Component {
 
         getUsers()
             .then(response => {
-                console.log(response)
+                // console.log(response)
                 this.setState({
                     admin: response.admin,
                     doctor: response.doctor,
@@ -61,19 +59,56 @@ class ManageUsers extends Component {
             });
     }
 
-    handleTopicViewButton = (e) => {
-        this.props.history.push("/topic/" + e);
-    }
-
-    handleTopicDeleteButton = (e) => {
-        console.log(e)
+    handleDeleteButton = (e) => {
+        // console.log(e)
+        this.setState({
+            ModalVisible: true,
+            username: e,
+        });
         // this.props.history.push("/topic/" + e);
     }
 
-    handleCommentDeleteButton = (e) => {
-        console.log(e)
-        // this.props.history.push("/topic/" + e);
+    handleModalCancel = () => {
+        // console.log('Clicked cancel button');
+        this.setState({
+            ModalVisible: false,
+        });
     }
+
+    handleModalOK = () => {
+        this.setState({
+            ModalText: 'กำลังดำเนินการ, กรุณารอสักครู่...',
+            confirmLoading: true,
+        });
+
+        deleteUser(this.state.username)
+            .then(response => {
+                setTimeout(() => {
+                    this.setState({
+                        ModalVisible: false,
+                        confirmLoading: false,
+                        ModalText: 'ท่านต้องการลบผู้ใช้นี้ใช่หรือไม่ ?',
+                    },
+                        this.handleLoadData(),
+                        Notification.success({
+                            message: 'Health QA',
+                            description: "ลบคำถามเรียบร้อยแล้ว",
+                        })
+                    );
+                }, 1000);
+            })
+            .catch(error => {
+                if (error.status === 401) {
+                    this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
+                } else {
+                    Notification.error({
+                        message: 'Health QA',
+                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    });
+                }
+            });
+    }
+
     toggleDoctor = () => {
         this.setState({
             modal: !this.state.modal,
@@ -121,13 +156,22 @@ class ManageUsers extends Component {
 
         return (
             <Card outline color="danger">
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <ModelReactStrap isOpen={this.state.modal} toggle={this.toggle} handleLoadData={this.handleLoadData} className={this.props.className}>
                     <ModalBody>
-                        {this.state.isDoctor ? <SignupDoctor /> : <SignupAdmin />}
+                        {this.state.isDoctor ? <SignupDoctor onClick={this.toggle} handleLoadData={this.handleLoadData} {...this.props} /> : <SignupAdmin />}
                     </ModalBody>
-                    <ModalFooter>
+                    {/* <ModalFooter>
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                    </ModalFooter>
+                    </ModalFooter> */}
+                </ModelReactStrap>
+                <Modal title="ยืนยันการทำรายการ"
+                    visible={this.state.ModalVisible}
+                    centered
+                    onOk={this.handleModalOK}
+                    confirmLoading={this.state.confirmLoading}
+                    onCancel={this.handleModalCancel}
+                >
+                    <p>{this.state.ModalText}</p>
                 </Modal>
                 <CardBody>
                     <div className="profile">
@@ -140,7 +184,7 @@ class ManageUsers extends Component {
                                     className="profile-tabs">
                                     <TabPane tab="แพทย์/เภสัชกร" key="1">
                                         <div className="mb-2">
-                                            <Button type="primary" onClick={this.toggleDoctor} ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
+                                            <Button type="primary" onClick={this.toggleDoctor} customToggle={this.state.modal} ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
                                         </div>
                                         <Table striped>
                                             <thead>
@@ -171,7 +215,7 @@ class ManageUsers extends Component {
                                                                             className="ml-2"
                                                                             shape="circle"
                                                                             icon="delete"
-                                                                            onClick={(e) => this.handleTopicDeleteButton(doctor.id)} />
+                                                                            onClick={(e) => this.handleDeleteButton(doctor.username)} />
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -213,7 +257,7 @@ class ManageUsers extends Component {
                                                                             className="ml-2"
                                                                             shape="circle"
                                                                             icon="delete"
-                                                                            onClick={(e) => this.handleTopicDeleteButton(admin.id)} />
+                                                                            onClick={(e) => this.handleDeleteButton(admin.username)} />
                                                                     </div>
                                                                 </td>
                                                             </tr>

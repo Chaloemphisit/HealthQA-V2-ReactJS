@@ -1,10 +1,10 @@
 .signup-container {
     max-width: 420px;
     margin: 0 auto;
-    margin-top: 40px;    
+    /* margin-top: 40px;     */
 }
 
-.signup-form-button {
+/* .signup-form-button {
     width: 100%;
     margin-top: 15px;
 }
@@ -14,7 +14,7 @@
     color: #fff;
     background-color: #1890ff;
     border-color: #1890ff;
-}
+} */
 
 .signup-form input {
     margin-bottom: 3px;

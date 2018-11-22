@@ -64,6 +64,13 @@ export function deleteTopic(id) {
     });
 }
 
+export function deleteUser(username) {
+    return request({
+        url: API_BASE_URL + "/admin/users/delete/" + username,
+        method: 'PUT'
+    });
+}
+
 export function getReportTopic() {
     return request({
         url: API_BASE_URL + "/admin/report/topic",

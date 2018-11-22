@@ -8,7 +8,7 @@ import {
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../../constants';
 
-import { Form, Input, Button, notification } from 'antd';
+import { Form, Input, Button, notification, Row, Col } from 'antd';
 const FormItem = Form.Item;
 
 class SignupAdmin extends Component {
@@ -75,6 +75,8 @@ class SignupAdmin extends Component {
         };
         signupAdmin(signupRequest)
             .then(response => {
+                this.props.onClick()
+                this.props.handleLoadData()
                 notification.success({
                     message: 'Health QA',
                     description: "Thank you! You're successfully registered. Please Login to continue!",
@@ -100,7 +102,7 @@ class SignupAdmin extends Component {
     render() {
         return (
             <div className="signup-container">
-                <h1 className="page-title">Sign Up Admin</h1>
+                <h3 className="page-title">ลงทะเบียนผู้ดูแลระบบ</h3>
                 <div className="signup-content">
                     <Form onSubmit={this.handleSubmit} className="signup-form">
                         <FormItem
@@ -168,21 +170,12 @@ class SignupAdmin extends Component {
                                 value={this.state.password.value}
                                 onChange={(event) => this.handleInputChange(event, this.validatePassword)} />
                         </FormItem>
-                        <FormItem>
-                            <Button type="primary"
-                                htmlType="submit"
-                                size="large"
-                                className="signup-form-button"
-                                disabled={this.isFormInvalid()}>Sign up
-                                </Button>
-                                <Button type="primary"
-                                htmlType="submit"
-                                size="large"
-                                className="signup-form-button"
-                                disabled={this.isFormInvalid()}>Cancel
-                                </Button>
-                            
-                        </FormItem>
+                        <Row>
+                            <Col span={24} style={{ textAlign: 'right' }}>
+                                <Button type="danger" size="large" ghost htmlType="submit" disabled={this.isFormInvalid()}>ลงทะเบียน</Button>
+                                <Button type="danger" size="large" ghost style={{ marginLeft: 8 }} onClick={this.props.onClick}>ยกเลิก</Button>
+                            </Col>
+                        </Row>
                     </Form>
                 </div>
             </div>
