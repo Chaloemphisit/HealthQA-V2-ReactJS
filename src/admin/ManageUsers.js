@@ -138,7 +138,7 @@ class ManageUsers extends Component {
                                     tabBarStyle={tabBarStyle}
                                     size="large"
                                     className="profile-tabs">
-                                    <TabPane tab="หมอ" key="1">
+                                    <TabPane tab="แพทย์/เภสัชกร" key="1">
                                         <div className="mb-2">
                                             <Button type="primary" onClick={this.toggleDoctor} ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
                                         </div>
