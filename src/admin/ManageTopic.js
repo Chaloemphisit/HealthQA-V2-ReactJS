@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Spin, Modal, notification } from 'antd';
-import { Table } from 'reactstrap';
+import { Table, UncontrolledTooltip } from 'reactstrap';
 import './admin.css';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
@@ -163,18 +163,22 @@ class ManageTopic extends Component {
                                                             <td style={{ width: '150px' }}>
                                                                 <div>
                                                                     <Button
+                                                                        id={"view_topicID" + topic.id}
                                                                         type="primary"
                                                                         ghost
                                                                         shape="circle"
                                                                         icon="select"
                                                                         onClick={(e) => this.handleTopicViewButton(topic.id)} />
+                                                                    <UncontrolledTooltip placement="right" target={"view_topicID" + topic.id}>ไปที่คำถามนี้</UncontrolledTooltip>
                                                                     <Button
+                                                                        id={"delete_topicID" + topic.id}
                                                                         type="danger"
                                                                         ghost
                                                                         className="ml-2"
                                                                         shape="circle"
                                                                         icon="delete"
                                                                         onClick={(e) => this.handleTopicDeleteButton(topic.id)} />
+                                                                    <UncontrolledTooltip placement="right" target={"delete_topicID" + topic.id}>ลบคำถามนี้</UncontrolledTooltip>
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -185,8 +189,8 @@ class ManageTopic extends Component {
                                 </Table>
                                 {
                                     !this.state.isLoading && this.state.topic.length === 0 ? (
-                                            <div className="no-polls-found">
-                                                <span>No Topic Found.</span>
+                                        <div className="no-polls-found">
+                                            <span>No Topic Found.</span>
                                         </div>
                                     ) : null
                                 }

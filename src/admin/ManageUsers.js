@@ -6,7 +6,7 @@ import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
 import { getUsers, deleteUser } from '../util/APIUtils';
 import { Card, CardBody } from 'reactstrap';
-import { Modal as ModelReactStrap, ModalBody } from 'reactstrap';
+import { Modal as ModelReactStrap, ModalBody,UncontrolledTooltip } from 'reactstrap';
 import SignupAdmin from './signup/SignupAdmin';
 import SignupDoctor from './signup/SignupDoctor';
 
@@ -210,12 +210,14 @@ class ManageUsers extends Component {
                                                                 <td style={{ width: '100px' }}>
                                                                     <div>
                                                                         <Button
+                                                                            id={"delete_doctor" + doctor.username}
                                                                             type="danger"
                                                                             ghost
                                                                             className="ml-2"
                                                                             shape="circle"
                                                                             icon="delete"
                                                                             onClick={(e) => this.handleDeleteButton(doctor.username)} />
+                                                                        <UncontrolledTooltip placement="right" target={"delete_doctor" + doctor.username}>ลบคำถามนี้</UncontrolledTooltip>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -259,12 +261,14 @@ class ManageUsers extends Component {
                                                                 <td style={{ width: '100px' }}>
                                                                     <div>
                                                                         <Button
+                                                                            id={"delete_admin" + admin.username}
                                                                             type="danger"
                                                                             ghost
                                                                             className="ml-2"
                                                                             shape="circle"
                                                                             icon="delete"
                                                                             onClick={(e) => this.handleDeleteButton(admin.username)} />
+                                                                        <UncontrolledTooltip placement="right" target={"delete_admin" + admin.username}>ลบคำถามนี้</UncontrolledTooltip>
                                                                     </div>
                                                                 </td>
                                                             </tr>

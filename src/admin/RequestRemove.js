@@ -5,7 +5,7 @@ import './admin.css';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
 import { getReports, deleteComment, deleteTopic } from '../util/APIUtils';
-import { Card, CardBody } from 'reactstrap';
+import { Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 
 const TabPane = Tabs.TabPane;
 
@@ -222,18 +222,22 @@ class RequestRemove extends Component {
                                                                     <td style={{ width: '150px' }}>
                                                                         <div>
                                                                             <Button
+                                                                                id={"view_TopicID" + topic.id}
                                                                                 type="primary"
                                                                                 ghost
                                                                                 shape="circle"
                                                                                 icon="select"
                                                                                 onClick={(e) => this.handleTopicViewButton(topic.id)} />
+                                                                            <UncontrolledTooltip placement="right" target={"view_TopicID" + topic.id}>ไปที่คำถามนี้</UncontrolledTooltip>
                                                                             <Button
+                                                                                id={"delete_TopicID" + topic.id}
                                                                                 type="danger"
                                                                                 ghost
                                                                                 className="ml-2"
                                                                                 shape="circle"
-                                                                                icon="delete"
+                                                                                icon="delete" โ
                                                                                 onClick={(e) => this.handleTopicDeleteButton(topic.id)} />
+                                                                            <UncontrolledTooltip placement="right" target={"delete_TopicID" + topic.id}>ลบคำถามนี้</UncontrolledTooltip>
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -272,18 +276,22 @@ class RequestRemove extends Component {
                                                                     <td style={{ width: '150px' }}>
                                                                         <div>
                                                                             <Button
+                                                                                id={"view_commentTopicID" + comment.topicId}
                                                                                 type="primary"
                                                                                 ghost
                                                                                 shape="circle"
                                                                                 icon="select"
                                                                                 onClick={(e) => this.handleTopicViewButton(comment.topicId)} />
+                                                                            <UncontrolledTooltip placement="right" target={"view_commentTopicID" + comment.topicId}>ไปที่คำถามของคำตอบนี้</UncontrolledTooltip>
                                                                             <Button
+                                                                                id={"delete_commentID" + comment.id}
                                                                                 type="danger"
                                                                                 ghost
                                                                                 className="ml-2"
                                                                                 shape="circle"
                                                                                 icon="delete"
                                                                                 onClick={(e) => this.handleCommentDeleteButton(comment.id)} />
+                                                                            <UncontrolledTooltip placement="right" target={"delete_commentID" + comment.id}>ลบคำตอบนี้</UncontrolledTooltip>
                                                                         </div>
                                                                     </td>
                                                                 </tr>

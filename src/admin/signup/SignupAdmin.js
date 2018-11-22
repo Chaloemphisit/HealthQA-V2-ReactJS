@@ -4,8 +4,7 @@ import './Signup.css';
 import {
     NAME_MIN_LENGTH, NAME_MAX_LENGTH,
     USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
-    EMAIL_MAX_LENGTH,
-    PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
+    EMAIL_MAX_LENGTH, PASSWORD_MAX_LENGTH
 } from '../../constants';
 
 import { Form, Input, Button, notification, Row, Col } from 'antd';
@@ -379,7 +378,7 @@ class SignupAdmin extends Component {
     validatePassword = (password) => {
         const strongRegex = new RegExp('^(?=.*[a-zก-๙])(?=.*[A-Zก-๙])(?=.*[0-9])(?=.*[!@#/$%/^&/*])(?=.{8,})');
         const mediumRegex = new RegExp('^(((?=.*[a-zก-๙])(?=.*[A-Zก-๙]))|((?=.*[a-zก-๙])(?=.*[0-9]))|((?=.*[A-Zก-๙])(?=.*[0-9])))(?=.{8,})');
-        
+
         if (password.length > PASSWORD_MAX_LENGTH) {
             return {
                 validationStatus: 'error',
