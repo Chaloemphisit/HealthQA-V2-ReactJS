@@ -169,7 +169,7 @@ export default class NewTopic extends React.Component {
   render() {
     let newTopicForm;
     if (this.props.currentUser) {
-      if (this.state.currentUser.authorities[0].authority === "S_USER") {
+      if (this.props.currentUser.authorities[0].authority === "S_USER") {
         newTopicForm = [
           <div style={{ textAlign: 'center' }}>
             <h4>ขออภัย...คุณไม่มีสิทธิในการตั้งคำถาม</h4>
