@@ -17,6 +17,7 @@ class Home extends React.Component {
       searchResult: [],
       isLoading: false,
       error: null,
+      isFirstLoading: false,
 
     }
 

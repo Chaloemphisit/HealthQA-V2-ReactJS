@@ -26,7 +26,8 @@ class QuestionTabs extends React.Component {
             size: 5,
             last: true,
             isLoading: false,
-            error: null
+            error: null,
+            isFirstLoading: false,
         }
     }
 
@@ -35,6 +36,9 @@ class QuestionTabs extends React.Component {
     }
 
     componentDidMount() {
+        this.setState({
+            isFirstLoading: true,
+        })
         this.loadTopics();
     }
 
@@ -65,7 +69,8 @@ class QuestionTabs extends React.Component {
                     page: allTopicsRes.data.page,
                     size: allTopicsRes.data.size,
                     last: allTopicsRes.data.last,
-                    isLoading: false
+                    isLoading: false,
+                    isFirstLoading: false,
                 })
             }))
             .catch(error => {
@@ -78,7 +83,7 @@ class QuestionTabs extends React.Component {
     }
 
     render() {
-        const { isLoading, error } = this.state;
+        const { error } = this.state;
 
         if (error) {
             return (
@@ -89,11 +94,11 @@ class QuestionTabs extends React.Component {
             );
         }
 
-        if (isLoading) {
+        if (this.state.isFirstLoading) {
             // message.loading('กำลังโหลดข้อมูล...', 0);
             return (
                 <div>
-                    <Spin spinning={isLoading} size="large">
+                    <Spin spinning={this.state.isFirstLoading} size="large">
                         <Tabs activeTab={{ id: "tab1" }}>
                             <Tabs.Tab id="tab1" title="คำถามทั้งหมด" ><div className="mt-3" > <QuestionsListLoading /></div> </Tabs.Tab>
                             <Tabs.Tab id="tab2" title="คำถามที่ตอบแล้ว"><div className="mt-3"> <QuestionsListLoading /></div> </Tabs.Tab>
@@ -146,7 +151,7 @@ class QuestionTabs extends React.Component {
                                 {
                                     !this.state.isLoading && !this.state.last ? (
                                         <div className="load-more-polls">
-                                            <Button type="dashed"  onClick={this.handleLoadMore} disabled={this.state.isLoading}>
+                                            <Button type="dashed" onClick={this.handleLoadMore} disabled={this.state.isLoading}>
                                                 <Icon type="plus" /> Load more
                             </Button>
                                         </div>) : null
