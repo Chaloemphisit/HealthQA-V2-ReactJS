@@ -179,6 +179,7 @@ class ManageTopic extends Component {
                                                                         icon="delete"
                                                                         onClick={(e) => this.handleTopicDeleteButton(topic.id)} />
                                                                     <UncontrolledTooltip placement="right" target={"delete_topicID" + topic.id}>ลบคำถามนี้</UncontrolledTooltip>
+                                                                    
                                                                 </div>
                                                             </td>
                                                         </tr>

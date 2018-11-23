@@ -4,7 +4,7 @@ import { Table } from 'reactstrap';
 import './admin.css';
 import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
-import { getReports, deleteComment, deleteTopic } from '../util/APIUtils';
+import { getReports, deleteComment, deleteTopic, cancelTopic, cancelComment } from '../util/APIUtils';
 import { Card, CardBody, UncontrolledTooltip } from 'reactstrap';
 
 const TabPane = Tabs.TabPane;
@@ -17,12 +17,19 @@ class RequestRemove extends Component {
             comment: [],
             isLoading: false,
             error: null,
-            ModalText: 'ท่านต้องการลบคำถามนี้ใช่หรือไม่ ?',
+            ModalText: 'ท่านต้องการลบรายการนี้ใช่หรือไม่ ?',
             ModalVisible: false,
             confirmLoading: false,
             topicId: null,
             commentId: null,
             isTopic: null,
+
+            ModalTextM1: 'ท่านต้องการยกเลิกรายการนี้ใช่หรือไม่ ?',
+            ModalVisibleM1: false,
+            confirmLoadingM1: false,
+            topicIdM1: null,
+            commentIdM1: null,
+            isTopicM1: null,
         }
     }
     componentDidMount() {
@@ -101,7 +108,7 @@ class RequestRemove extends Component {
                     this.setState({
                         ModalVisible: false,
                         confirmLoading: false,
-                        ModalText: 'ท่านต้องการลบคำถามนี้ใช่หรือไม่ ?',
+                        ModalText: 'ท่านต้องการลบรายการนี้ใช่หรือไม่ ?',
                     },
                         this.handleLoadData(),
                         Notification.success({
@@ -157,6 +164,108 @@ class RequestRemove extends Component {
             });
     }
 
+
+    //handle cancel modal
+
+    handleTopicCanccelButton = (e) => {
+        this.setState({
+            ModalVisibleM1: true,
+            topicIdM1: e,
+            isTopicM1: true,
+        });
+    }
+
+    handleCommentCancelButton = (e) => {
+        this.setState({
+            ModalVisibleM1: true,
+            commentIdM1: e,
+            topicIdM1: null,
+            isTopicM1: false,
+        });
+    }
+
+    handleModalCancel = () => {
+        this.setState({
+            ModalVisibleM1: false,
+        });
+    }
+
+    handleModalCancelTopicOK = () => {
+        this.setState({
+            ModalTextM1: 'กำลังดำเนินการ, กรุณารอสักครู่...',
+            confirmLoadingM1: true,
+        });
+
+        cancelTopic(this.state.topicIdM1)
+            .then(response => {
+                setTimeout(() => {
+                    this.setState({
+                        ModalVisibleM1: false,
+                        confirmLoadingM1: false,
+                        ModalTextM1: 'ท่านต้องการยกเลิกรายการนี้ใช่หรือไม่ ?',
+                    },
+                        this.handleLoadData(),
+                        Notification.success({
+                            message: 'Health QA',
+                            description: "ยกเลิกรายการนี้เรียบร้อยแล้ว",
+                        })
+                    );
+                }, 1000);
+            })
+            .catch(error => {
+                if (error.status === 401) {
+                    this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
+                } else {
+                    Notification.error({
+                        message: 'Health QA',
+                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    });
+                }
+            });
+    }
+
+    handleModalCancelCommentOK = () => {
+        this.setState({
+            ModalTextM1: 'กำลังดำเนินการ, กรุณารอสักครู่...',
+            confirmLoadingM1: true,
+        });
+
+        cancelComment(this.state.commentIdM1)
+            .then(response => {
+                setTimeout(() => {
+                    this.setState({
+                        ModalVisibleM1: false,
+                        confirmLoadingM1: false,
+                        ModalTextM1: 'ท่านต้องการยกเลิกรายการนี้ใช่หรือไม่ ?',
+                    },
+                        this.handleLoadData(),
+                        Notification.success({
+                            message: 'Health QA',
+                            description: "ยกเลิกรายการนี้เรียบร้อยแล้ว",
+                        })
+                    );
+                }, 1000);
+            })
+            .catch(error => {
+                if (error.status === 401) {
+                    this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create Question.');
+                } else {
+                    Notification.error({
+                        message: 'Health QA',
+                        description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    });
+                }
+            });
+    }
+
+    handleModalCancelM1 = () => {
+        this.setState({
+            ModalVisibleM1: false,
+        });
+    }
+
+    // -------------------------------------------------
+
     render() {
         const { error } = this.state;
         if (this.state.notFound) {
@@ -191,6 +300,16 @@ class RequestRemove extends Component {
                         onCancel={this.handleModalCancel}
                     >
                         <p>{this.state.ModalText}</p>
+                    </Modal>
+
+                    <Modal title="ยืนยันการทำรายการ"
+                        visible={this.state.ModalVisibleM1}
+                        centered
+                        onOk={this.state.isTopicM1 ? this.handleModalCancelTopicOK : this.handleModalCancelCommentOK}
+                        confirmLoading={this.state.confirmLoadingM1}
+                        onCancel={this.handleModalCancelM1}
+                    >
+                        <p>{this.state.ModalTextM1}</p>
                     </Modal>
                     <CardBody>
                         <div className="profile">
@@ -239,6 +358,15 @@ class RequestRemove extends Component {
                                                                                     icon="delete"
                                                                                     onClick={(e) => this.handleTopicDeleteButton(topic.id)} />
                                                                                 <UncontrolledTooltip placement="right" target={"delete_TopicID" + topic.id}>ลบคำถามนี้</UncontrolledTooltip>
+                                                                                <Button
+                                                                                    id={"cancel_topicID" + topic.id}
+                                                                                    type="danger"
+                                                                                    ghost
+                                                                                    className="ml-2"
+                                                                                    shape="circle"
+                                                                                    icon="close"
+                                                                                    onClick={(e) => this.handleTopicCanccelButton(topic.id)} />
+                                                                                <UncontrolledTooltip placement="right" target={"cancel_topicID" + topic.id}>ยกเลิกการแจ้งลบ</UncontrolledTooltip>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -293,6 +421,15 @@ class RequestRemove extends Component {
                                                                                     icon="delete"
                                                                                     onClick={(e) => this.handleCommentDeleteButton(comment.id)} />
                                                                                 <UncontrolledTooltip placement="right" target={"delete_commentID" + comment.id}>ลบคำตอบนี้</UncontrolledTooltip>
+                                                                                <Button
+                                                                                    id={"cancel_topicID" + comment.id}
+                                                                                    type="danger"
+                                                                                    ghost
+                                                                                    className="ml-2"
+                                                                                    shape="circle"
+                                                                                    icon="close"
+                                                                                    onClick={(e) => this.handleCommentCancelButton(comment.id)} />
+                                                                                <UncontrolledTooltip placement="right" target={"cancel_topicID" + comment.id}>ยกเลิกการแจ้งลบ</UncontrolledTooltip>
                                                                             </div>
                                                                         </td>
                                                                     </tr>

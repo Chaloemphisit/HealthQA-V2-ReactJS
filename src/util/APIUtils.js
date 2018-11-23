@@ -64,6 +64,20 @@ export function deleteTopic(id) {
     });
 }
 
+export function cancelComment(id) {
+    return request({
+        url: API_BASE_URL + "/admin/report/comment/cancel/" + id,
+        method: 'PUT'
+    });
+}
+
+export function cancelTopic(id) {
+    return request({
+        url: API_BASE_URL + "/admin/report/topic/cancel/" + id,
+        method: 'PUT'
+    });
+}
+
 export function deleteUser(username) {
     return request({
         url: API_BASE_URL + "/admin/users/delete/" + username,
