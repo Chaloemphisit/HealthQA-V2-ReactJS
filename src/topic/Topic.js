@@ -329,8 +329,8 @@ export default class Topic extends React.Component {
                                 <span className="ask__date">{beautyDate(comment.createDate)}</span>
                               </Col>
                               <Col md={2} xs={2} sm={2}>
-                                <div className="float-right" key={comment.commentId} onClick={(e) => this.confirmReportComment(comment.commentId, "comment")}> <FontAwesomeIcon icon="trash-alt" id="trash" /></div>
-                                <UncontrolledTooltip placement="right" target="trash">แจ้งลบ</UncontrolledTooltip>
+                                <div className="float-right" key={comment.commentId} onClick={(e) => this.confirmReportComment(comment.commentId, "comment")}> <FontAwesomeIcon icon="trash-alt" id={"trash" + comment.commentId} /></div>
+                                <UncontrolledTooltip placement="right" target={"trash" + comment.commentId}>แจ้งลบ</UncontrolledTooltip>
                               </Col>
                             </Row>
 
