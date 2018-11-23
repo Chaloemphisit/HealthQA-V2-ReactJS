@@ -126,7 +126,7 @@ class ManageTopic extends Component {
 
 
         return (
-            <Card outline color="danger">
+            <Card outline color="danger" className="mb-4">
                 <Modal title="ยืนยันการทำรายการ"
                     visible={this.state.ModalVisible}
                     centered

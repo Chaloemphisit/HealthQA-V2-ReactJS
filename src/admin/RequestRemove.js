@@ -290,7 +290,7 @@ class RequestRemove extends Component {
             textAlign: 'center'
         };
         return (
-            <div className="app-content-admin">
+            <div className="app-content-admin" className="mb-4">
                 <Card outline color="danger">
                     <Modal title="ยืนยันการทำรายการ"
                         visible={this.state.ModalVisible}

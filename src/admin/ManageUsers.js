@@ -155,7 +155,7 @@ class ManageUsers extends Component {
         };
 
         return (
-            <Card outline color="danger">
+            <Card outline color="danger" className="mb-4">
                 <ModelReactStrap isOpen={this.state.modal} toggle={this.toggle} handleLoadData={this.handleLoadData} className={this.props.className}>
                     <ModalBody>
                         {this.state.isDoctor ? <SignupDoctor onClick={this.toggle} handleLoadData={this.handleLoadData} {...this.props} /> : <SignupAdmin onClick={this.toggle} handleLoadData={this.handleLoadData} {...this.props} />}
