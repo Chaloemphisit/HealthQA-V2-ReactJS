@@ -181,139 +181,141 @@ class RequestRemove extends Component {
             textAlign: 'center'
         };
         return (
-            <Card outline color="danger">
-                <Modal title="ยืนยันการทำรายการ"
-                    visible={this.state.ModalVisible}
-                    centered
-                    onOk={this.state.isTopic ? this.handleModalTopicOK : this.handleModalCommentOK}
-                    confirmLoading={this.state.confirmLoading}
-                    onCancel={this.handleModalCancel}
-                >
-                    <p>{this.state.ModalText}</p>
-                </Modal>
-                <CardBody>
-                    <div className="profile">
-                        <Spin spinning={this.state.isLoading} size="large" delay={200}>
-                            <div className="user-poll-details">
-                                <Tabs defaultActiveKey="1"
-                                    animated={false}
-                                    tabBarStyle={tabBarStyle}
-                                    size="large"
-                                    className="profile-tabs">
-                                    <TabPane tab="รายการแจ้งลบคำถาม" key="1">
-                                        <Table striped>
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>คำถาม</th>
-                                                    <th>รายละเอียด</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    this.props.currentUser ? (
-                                                        this.state.topic.map(
-                                                            (topic, index) =>
-                                                                <tr key={index}>
-                                                                    <th scope="row">{topic.id}</th>
-                                                                    <td>{topic.topicName.substring(0, 60)}{topic.topicName.length > 60 ? "..." : null}</td>
-                                                                    <td>{topic.topicText.substring(0, 60)}{topic.topicText.length > 60 ? "..." : null}</td>
-                                                                    <td style={{ width: '150px' }}>
-                                                                        <div>
-                                                                            <Button
-                                                                                id={"view_TopicID" + topic.id}
-                                                                                type="primary"
-                                                                                ghost
-                                                                                shape="circle"
-                                                                                icon="select"
-                                                                                onClick={(e) => this.handleTopicViewButton(topic.id)} />
-                                                                            <UncontrolledTooltip placement="right" target={"view_TopicID" + topic.id}>ไปที่คำถามนี้</UncontrolledTooltip>
-                                                                            <Button
-                                                                                id={"delete_TopicID" + topic.id}
-                                                                                type="danger"
-                                                                                ghost
-                                                                                className="ml-2"
-                                                                                shape="circle"
-                                                                                icon="delete" โ
-                                                                                onClick={(e) => this.handleTopicDeleteButton(topic.id)} />
-                                                                            <UncontrolledTooltip placement="right" target={"delete_TopicID" + topic.id}>ลบคำถามนี้</UncontrolledTooltip>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                        )
-                                                    ) : null
-                                                }
-                                            </tbody>
-                                        </Table>
-                                        {
-                                            !this.state.isLoading && this.state.topic.length === 0 ? (
-                                                <div className="no-polls-found">
-                                                    <span>No Data Found.</span>
-                                                </div>
-                                            ) : null
-                                        }
-                                    </TabPane>
-                                    <TabPane tab="รายการแจ้งลบคำตอบ" key="2">
-                                        <Table striped>
-                                            <thead>
-                                                <tr>
-                                                    <th>Topic ID</th>
-                                                    <th>Comment ID</th>
-                                                    <th>รายละเอียดคำตอบ</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    this.props.currentUser ? (
-                                                        this.state.comment.map(
-                                                            (comment, index) =>
-                                                                <tr key={index}>
-                                                                    <th>{comment.topicId}</th>
-                                                                    <th scope="row">{comment.id}</th>
-                                                                    <td>{comment.commentText.substring(0, 60)}{comment.commentText.length > 60 ? "..." : null}</td>
-                                                                    <td style={{ width: '150px' }}>
-                                                                        <div>
-                                                                            <Button
-                                                                                id={"view_commentTopicID" + comment.topicId}
-                                                                                type="primary"
-                                                                                ghost
-                                                                                shape="circle"
-                                                                                icon="select"
-                                                                                onClick={(e) => this.handleTopicViewButton(comment.topicId)} />
-                                                                            <UncontrolledTooltip placement="right" target={"view_commentTopicID" + comment.topicId}>ไปที่คำถามของคำตอบนี้</UncontrolledTooltip>
-                                                                            <Button
-                                                                                id={"delete_commentID" + comment.id}
-                                                                                type="danger"
-                                                                                ghost
-                                                                                className="ml-2"
-                                                                                shape="circle"
-                                                                                icon="delete"
-                                                                                onClick={(e) => this.handleCommentDeleteButton(comment.id)} />
-                                                                            <UncontrolledTooltip placement="right" target={"delete_commentID" + comment.id}>ลบคำตอบนี้</UncontrolledTooltip>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                        )
-                                                    ) : null
-                                                }
-                                            </tbody>
-                                        </Table>
-                                        {
-                                            !this.state.isLoading && this.state.comment.length === 0 ? (
-                                                <div className="no-polls-found">
-                                                    <span>No Data Found.</span>
-                                                </div>
-                                            ) : null
-                                        }
-                                    </TabPane>
-                                </Tabs>
-                            </div>
-                        </Spin>
-                    </div>
-                </CardBody>
-            </Card>
+            <div className="app-content-admin">
+                <Card outline color="danger">
+                    <Modal title="ยืนยันการทำรายการ"
+                        visible={this.state.ModalVisible}
+                        centered
+                        onOk={this.state.isTopic ? this.handleModalTopicOK : this.handleModalCommentOK}
+                        confirmLoading={this.state.confirmLoading}
+                        onCancel={this.handleModalCancel}
+                    >
+                        <p>{this.state.ModalText}</p>
+                    </Modal>
+                    <CardBody>
+                        <div className="profile">
+                            <Spin spinning={this.state.isLoading} size="large" delay={200}>
+                                <div className="user-poll-details">
+                                    <Tabs defaultActiveKey="1"
+                                        animated={false}
+                                        tabBarStyle={tabBarStyle}
+                                        size="large"
+                                        className="profile-tabs">
+                                        <TabPane tab="รายการแจ้งลบคำถาม" key="1">
+                                            <Table striped>
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>คำถาม</th>
+                                                        <th>รายละเอียด</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {
+                                                        this.props.currentUser ? (
+                                                            this.state.topic.map(
+                                                                (topic, index) =>
+                                                                    <tr key={index}>
+                                                                        <th scope="row">{topic.id}</th>
+                                                                        <td>{topic.topicName.substring(0, 60)}{topic.topicName.length > 60 ? "..." : null}</td>
+                                                                        <td>{topic.topicText.substring(0, 60)}{topic.topicText.length > 60 ? "..." : null}</td>
+                                                                        <td style={{ width: '150px' }}>
+                                                                            <div>
+                                                                                <Button
+                                                                                    id={"view_TopicID" + topic.id}
+                                                                                    type="primary"
+                                                                                    ghost
+                                                                                    shape="circle"
+                                                                                    icon="select"
+                                                                                    onClick={(e) => this.handleTopicViewButton(topic.id)} />
+                                                                                <UncontrolledTooltip placement="right" target={"view_TopicID" + topic.id}>ไปที่คำถามนี้</UncontrolledTooltip>
+                                                                                <Button
+                                                                                    id={"delete_TopicID" + topic.id}
+                                                                                    type="danger"
+                                                                                    ghost
+                                                                                    className="ml-2"
+                                                                                    shape="circle"
+                                                                                    icon="delete"
+                                                                                    onClick={(e) => this.handleTopicDeleteButton(topic.id)} />
+                                                                                <UncontrolledTooltip placement="right" target={"delete_TopicID" + topic.id}>ลบคำถามนี้</UncontrolledTooltip>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                            )
+                                                        ) : null
+                                                    }
+                                                </tbody>
+                                            </Table>
+                                            {
+                                                !this.state.isLoading && this.state.topic.length === 0 ? (
+                                                    <div className="no-polls-found">
+                                                        <span>No Data Found.</span>
+                                                    </div>
+                                                ) : null
+                                            }
+                                        </TabPane>
+                                        <TabPane tab="รายการแจ้งลบคำตอบ" key="2">
+                                            <Table striped>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Topic ID</th>
+                                                        <th>Comment ID</th>
+                                                        <th>รายละเอียดคำตอบ</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {
+                                                        this.props.currentUser ? (
+                                                            this.state.comment.map(
+                                                                (comment, index) =>
+                                                                    <tr key={index}>
+                                                                        <th>{comment.topicId}</th>
+                                                                        <th scope="row">{comment.id}</th>
+                                                                        <td>{comment.commentText.substring(0, 60)}{comment.commentText.length > 60 ? "..." : null}</td>
+                                                                        <td style={{ width: '150px' }}>
+                                                                            <div>
+                                                                                <Button
+                                                                                    id={"view_commentTopicID" + comment.topicId}
+                                                                                    type="primary"
+                                                                                    ghost
+                                                                                    shape="circle"
+                                                                                    icon="select"
+                                                                                    onClick={(e) => this.handleTopicViewButton(comment.topicId)} />
+                                                                                <UncontrolledTooltip placement="right" target={"view_commentTopicID" + comment.topicId}>ไปที่คำถามของคำตอบนี้</UncontrolledTooltip>
+                                                                                <Button
+                                                                                    id={"delete_commentID" + comment.id}
+                                                                                    type="danger"
+                                                                                    ghost
+                                                                                    className="ml-2"
+                                                                                    shape="circle"
+                                                                                    icon="delete"
+                                                                                    onClick={(e) => this.handleCommentDeleteButton(comment.id)} />
+                                                                                <UncontrolledTooltip placement="right" target={"delete_commentID" + comment.id}>ลบคำตอบนี้</UncontrolledTooltip>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                            )
+                                                        ) : null
+                                                    }
+                                                </tbody>
+                                            </Table>
+                                            {
+                                                !this.state.isLoading && this.state.comment.length === 0 ? (
+                                                    <div className="no-polls-found">
+                                                        <span>No Data Found.</span>
+                                                    </div>
+                                                ) : null
+                                            }
+                                        </TabPane>
+                                    </Tabs>
+                                </div>
+                            </Spin>
+                        </div>
+                    </CardBody>
+                </Card>
+            </div>
         );
     }
 }

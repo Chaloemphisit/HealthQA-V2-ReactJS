@@ -169,148 +169,156 @@ export default class NewTopic extends React.Component {
   render() {
     let newTopicForm;
     if (this.props.currentUser) {
-      newTopicForm = [
-        <Card outline color="info">
-          <CardHeader style={{ backgroundColor: '#17A2B8', color: '#FFF' }} tag="h3">รายละเอียด</CardHeader>
-          <CardBody>
-            <Form onSubmit={this.handleSubmit}>
-              <FormItem
-                label="คำถาม"
-                validateStatus={this.state.topicName.validateStatus}
-                help={this.state.topicName.errorMsg}>
-                <Input
-                  size="large"
-                  name="topicName"
-                  autoComplete="off"
-                  placeholder="ระบุคำถาม"
-                  value={this.state.topicName.value}
-                  onChange={(event) => this.handleInputChange(event, this.validateTopicName)} />
-              </FormItem>
-              <FormItem
-                label="รายละเอียดคำถาม"
-                validateStatus={this.state.topicText.validateStatus}
-                help={this.state.topicText.errorMsg}>
-                <TextArea
-                  rows={4}
-                  size="large"
-                  name="topicText"
-                  autoComplete="off"
-                  value={this.state.topicText.value}
-                  onChange={(event) => this.handleInputChange(event, this.validateTopicText)} />
-              </FormItem>
-              <FormItem
-                label="วัตถุประสงค์"
-                validateStatus={this.state.questionPurpose.validateStatus}
-                help={this.state.questionPurpose.errorMsg}>
-                <Input
-                  size="large"
-                  name="questionPurpose"
-                  autoComplete="off"
-                  placeholder="ระบุวัตถุประสงค์ที่ถาม"
-                  value={this.state.questionPurpose.value}
-                  onChange={(event) => this.handleInputChange(event, this.validatePurpose)} />
-              </FormItem>
-              <FormItem
-                label="ประเภทคำถาม"
-                validateStatus={this.state.questionType.validateStatus}
-                help={this.state.questionType.errorMsg}>
-                <RadioGroup
-                  name="questionType"
-                  size="large"
-                  onChange={(event) => this.handleInputChange(event, this.validateQuestionType)}
-                  value={this.state.questionType.value}>
-                  <Radio value="D">คำถามเฉพาะทางแพทย์</Radio>
-                  <Radio value="P">คำถามเฉพาะทางเภสัชกร</Radio>
-                </RadioGroup>
-              </FormItem>
-              <legend>ข้อมูลผู้ป่วย</legend>
-              <Row form>
-                <Col md={2}>
-                  <FormItem
-                    label="เพศ"
-                    validateStatus={this.state.sex.validateStatus}
-                    help={this.state.sex.errorMsg}>
-                    <Select
-                      size="large"
-                      name="sex"
-                      value={this.state.sex.value}
-                      // onChange={this.handleChange}
-                      onChange={(event) => this.handleChange(event, "sex", this.validateSex)}
-                    >
-                      <Option value="disabled" disabled>เลือกเพศ</Option>
-                      <Option value="M">ชาย</Option>
-                      <Option value="F">หญิง</Option>
-                    </Select>
-                  </FormItem>
-                </Col>
-                <Col md={3}>
-                  <FormItem
-                    label="น้ำหนัก (กก.)"
-                    validateStatus={this.state.weight.validateStatus}
-                    help={this.state.weight.errorMsg}>
-                    <InputNumber
-                      value={this.state.weight.value}
-                      style={{ width: '100%' }}
-                      name="weight"
-                      size="large"
-                      min={1}
-                      onChange={(event) => this.handleChange(event, "weight", this.validateWeight)} />
-                  </FormItem>
-                </Col>
-                <Col md={3}>
-                  <FormItem
-                    label="ส่วนสูง (ซม.)"
-                    validateStatus={this.state.height.validateStatus}
-                    help={this.state.height.errorMsg}>
-                    <InputNumber
-                      value={this.state.height.value}
-                      style={{ width: '100%' }}
-                      size="large"
-                      name="height"
-                      min={1}
-                      onChange={(event) => this.handleChange(event, "height", this.validateHeight)} />
-                  </FormItem>
-                </Col>
-                <Col md={4}>
-                  <FormItem
-                    label="วันเกิด"
-                    validateStatus={this.state.birthDate.validateStatus}
-                    help={this.state.birthDate.errorMsg}>
-                    <DatePicker
-                      // value={this.state.birthDate.value}
-                      style={{ width: '100%' }}
-                      size="large"
-                      // onChange={(event) => this.handleChange(event, "birthDate", this.validateBirthDate)}
-                      onChange={(date, dateString) => {
-                        this.handleBirthdayChange(date, dateString)
-                      }}
-                    />
-                  </FormItem>
-                </Col>
-              </Row>
-              <FormItem
-                label="โรคประจำตัว"
-                validateStatus={this.state.disease.validateStatus}
-                help={this.state.disease.errorMsg}>
-                <Input
-                  size="large"
-                  name="disease"
-                  autoComplete="off"
-                  placeholder="ระบุโรคประจำตัว"
-                  value={this.state.disease.value}
-                  onChange={(event) => this.handleInputChange(event, this.validateDisease)} />
-              </FormItem>
-              <FormItem>
-                <Button type="primary"
-                  htmlType="submit"
-                  size="large"
-                  className="signup-form-button"
-                  disabled={this.isFormInvalid()}>ตั้งคำถาม</Button>
-              </FormItem>
-            </Form>
-          </CardBody>
-        </Card>
-      ]
+      if (this.state.currentUser.authorities[0].authority === "S_USER") {
+        newTopicForm = [
+          <div style={{ textAlign: 'center' }}>
+            <h4>ขออภัย...คุณไม่มีสิทธิในการตั้งคำถาม</h4>
+          </div>
+        ]
+      } else {
+        newTopicForm = [
+          <Card outline color="info">
+            <CardHeader style={{ backgroundColor: '#17A2B8', color: '#FFF' }} tag="h3">รายละเอียด</CardHeader>
+            <CardBody>
+              <Form onSubmit={this.handleSubmit}>
+                <FormItem
+                  label="คำถาม"
+                  validateStatus={this.state.topicName.validateStatus}
+                  help={this.state.topicName.errorMsg}>
+                  <Input
+                    size="large"
+                    name="topicName"
+                    autoComplete="off"
+                    placeholder="ระบุคำถาม"
+                    value={this.state.topicName.value}
+                    onChange={(event) => this.handleInputChange(event, this.validateTopicName)} />
+                </FormItem>
+                <FormItem
+                  label="รายละเอียดคำถาม"
+                  validateStatus={this.state.topicText.validateStatus}
+                  help={this.state.topicText.errorMsg}>
+                  <TextArea
+                    rows={4}
+                    size="large"
+                    name="topicText"
+                    autoComplete="off"
+                    value={this.state.topicText.value}
+                    onChange={(event) => this.handleInputChange(event, this.validateTopicText)} />
+                </FormItem>
+                <FormItem
+                  label="วัตถุประสงค์"
+                  validateStatus={this.state.questionPurpose.validateStatus}
+                  help={this.state.questionPurpose.errorMsg}>
+                  <Input
+                    size="large"
+                    name="questionPurpose"
+                    autoComplete="off"
+                    placeholder="ระบุวัตถุประสงค์ที่ถาม"
+                    value={this.state.questionPurpose.value}
+                    onChange={(event) => this.handleInputChange(event, this.validatePurpose)} />
+                </FormItem>
+                <FormItem
+                  label="ประเภทคำถาม"
+                  validateStatus={this.state.questionType.validateStatus}
+                  help={this.state.questionType.errorMsg}>
+                  <RadioGroup
+                    name="questionType"
+                    size="large"
+                    onChange={(event) => this.handleInputChange(event, this.validateQuestionType)}
+                    value={this.state.questionType.value}>
+                    <Radio value="D">คำถามเฉพาะทางแพทย์</Radio>
+                    <Radio value="P">คำถามเฉพาะทางเภสัชกร</Radio>
+                  </RadioGroup>
+                </FormItem>
+                <legend>ข้อมูลผู้ป่วย</legend>
+                <Row form>
+                  <Col md={2}>
+                    <FormItem
+                      label="เพศ"
+                      validateStatus={this.state.sex.validateStatus}
+                      help={this.state.sex.errorMsg}>
+                      <Select
+                        size="large"
+                        name="sex"
+                        value={this.state.sex.value}
+                        // onChange={this.handleChange}
+                        onChange={(event) => this.handleChange(event, "sex", this.validateSex)}
+                      >
+                        <Option value="disabled" disabled>เลือกเพศ</Option>
+                        <Option value="M">ชาย</Option>
+                        <Option value="F">หญิง</Option>
+                      </Select>
+                    </FormItem>
+                  </Col>
+                  <Col md={3}>
+                    <FormItem
+                      label="น้ำหนัก (กก.)"
+                      validateStatus={this.state.weight.validateStatus}
+                      help={this.state.weight.errorMsg}>
+                      <InputNumber
+                        value={this.state.weight.value}
+                        style={{ width: '100%' }}
+                        name="weight"
+                        size="large"
+                        min={1}
+                        onChange={(event) => this.handleChange(event, "weight", this.validateWeight)} />
+                    </FormItem>
+                  </Col>
+                  <Col md={3}>
+                    <FormItem
+                      label="ส่วนสูง (ซม.)"
+                      validateStatus={this.state.height.validateStatus}
+                      help={this.state.height.errorMsg}>
+                      <InputNumber
+                        value={this.state.height.value}
+                        style={{ width: '100%' }}
+                        size="large"
+                        name="height"
+                        min={1}
+                        onChange={(event) => this.handleChange(event, "height", this.validateHeight)} />
+                    </FormItem>
+                  </Col>
+                  <Col md={4}>
+                    <FormItem
+                      label="วันเกิด"
+                      validateStatus={this.state.birthDate.validateStatus}
+                      help={this.state.birthDate.errorMsg}>
+                      <DatePicker
+                        // value={this.state.birthDate.value}
+                        style={{ width: '100%' }}
+                        size="large"
+                        // onChange={(event) => this.handleChange(event, "birthDate", this.validateBirthDate)}
+                        onChange={(date, dateString) => {
+                          this.handleBirthdayChange(date, dateString)
+                        }}
+                      />
+                    </FormItem>
+                  </Col>
+                </Row>
+                <FormItem
+                  label="โรคประจำตัว"
+                  validateStatus={this.state.disease.validateStatus}
+                  help={this.state.disease.errorMsg}>
+                  <Input
+                    size="large"
+                    name="disease"
+                    autoComplete="off"
+                    placeholder="ระบุโรคประจำตัว"
+                    value={this.state.disease.value}
+                    onChange={(event) => this.handleInputChange(event, this.validateDisease)} />
+                </FormItem>
+                <FormItem>
+                  <Button type="primary"
+                    htmlType="submit"
+                    size="large"
+                    className="signup-form-button"
+                    disabled={this.isFormInvalid()}>ตั้งคำถาม</Button>
+                </FormItem>
+              </Form>
+            </CardBody>
+          </Card>
+        ]
+      }
     } else {
       newTopicForm = [
         <div>
@@ -326,7 +334,7 @@ export default class NewTopic extends React.Component {
     return (
       // Show Div Full Page => container-fluid
       <div className="container" id="card-margin-top-bottom">
-        <Spin spinning={this.state.isLoading} size="large" style={{marginTop:'30%'}}>
+        <Spin spinning={this.state.isLoading} size="large" style={{ marginTop: '30%' }}>
           {newTopicForm}
         </Spin>
       </div>

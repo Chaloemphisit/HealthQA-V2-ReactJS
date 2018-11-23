@@ -7,8 +7,9 @@ import {
     EMAIL_MAX_LENGTH, PASSWORD_MAX_LENGTH
 } from '../../constants';
 
-import { Form, Input, Button, notification, Row, Col } from 'antd';
+import { Form, Input, Button, notification, Row, Col, Radio } from 'antd';
 const FormItem = Form.Item;
+const RadioGroup = Radio.Group;
 
 class SignupDoctor extends Component {
     constructor(props) {
@@ -28,7 +29,8 @@ class SignupDoctor extends Component {
             },
             password: {
                 value: ''
-            }
+            },
+            prefix: 'doctor_',
         }
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,6 +64,27 @@ class SignupDoctor extends Component {
         });
     }
 
+    handleUserNameChange(event, validationFun) {
+        const target = event.target;
+        const inputValue = target.value;
+
+        this.setState({
+            username: {
+                value: inputValue,
+                ...validationFun(inputValue)
+            }
+        });
+    }
+
+    handleUserTypeChange(event) {
+        const target = event.target;
+        const inputValue = target.value;
+
+        this.setState({
+            prefix: inputValue
+        });
+    }
+
     handleSubmit(event) {
         event.preventDefault();
 
@@ -69,7 +92,7 @@ class SignupDoctor extends Component {
             firstname: this.state.firstname.value,
             lastname: this.state.lastname.value,
             email: this.state.email.value,
-            username: this.state.username.value,
+            username: this.state.prefix + this.state.username.value,
             password: this.state.password.value
         };
         signupDoctor(signupRequest)
@@ -135,10 +158,22 @@ class SignupDoctor extends Component {
                                 size="large"
                                 name="username"
                                 autoComplete="off"
+                                addonBefore={this.state.prefix}
                                 placeholder="A unique username"
                                 value={this.state.username.value}
                                 onBlur={this.validateUsernameAvailability}
-                                onChange={(event) => this.handleInputChange(event, this.validateUsername)} />
+                                onChange={(event) => this.handleUserNameChange(event, this.validateUsername)} />
+                        </FormItem>
+                        <FormItem
+                            label="ประเภทผู้ใช้">
+                            <RadioGroup
+                                name="questionType"
+                                size="large"
+                                onChange={(event) => this.handleUserTypeChange(event)}
+                                value={this.state.prefix}>
+                                <Radio value="doctor_">หมอ</Radio>
+                                <Radio value="pharmacist_">เภสัชกร</Radio>
+                            </RadioGroup>
                         </FormItem>
                         <FormItem
                             label="Email"
@@ -265,7 +300,7 @@ class SignupDoctor extends Component {
             }
         }
 
-        const USERNAME_REGEX = RegExp('^[A-Za-z]+$');
+        const USERNAME_REGEX = RegExp('^[A-Za-z_]+$');
         if (!USERNAME_REGEX.test(username)) {
             return {
                 validateStatus: 'error',
@@ -302,7 +337,7 @@ class SignupDoctor extends Component {
             }
         });
 
-        checkUsernameAvailability(usernameValue)
+        checkUsernameAvailability(this.state.prefix + usernameValue)
             .then(response => {
                 if (response.available) {
                     this.setState({
