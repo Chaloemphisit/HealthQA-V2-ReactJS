@@ -130,6 +130,13 @@ class Home extends React.Component {
                           </ListGroup >
                       )
                     }
+                    {
+                      !this.state.isLoading && this.state.searchResult.length === 0 ? (
+                        <div className="no-polls-found">
+                          <span>ไม่พบคำถามที่คุณค้นหา</span>
+                        </div>
+                      ) : null
+                    }
                   </div>
                 ) : <QuestionTabs />
               }
