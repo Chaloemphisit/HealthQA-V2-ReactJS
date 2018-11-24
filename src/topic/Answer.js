@@ -3,6 +3,7 @@ import { CardBody, Card } from 'reactstrap';
 import { Form, Input, Button, Notification, Spin } from 'antd';
 import { Link } from 'react-router-dom';
 import { createComment } from '../util/APIUtils';
+import './style.css'
 
 const FormItem = Form.Item;
 const { TextArea } = Input;

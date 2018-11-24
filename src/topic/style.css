@@ -1,7 +1,19 @@
+#topicCard {
+    background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
+    border: none;
+}
+
+#topicCard:hover {
+    filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.2));
+}
+
 .ask__commentaries {
     /* display: block; */
     margin-top: 2%;
     border: none;
+}
+
+.ask__commentaries:hover {
     filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.2));
 }
 
@@ -9,6 +21,10 @@
     margin-top: 2%;
     /* background-image: linear-gradient(20deg, #e9defa 0%, #fbfcdb 100%); */
     background-image: linear-gradient(to left bottom, #e9defa 0%, #fbfcdb 100%);
+}
+
+.answer:hover {
+    filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.2));
 }
 
 .answer-text {
