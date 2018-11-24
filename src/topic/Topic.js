@@ -134,7 +134,7 @@ export default class Topic extends React.Component {
               description: "แจ้งข้อความไม่เหมาะสมเรียบร้อย, เจ้าหน้าที่อาจจะใช้เวลา 1-2 วัน ในการตรวจสอบ",
             })
           );
-        }, 1000);
+        }, 0);
       })
       .catch(error => {
         if (error.status === 401) {
@@ -168,7 +168,7 @@ export default class Topic extends React.Component {
               description: "แจ้งข้อความไม่เหมาะสมเรียบร้อย, เจ้าหน้าที่อาจจะใช้เวลา 1-2 วัน ในการตรวจสอบ",
             })
           );
-        }, 1000);
+        }, 0);
       })
       .catch(error => {
         if (error.status === 401) {
