@@ -184,7 +184,7 @@ class RequestRemove extends Component {
         });
     }
 
-    handleModalCancel = () => {
+    handleModalCancelM1 = () => {
         this.setState({
             ModalVisibleM1: false,
         });
