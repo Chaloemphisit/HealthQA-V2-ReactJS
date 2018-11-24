@@ -10,9 +10,6 @@ const FormItem = Form.Item;
 class Login extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            isLoading: false,
-        }
 
         if (this.props.isAuthenticated) {
             this.props.history.push("/");
@@ -34,6 +31,9 @@ class Login extends Component {
 class LoginForm extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isLoading: false,
+        }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
