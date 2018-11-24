@@ -82,7 +82,9 @@ class SignupDoctor extends Component {
 
         this.setState({
             prefix: inputValue
-        });
+        },
+            this.validateUsernameAvailability()
+        );
     }
 
     handleSubmit(event) {
