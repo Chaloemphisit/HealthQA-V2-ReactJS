@@ -210,7 +210,7 @@ class RequestRemove extends Component {
                             description: "ยกเลิกรายการนี้เรียบร้อยแล้ว",
                         })
                     );
-                }, 1000);
+                }, 0);
             })
             .catch(error => {
                 if (error.status === 401) {
@@ -244,7 +244,7 @@ class RequestRemove extends Component {
                             description: "ยกเลิกรายการนี้เรียบร้อยแล้ว",
                         })
                     );
-                }, 1000);
+                }, 0);
             })
             .catch(error => {
                 if (error.status === 401) {
@@ -298,6 +298,8 @@ class RequestRemove extends Component {
                         onOk={this.state.isTopic ? this.handleModalTopicOK : this.handleModalCommentOK}
                         confirmLoading={this.state.confirmLoading}
                         onCancel={this.handleModalCancel}
+                        okText="ใช่"
+                        cancelText="ไม่ใช่"
                     >
                         <p>{this.state.ModalText}</p>
                     </Modal>
@@ -308,6 +310,8 @@ class RequestRemove extends Component {
                         onOk={this.state.isTopicM1 ? this.handleModalCancelTopicOK : this.handleModalCancelCommentOK}
                         confirmLoading={this.state.confirmLoadingM1}
                         onCancel={this.handleModalCancelM1}
+                        okText="ใช่"
+                        cancelText="ไม่ใช่"
                     >
                         <p>{this.state.ModalTextM1}</p>
                     </Modal>

@@ -4,12 +4,15 @@ import './Login.css';
 import { Link } from 'react-router-dom';
 import { ACCESS_TOKEN } from '../../constants';
 
-import { Form, Input, Button, Icon, notification } from 'antd';
+import { Form, Input, Button, Icon, notification, Spin } from 'antd';
 const FormItem = Form.Item;
 
 class Login extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            isLoading: false,
+        }
 
         if (this.props.isAuthenticated) {
             this.props.history.push("/");
@@ -35,6 +38,9 @@ class LoginForm extends Component {
     }
 
     handleSubmit(event) {
+        this.setState({
+            isLoading: true,
+        })
         event.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -43,7 +49,13 @@ class LoginForm extends Component {
                     .then(response => {
                         localStorage.setItem(ACCESS_TOKEN, response.accessToken);
                         this.props.onLogin();
+                        this.setState({
+                            isLoading: false,
+                        })
                     }).catch(error => {
+                        this.setState({
+                            isLoading: false,
+                        })
                         if (error.status === 401) {
                             notification.error({
                                 message: 'Health QA',
@@ -64,33 +76,35 @@ class LoginForm extends Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
-                <FormItem>
-                    {getFieldDecorator('usernameOrEmail', {
-                        rules: [{ required: true, message: 'Please input your username or email!' }],
-                    })(
-                        <Input
-                            prefix={<Icon type="user" />}
-                            size="large"
-                            name="usernameOrEmail"
-                            placeholder="Username or Email" />
-                    )}
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Please input your Password!' }],
-                    })(
-                        <Input
-                            prefix={<Icon type="lock" />}
-                            size="large"
-                            name="password"
-                            type="password"
-                            placeholder="Password" />
-                    )}
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
-                    Or <Link to="/signup">register now!</Link>
-                </FormItem>
+                <Spin spinning={this.state.isLoading} size="large" delay={200}>
+                    <FormItem>
+                        {getFieldDecorator('usernameOrEmail', {
+                            rules: [{ required: true, message: 'Please input your username or email!' }],
+                        })(
+                            <Input
+                                prefix={<Icon type="user" />}
+                                size="large"
+                                name="usernameOrEmail"
+                                placeholder="Username or Email" />
+                        )}
+                    </FormItem>
+                    <FormItem>
+                        {getFieldDecorator('password', {
+                            rules: [{ required: true, message: 'Please input your Password!' }],
+                        })(
+                            <Input
+                                prefix={<Icon type="lock" />}
+                                size="large"
+                                name="password"
+                                type="password"
+                                placeholder="Password" />
+                        )}
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
+                        Or <Link to="/signup">register now!</Link>
+                    </FormItem>
+                </Spin>
             </Form>
         );
     }

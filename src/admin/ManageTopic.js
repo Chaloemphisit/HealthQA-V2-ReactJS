@@ -92,7 +92,7 @@ class ManageTopic extends Component {
                             description: "ลบคำถามเรียบร้อยแล้ว",
                         })
                     );
-                }, 1000);
+                }, 0);
             })
             .catch(error => {
                 if (error.status === 401) {
@@ -133,6 +133,8 @@ class ManageTopic extends Component {
                     onOk={this.handleModalOK}
                     confirmLoading={this.state.confirmLoading}
                     onCancel={this.handleModalCancel}
+                    okText="ใช่"
+                    cancelText="ไม่ใช่"
                 >
                     <p>{this.state.ModalText}</p>
                 </Modal>
@@ -179,7 +181,7 @@ class ManageTopic extends Component {
                                                                         icon="delete"
                                                                         onClick={(e) => this.handleTopicDeleteButton(topic.id)} />
                                                                     <UncontrolledTooltip placement="right" target={"delete_topicID" + topic.id}>ลบคำถามนี้</UncontrolledTooltip>
-                                                                    
+
                                                                 </div>
                                                             </td>
                                                         </tr>

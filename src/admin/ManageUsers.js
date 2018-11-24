@@ -6,7 +6,7 @@ import NotFound from '../common/NotFound';
 import ServerError from '../common/ServerError';
 import { getUsers, deleteUser } from '../util/APIUtils';
 import { Card, CardBody } from 'reactstrap';
-import { Modal as ModelReactStrap, ModalBody,UncontrolledTooltip } from 'reactstrap';
+import { Modal as ModelReactStrap, ModalBody, UncontrolledTooltip } from 'reactstrap';
 import SignupAdmin from './signup/SignupAdmin';
 import SignupDoctor from './signup/SignupDoctor';
 
@@ -95,7 +95,7 @@ class ManageUsers extends Component {
                             description: "ลบคำถามเรียบร้อยแล้ว",
                         })
                     );
-                }, 1000);
+                }, 0);
             })
             .catch(error => {
                 if (error.status === 401) {
@@ -170,6 +170,8 @@ class ManageUsers extends Component {
                     onOk={this.handleModalOK}
                     confirmLoading={this.state.confirmLoading}
                     onCancel={this.handleModalCancel}
+                    okText="ใช่"
+                    cancelText="ไม่ใช่"
                 >
                     <p>{this.state.ModalText}</p>
                 </Modal>
