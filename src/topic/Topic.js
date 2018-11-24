@@ -215,18 +215,18 @@ export default class Topic extends React.Component {
         </Modal>
         <Spin spinning={this.state.isLoading} size="large" delay={200}>
           <Row>
-            <Card body id="topicCard">
+            <Card body id="topicCard" className="hoverWrapper">
               <Row>
                 <Col md={10} xs={10} sm={10}>
                   <CardTitle style={{ fontSize: '1.6em' }}>{isLoading ? <Skeleton width="40%" /> : topicName}</CardTitle>
                   {isLoading ? <Skeleton width="30%" /> : (
-                    <Label className="ml-2"> <FontAwesomeIcon icon="question" />{" " + questionType}</Label>
+                    <Label className="ml-2 question-type" id="questionType" > <FontAwesomeIcon icon="question" />{" " + questionType}</Label>
                   )}
 
                 </Col>
                 <Col md={2} xs={2} sm={2}>
-                  <div href="/" className="float-right" onClick={this.confirmReportTopic}> <FontAwesomeIcon icon="trash-alt" id="trash" /></div>
-                  <UncontrolledTooltip placement="right" target="trash">แจ้งลบ</UncontrolledTooltip>
+                  <div href="/" className="float-right" onClick={this.confirmReportTopic}> <FontAwesomeIcon icon="trash-alt" className="trash" id="hoverShow1" /></div>
+                  <UncontrolledTooltip placement="right" target="hoverShow1">แจ้งลบ</UncontrolledTooltip>
 
                 </Col>
               </Row>
@@ -320,7 +320,8 @@ export default class Topic extends React.Component {
                 this.state.topic.comments.map(
                   (comment, index) =>
                     <Row key={index}>
-                      <Card body className={comment.userType === "USER" ? "ask__commentaries ask__commentaries--user ask__commentaries--type" : "ask__commentaries ask__commentaries--doctor ask__commentaries--type"}>
+                      <Card body className={comment.userType === "USER" ? "ask__commentaries ask__commentaries--user ask__commentaries--type hoverWrapper"
+                                                                        : "ask__commentaries ask__commentaries--doctor ask__commentaries--type hoverWrapper"}>
 
                         <div id="card-top-bar">
                           <div className="child">

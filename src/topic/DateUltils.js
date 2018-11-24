@@ -11,7 +11,7 @@ export function beautyDate(dateTime) {
         const year = tempDate[0];
         const month = strMonth[tempDate[1] - 1];
         const day = tempDate[2];
-        return  day + " " + month + " " + year + " เวลา " + time;
+        return "เมื่อ " + day + " " + month + " " + (parseInt(year) + 543) + " เวลา " + time + "น.";
     }
 
 }

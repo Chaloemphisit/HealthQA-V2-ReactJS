@@ -25,21 +25,6 @@
     background-size: cover;
 }
 
-.topic-text-header {
-    font-size: 1.1em;
-}
-
-.topic-text-body {
-    font-size: 1.0em;
-    color: #828282;
-    margin-left: 10px;
-}
-
-.topic-text {
-    width: 100%;
-    word-wrap: break-word;
-}
-
 .rowMargin {
     /* margin-top: 2%; */
     margin-bottom: 1%;
