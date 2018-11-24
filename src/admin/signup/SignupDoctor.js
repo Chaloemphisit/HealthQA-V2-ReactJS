@@ -82,9 +82,7 @@ class SignupDoctor extends Component {
 
         this.setState({
             prefix: inputValue
-        },
-            this.validateUsernameAvailability()
-        );
+        });
     }
 
     handleSubmit(event) {
@@ -152,6 +150,17 @@ class SignupDoctor extends Component {
                                 value={this.state.lastname.value}
                                 onChange={(event) => this.handleInputChange(event, this.validateName)} />
                         </FormItem>
+                        <FormItem
+                            label="ประเภทผู้ใช้">
+                            <RadioGroup
+                                name="questionType"
+                                size="large"
+                                onChange={(event) => this.handleUserTypeChange(event)}
+                                value={this.state.prefix}>
+                                <Radio value="doctor_">หมอ</Radio>
+                                <Radio value="pharmacist_">เภสัชกร</Radio>
+                            </RadioGroup>
+                        </FormItem>
                         <FormItem label="Username"
                             hasFeedback
                             validateStatus={this.state.username.validateStatus}
@@ -165,17 +174,6 @@ class SignupDoctor extends Component {
                                 value={this.state.username.value}
                                 onBlur={this.validateUsernameAvailability}
                                 onChange={(event) => this.handleUserNameChange(event, this.validateUsername)} />
-                        </FormItem>
-                        <FormItem
-                            label="ประเภทผู้ใช้">
-                            <RadioGroup
-                                name="questionType"
-                                size="large"
-                                onChange={(event) => this.handleUserTypeChange(event)}
-                                value={this.state.prefix}>
-                                <Radio value="doctor_">หมอ</Radio>
-                                <Radio value="pharmacist_">เภสัชกร</Radio>
-                            </RadioGroup>
                         </FormItem>
                         <FormItem
                             label="Email"
