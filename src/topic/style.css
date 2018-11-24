@@ -1,5 +1,6 @@
 #topicCard {
     background-image: linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
     border: none;
 }
 
@@ -106,9 +107,9 @@
 
 .ask__commentaries--user {
     margin-top: 2%;
-    background-color: #F5F5F5;
+    background-image: linear-gradient(to top, #ecf2f8 0%, white 100%);
     border: none;
-    filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.2));
+    /* filter: drop-shadow(5px 5px 3px rgba(0, 0, 0, 0.2)); */
 }
 
 #card-top-bar {
