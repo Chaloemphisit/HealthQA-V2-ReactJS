@@ -179,3 +179,11 @@ div.background-answer span {
 #trash:hover {
     color: rgb(0, 180, 180);
 }
+
+.trash {
+    color: #828282;
+}
+
+.trash:hover {
+    color: rgb(0, 180, 180);
+}
