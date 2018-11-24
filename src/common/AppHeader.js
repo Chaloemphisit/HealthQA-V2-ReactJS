@@ -35,20 +35,20 @@ class AppHeader extends Component {
 
     if (this.props.currentUser) {
       navTop = [
-        <Navbar dark expand="md" key={1} className="navbar-default" >
+        <Navbar dark expand="md" key="/" className="navbar-default" >
           <div className="top-logo"><Link to="/"><img src={headerLogo} className="inverted" alt="Header Logo" height="60" /></Link></div>
         </Navbar>
       ]
 
       if (this.props.currentUser.authorities[0].authority === "USER" || this.props.currentUser.authorities[0].authority === "S_USER") {
         menuItems = [
-          <Menu.Item key={1}>
+          <Menu.Item key="/">
             <Link to="/">หน้าหลัก</Link>
           </Menu.Item>,
-          <Menu.Item key={2}>
+          <Menu.Item key="/new-topic">
             <Link to="/new-topic">ถามหมอ</Link>
           </Menu.Item>,
-          <Menu.Item key={3}>
+          <Menu.Item key="/contactus">
             <Link to="/contactus">ติดต่อเรา</Link>
           </Menu.Item>,
           <Menu.Item key={4} className="profile-menu">
@@ -61,20 +61,20 @@ class AppHeader extends Component {
       } else if (this.props.currentUser.authorities[0].authority === "ADMIN") {
 
         navTop = [
-          <Navbar dark expand="md" key={1} className="navbar-admin" >
+          <Navbar dark expand="md" key="/" className="navbar-admin" >
             <div className="top-logo"><Link to="/"><img src={headerLogo} className="inverted" alt="Header Logo" height="60" /></Link></div>
           </Navbar>
         ]
 
         menuItems = [
 
-          <Menu.Item key={2}>
+          <Menu.Item key="/">
             <Link to="/">คำขอแจ้งลบ</Link>
           </Menu.Item>,
-          <Menu.Item key={3}>
+          <Menu.Item key="/admin/manage/user">
             <Link to="/admin/manage/user">จัดการผู้ใช้งาน</Link>
           </Menu.Item>,
-          <Menu.Item key={4}>
+          <Menu.Item key="/admin/manage/topic">
             <Link to="/admin/manage/topic">จัดการคำถาม</Link>
           </Menu.Item>,
           <Menu.Item key={5} className="profile-menu">
@@ -86,25 +86,25 @@ class AppHeader extends Component {
       }
     } else {
       navTop = [
-        <Navbar dark expand="md" className="navbar-default" key={5}>
+        <Navbar dark expand="md" className="navbar-default" key="/">
           <div className="top-logo"><Link to="/"><img src={headerLogo} className="inverted" alt="Header Logo" height="60" /></Link></div>
         </Navbar>
       ]
 
       menuItems = [
-        <Menu.Item key={1}>
+        <Menu.Item key="/">
           <Link to="/">หน้าหลัก</Link>
         </Menu.Item>,
-        <Menu.Item key={2}>
+        <Menu.Item key="/new-topic">
           <Link to="/new-topic">ถามหมอ</Link>
         </Menu.Item>,
-        <Menu.Item key={3}>
+        <Menu.Item key="/contactus">
           <Link to="/contactus">ติดต่อเรา</Link>
         </Menu.Item>,
-        <Menu.Item key={4}>
+        <Menu.Item key="/login">
           <Link to="/login">Login</Link>
         </Menu.Item>,
-        <Menu.Item key={5}>
+        <Menu.Item key="/signup">
           <Link to="/signup">Signup</Link>
         </Menu.Item>
       ];
