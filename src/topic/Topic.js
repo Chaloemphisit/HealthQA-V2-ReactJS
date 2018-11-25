@@ -287,7 +287,7 @@ export default class Topic extends React.Component {
                         <div className="topic-text-header">โรคประจำตัว</div>
                       </Col>
                       <Col lg={10} md={9} sm={12} xs={12}>
-                        <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : disease}</div>
+                        <div className="topic-text-body">{isLoading ? <Skeleton width="40%" /> : (disease ? disease : "-")}</div>
                       </Col>
                     </Row>
                   </CardBody>
@@ -321,7 +321,7 @@ export default class Topic extends React.Component {
                   (comment, index) =>
                     <Row key={index}>
                       <Card body className={comment.userType === "USER" ? "ask__commentaries ask__commentaries--user ask__commentaries--type hoverWrapper"
-                                                                        : "ask__commentaries ask__commentaries--doctor ask__commentaries--type hoverWrapper"}>
+                        : "ask__commentaries ask__commentaries--doctor ask__commentaries--type hoverWrapper"}>
 
                         <div id="card-top-bar">
                           <div className="child">
