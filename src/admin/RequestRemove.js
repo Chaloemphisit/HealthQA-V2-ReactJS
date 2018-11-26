@@ -142,12 +142,12 @@ class RequestRemove extends Component {
                     this.setState({
                         ModalVisible: false,
                         confirmLoading: false,
-                        ModalText: 'ท่านต้องการลบคำถามนี้ใช่หรือไม่ ?',
+                        ModalText: 'ท่านต้องการลบคำตอบนี้ใช่หรือไม่ ?',
                     },
                         this.handleLoadData(),
                         Notification.success({
                             message: 'Health QA',
-                            description: "ลบคำถามเรียบร้อยแล้ว",
+                            description: "ลบคำตอบนี้เรียบร้อยแล้ว",
                         })
                     );
                 }, 1000);

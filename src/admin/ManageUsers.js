@@ -93,7 +93,7 @@ class ManageUsers extends Component {
                         this.handleLoadData(),
                         Notification.success({
                             message: 'Health QA',
-                            description: "ลบคำถามเรียบร้อยแล้ว",
+                            description: "ลบผู้ใช้นี้้เรียบร้อยแล้ว",
                         })
                     );
                 }, 0);
