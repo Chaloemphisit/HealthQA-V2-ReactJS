@@ -75,7 +75,7 @@ class SignupAdmin extends Component {
         signupAdmin(signupRequest)
             .then(response => {
                 this.props.onClick()
-                this.props.handleLoadData()
+                this.props.handleloaddata()
                 notification.success({
                     message: 'Health QA',
                     description: "Thank you! You're successfully registered. Please Login to continue!",

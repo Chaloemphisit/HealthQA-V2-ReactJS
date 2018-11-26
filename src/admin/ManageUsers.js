@@ -20,6 +20,7 @@ class ManageUsers extends Component {
             doctor: [],
             isLoading: false,
             error: null,
+            modal: false,
             ModalText: 'ท่านต้องการลบผู้ใช้นี้ใช่หรือไม่ ?',
             ModalVisible: false,
             confirmLoading: false,
@@ -156,9 +157,9 @@ class ManageUsers extends Component {
 
         return (
             <Card outline color="danger" className="mb-4">
-                <ModelReactStrap isOpen={this.state.modal} toggle={this.toggle} handleLoadData={this.handleLoadData} className={this.props.className}>
+                <ModelReactStrap isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalBody>
-                        {this.state.isDoctor ? <SignupDoctor onClick={this.toggle} handleLoadData={this.handleLoadData} {...this.props} /> : <SignupAdmin onClick={this.toggle} handleLoadData={this.handleLoadData} {...this.props} />}
+                        {this.state.isDoctor ? <SignupDoctor onClick={this.toggleDoctor} handleloaddata={this.handleLoadData} {...this.props} /> : <SignupAdmin onClick={this.toggleAdmin} handleloaddata={this.handleLoadData} {...this.props} />}
                     </ModalBody>
                     {/* <ModalFooter>
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
@@ -186,7 +187,7 @@ class ManageUsers extends Component {
                                     className="profile-tabs">
                                     <TabPane tab="แพทย์/เภสัชกร" key="1">
                                         <div className="mb-2">
-                                            <Button type="primary" onClick={this.toggleDoctor} customToggle={this.state.modal} ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
+                                            <Button type="primary" onClick={this.toggleDoctor} ghost icon="user-add">เพิ่มผู้ใช้งาน</Button>
                                         </div>
                                         <Table striped>
                                             <thead>

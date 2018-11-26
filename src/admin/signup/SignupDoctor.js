@@ -82,7 +82,7 @@ class SignupDoctor extends Component {
 
         this.setState({
             prefix: inputValue
-        });
+        }, this.validateUsernameAvailabilityV1(inputValue));
     }
 
     handleSubmit(event) {
@@ -98,7 +98,7 @@ class SignupDoctor extends Component {
         signupDoctor(signupRequest)
             .then(response => {
                 this.props.onClick()
-                this.props.handleLoadData()
+                this.props.handleloaddata()
                 notification.success({
                     message: 'Health QA',
                     description: "Thank you! You're successfully registered. Please Login to continue!",
@@ -317,6 +317,7 @@ class SignupDoctor extends Component {
     validateUsernameAvailability() {
         // First check for client side errors in username
         const usernameValue = this.state.username.value;
+        const prefix = this.state.prefix;
         const usernameValidation = this.validateUsername(usernameValue);
 
         if (usernameValidation.validateStatus === 'error') {
@@ -337,7 +338,62 @@ class SignupDoctor extends Component {
             }
         });
 
-        checkUsernameAvailability(this.state.prefix + usernameValue)
+        checkUsernameAvailability(prefix + usernameValue)
+            .then(response => {
+                if (response.available) {
+                    this.setState({
+                        username: {
+                            value: usernameValue,
+                            validateStatus: 'success',
+                            errorMsg: null
+                        }
+                    });
+                } else {
+                    this.setState({
+                        username: {
+                            value: usernameValue,
+                            validateStatus: 'error',
+                            errorMsg: 'This username is already taken'
+                        }
+                    });
+                }
+            }).catch(error => {
+                // Marking validateStatus as success, Form will be recchecked at server
+                this.setState({
+                    username: {
+                        value: usernameValue,
+                        validateStatus: 'success',
+                        errorMsg: null
+                    }
+                });
+            });
+    }
+
+    validateUsernameAvailabilityV1(inputValue) {
+        // First check for client side errors in username
+        const usernameValue = this.state.username.value;
+        const prefix = inputValue;
+        const usernameValidation = this.validateUsername(usernameValue);
+
+        if (usernameValidation.validateStatus === 'error') {
+            this.setState({
+                username: {
+                    value: usernameValue,
+                    ...usernameValidation
+                }
+            });
+            return;
+        }
+
+        this.setState({
+            username: {
+                value: usernameValue,
+                validateStatus: 'validating',
+                errorMsg: null
+            }
+        });
+
+        checkUsernameAvailability(prefix + usernameValue)
             .then(response => {
                 if (response.available) {
                     this.setState({
