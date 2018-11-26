@@ -55,7 +55,7 @@ class App extends Component {
     notification.config({
       placement: 'topRight',
       top: 70,
-      duration: 3,
+      duration: 6,
     });
   }
 
